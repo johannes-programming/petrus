@@ -17,11 +17,17 @@ def main(args=None):
 
 def run(root=None):
     if root is None:
-        root = os.getcwd()
+        _run()
+        return
     with contextlib.chdir(root):
-        shutil.rmtree('dist', ignore_errors=True)
-        subprocess.run([sys.executable, "-m", "build"])
-        subprocess.run(["twine", "upload", "dist/*"])
+        _run()
+def _run():
+    shutil.rmtree('dist', ignore_errors=True)
+    try:
+        subprocess.run([sys.executable, "-m", "build"], check=True)
+        subprocess.run(["twine", "upload", "dist/*"], check=True)
+    except:
+        return
 
 
 
