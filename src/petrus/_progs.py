@@ -2,10 +2,9 @@
 from argparse import ArgumentParser
 import contextlib
 import subprocess
-import runpy
 import os
 import shutil
-
+import sys
 
 
 
@@ -21,7 +20,7 @@ def run(root=None):
         root = os.getcwd()
     with contextlib.chdir(root):
         shutil.rmtree('dist', ignore_errors=True)
-        runpy.run_module('build')
+        subprocess.run([sys.executable, "-m", "build"])
         subprocess.run(["twine", "upload", "dist/*"])
 
 
