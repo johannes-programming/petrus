@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "petrus"
-version = "0.0.1"
+version = "0.0.2"
 description = "petrus"
 readme = "README.rst"
 authors = [
