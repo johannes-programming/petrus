@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "petrus"
-version = "0.0.3"
+version = "0.0.6"
 description = "petrus"
 readme = "README.rst"
 authors = [
@@ -18,7 +18,11 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 keywords = []
-dependencies = ["build", "twine"]
+dependencies = [
+    "build",
+    "twine",
+    "tomli-w>=1.0.0",
+]
 requires-python = ">=3.11"
 
 [project.license]
@@ -27,4 +31,3 @@ file = "LICENSE.txt"
 [project.urls]
 Download = "https://pypi.org/project/petrus/#files"
 Source = "https://github.com/johannes-programming/petrus"
-
