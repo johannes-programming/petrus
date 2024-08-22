@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "petrus"
-version = "0.0.6"
+version = "0.0.7"
 description = "petrus"
 readme = "README.rst"
 authors = [
@@ -20,8 +20,9 @@ classifiers = [
 keywords = []
 dependencies = [
     "build",
-    "twine",
+    "isort",
     "tomli-w>=1.0.0",
+    "twine",
 ]
 requires-python = ">=3.11"
 
