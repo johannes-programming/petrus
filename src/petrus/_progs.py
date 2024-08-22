@@ -1,10 +1,13 @@
 
+import importlib.metadata
 import os
 import shutil
+import string
 import subprocess
 import sys
 from argparse import ArgumentParser
 
+import requests
 import tomli_w
 import tomllib
 
@@ -43,7 +46,7 @@ def run_pyproject(version):
     if version is not None:
         pyproject['project']['version'] = version
     pyproject['project']['classifiers'].sort()
-    pyproject['project']['dependencies'].sort()
+    fix_dependencies(pyproject['project']['dependencies'])
     with open("pyproject.toml", "wb") as f:
         tomli_w.dump(pyproject, f)
 
@@ -66,3 +69,37 @@ def run_end():
     except:
         return
 
+def fix_dependencies(dependencies):
+    for i in range(len(dependencies)):
+        dependencies[i] = fix_dependency(dependencies[i])
+    dependencies.sort()
+
+def fix_dependency(dependency):
+    dependency = dependency.strip()
+    chars = set(dependency)
+    chars -= set(string.ascii_letters)
+    chars -= set(string.digits)
+    chars -= set("-_")
+    if len(chars):
+        return dependency
+    version = get_some_version(dependency)
+    if version is None:
+        return dependency
+    dependency += ">=" + version
+    return dependency
+
+def get_some_version(package):
+    try:
+        return importlib.metadata.version(package)
+    except:
+        pass
+    try:
+        return get_latest_version(package)
+    except:
+        pass
+    return None
+
+def get_latest_version(package):
+    response = requests.get(f"https://pypi.org/pypi/{package}/json")
+    data = response.json()
+    return data["info"]["version"]
