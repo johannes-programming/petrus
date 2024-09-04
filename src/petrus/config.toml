@@ -1,0 +1,11 @@
+[default]
+author = "Johannes"
+description = ""
+email = "johannes-programming@mailfence.com"
+github_user = ""
+project_version = ""
+requires_python = ""
+year = ""
+
+[general]
+root = ""
