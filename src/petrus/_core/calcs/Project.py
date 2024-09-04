@@ -13,18 +13,6 @@ from petrus._core.Version import Version
 
 
 class Project(Calc):
-    def _calc_author(self):
-        if self.prog.kwargs["author"]:
-            return self.prog.kwargs["author"]
-        if type(self.authors) is not list:
-            return ""
-        for a in self.authors:
-            if type(a) is not dict:
-                continue
-            if "name" not in a.keys():
-                continue
-            return a["name"]
-        return "" 
     def _calc_authors(self):
         ans = self.get("authors", default=[])
         if type(ans) is not list:
