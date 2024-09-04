@@ -5,7 +5,6 @@ requires = [
 ]
 
 [project]
-author = "Johannes"
 authors = [
     { email = "johannes-programming@mailfence.com", name = "Johannes" },
 ]
