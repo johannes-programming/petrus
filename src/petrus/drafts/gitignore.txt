@@ -121,7 +121,7 @@ venv.bak/
 dmypy.json
 
 # Pyre type checker
-.pyre/
+.pyre/ 
 
 # .DS_store
 **/.DS_store

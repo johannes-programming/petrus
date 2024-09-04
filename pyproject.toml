@@ -1,31 +1,33 @@
 [build-system]
+build-backend = "setuptools.build_meta"
 requires = [
     "setuptools>=61.0.0",
 ]
-build-backend = "setuptools.build_meta"
 
 [project]
-name = "petrus"
-version = "0.0.8"
-description = "petrus"
-readme = "README.rst"
+author = "Johannes"
 authors = [
-    { name = "Johannes", email = "johannes-programming@mailfence.com" },
+    { email = "johannes-programming@mailfence.com", name = "Johannes" },
 ]
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]
-keywords = []
 dependencies = [
+    "black>=24.4.2",
     "build>=1.2.1",
     "isort>=5.9.3",
+    "packaging>=23.2",
     "requests>=2.31.0",
     "tomli-w>=1.0.0",
     "twine>=5.1.1",
 ]
-requires-python = ">=3.11"
+description = "petrus"
+name = "petrus"
+readme = "README.rst"
+requires-python = ">=3.12.4"
+version = "0.0.8"
 
 [project.license]
 file = "LICENSE.txt"
