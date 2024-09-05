@@ -71,7 +71,7 @@ class Block(Calc):
             lines += "- Author: %s\n" % n
         if e != "":
             lines += "- Email: %s\n" % e
-        if n + e != "":
+        while not lines.endswith("\n\n"):
             lines += "\n"
         pn = self.prog.project.name
         lines += "Thank you for using %s!" % pn
