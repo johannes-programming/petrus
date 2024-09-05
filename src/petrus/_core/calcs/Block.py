@@ -30,17 +30,8 @@ class Block(Calc):
 
     def _calc_installation(self):
         name = self.prog.project.name
-        phrase = "To install %s, you can use `pip`. Open your terminal and run:"
-        phrase %= name
-        codestart = ".. code-block:: bash"
-        codeline = "    pip install %s" % name
-        lines = self.ftitle("Installation")
-        lines += phrase
-        lines += "\n" * 2
-        lines += codestart
-        lines += "\n" * 2
-        lines += codeline
-        return lines
+        ans = self.prog.draft.installation.format(name=name)
+        return ans
 
     def _calc_license(self):
         mit = "License :: OSI Approved :: MIT License"
@@ -67,9 +58,9 @@ class Block(Calc):
     def _calc_credits(self):
         n, e = self.prog.author
         lines = self.ftitle("Credits")
-        if n != "":
+        if n:
             lines += "- Author: %s\n" % n
-        if e != "":
+        if e:
             lines += "- Email: %s\n" % e
         while not lines.endswith("\n\n"):
             lines += "\n"
