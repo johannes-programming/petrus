@@ -88,7 +88,7 @@ def isfile(path):
 def mkdir(path):
     if isdir(path):
         return
-    os.path.mkdir(path)
+    os.mkdir(path)
 
 
 def py(*args):

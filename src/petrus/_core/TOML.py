@@ -30,7 +30,12 @@ class TOML:
         if value is None:
             del ans[keys[0]]
             return
-        ans[keys[0]] = TOML._purge(value)
+        if len(keys) > 0:
+            ans[keys[0]] = TOML._purge(value)
+        elif type(value) is dict:
+            self._data = TOML._purge_dict(value)
+        else:
+            raise TypeError(value)
 
     def __str__(self):
         return tomli_w.dumps(self._data)

@@ -56,6 +56,8 @@ class Git(Calc):
     def push(self): ...
     def is_repo(self):
         called = self("rev-parse", force=True)
+        if called is None:
+            return False
         return not called.returncode
 
     def move(self, a, b, /):

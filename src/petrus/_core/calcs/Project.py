@@ -109,7 +109,7 @@ class Project(Calc):
         return ans
 
     def to_dict(self) -> None:
-        ans = self.get()
+        ans = self.get(default={})
         prefix = "_calc_"
         for n, m in inspect.getmembers(self):
             if not n.startswith(prefix):
