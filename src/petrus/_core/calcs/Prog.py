@@ -2,6 +2,7 @@ import datetime
 import os
 
 from petrus._core import utils
+from petrus._core.calcs.Block import Block
 from petrus._core.calcs.Calc import Calc
 from petrus._core.calcs.Draft import Draft
 from petrus._core.calcs.File import File
@@ -29,6 +30,7 @@ class Prog(Calc):
             self.save("gitignore")
         self.pp["project"] = self.project.to_dict()
         self.pp["build-system"] = self.build_system
+        self.pp[()] = utils.easy_dict(self.pp[()])
         self.text.pp = str(self.pp)
         self.save("license")
         self.save("manifest")
@@ -42,6 +44,27 @@ class Prog(Calc):
         self.git.push()
         utils.pypi()
 
+    def _calc_author(self):
+        f = lambda z: str(z).strip()
+        n = f(self.kwargs["author"])
+        e = f(self.kwargs["email"])
+        x = n, e
+        authors = self.project.authors
+        if type(authors) is not list:
+            return x
+        for a in authors:
+            if type(a) is not dict:
+                continue
+            n = f(a.get("name", ""))
+            e = f(a.get("email", ""))
+            y = n, e
+            if y != ("", ""):
+                return y
+        return x
+
+    def _calc_block(self):
+        return Block(self)
+
     def _calc_build_system(self):
         ans = self.pp["build-system"]
         if type(ans) is dict:
@@ -51,6 +74,7 @@ class Prog(Calc):
         ans = dict()
         ans["requires"] = ["setuptools>=61.0.0"]
         ans["build-backend"] = "setuptools.build_meta"
+        ans = utils.easy_dict(ans)
         return ans
 
     def _calc_draft(self):
