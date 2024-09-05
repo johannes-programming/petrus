@@ -1,4 +1,3 @@
-
 import dataclasses
 import typing
 
@@ -9,12 +8,13 @@ from petrus._core import utils
 
 @dataclasses.dataclass(frozen=True)
 class Version:
-    epoch:typing.Any
-    release:typing.Any
-    pre:typing.Any
-    post:typing.Any
-    dev:typing.Any
-    local:typing.Any
+    epoch: typing.Any
+    release: typing.Any
+    pre: typing.Any
+    post: typing.Any
+    dev: typing.Any
+    local: typing.Any
+
     def __add__(self, other):
         if type(other) is not type(self):
             other = type(self).parse(other)
@@ -25,10 +25,12 @@ class Version:
             d[n] = self._add(a, b, name=n)
         ans = type(self)(**d)
         return ans
+
     def __radd__(self, other):
         if type(other) is not type(self):
             other = type(self).parse(other)
         return other + self
+
     def __str__(self) -> str:
         ans = ""
         if self.epoch != 0:
@@ -43,6 +45,7 @@ class Version:
         if self.local is not None:
             ans += f"+{self.local}"
         return ans
+
     @staticmethod
     def _add(a, b, *, name):
         if name != "release":
@@ -61,18 +64,19 @@ class Version:
             l[i] += b.get(i, 0)
         ans = tuple(l)
         return ans
+
     def _apply_plus(self, length):
         release = list(self.release)
         release += [0] * 3
         index = 3 - length
         release[index] += 1
-        release = release[:index + 1]
+        release = release[: index + 1]
         release += [0] * 3
         release = release[:3]
         release = tuple(release)
-        ans = dataclasses.replace(self, 
-            release=release)
+        ans = dataclasses.replace(self, release=release)
         return ans
+
     def apply(self, arg, /):
         arg = str(arg)
         if arg == "":
@@ -80,6 +84,7 @@ class Version:
         if arg in "+ ++ +++".split():
             return self._apply_plus(len(arg))
         return type(self).parse(arg)
+
     @classmethod
     def parse(cls, text):
         data = packaging.version.parse(text)
@@ -89,6 +94,3 @@ class Version:
             kwargs[k] = getattr(data, k)
         ans = cls(**kwargs)
         return ans
-    
-
-        

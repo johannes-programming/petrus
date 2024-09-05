@@ -17,6 +17,7 @@ class Git(Calc):
             return
         args = ["git"] + list(args)
         return subprocess.run(args, check=False)
+
     def _calc_author(self):
         a = self.prog.kwargs["author"]
         e = self.prog.kwargs["email"]
@@ -27,32 +28,36 @@ class Git(Calc):
         if e is None:
             return a
         return f"{a} <{e}>"
+
     def init(self):
         if self.is_repo():
-            return 
+            return
         self("init", os.getcwd(), force=True)
         self.commit("Initial Commit")
+
     def commit_version(self):
         m = "Version %s" % self.prog.project.version
         self.commit(m)
+
     def commit(self, message):
         if message is None:
             message = "a"
         else:
             message = str(message)
         try:
-            self('add', '-A').check_returncode()
+            self("add", "-A").check_returncode()
         except:
             return
-        args = ['commit', '--allow-empty', '-m', message]
+        args = ["commit", "--allow-empty", "-m", message]
         if self.author is not None:
-            args += ['--author', self.author]
+            args += ["--author", self.author]
         self(*args)
-    def push(self):
-        ...
+
+    def push(self): ...
     def is_repo(self):
         called = self("rev-parse", force=True)
         return not called.returncode
+
     def move(self, a, b, /):
         try:
             self("mv", a, b).check_returncode()
@@ -61,5 +66,3 @@ class Git(Calc):
         else:
             return
         os.rename(a, b)
-       
-
