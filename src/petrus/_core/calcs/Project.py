@@ -55,7 +55,11 @@ class Project(Calc):
         return ans
 
     def _calc_description(self):
-        return self.prog.kwargs["description"] or self.name
+        if self.prog.kwargs["description"]:
+            return self.prog.kwargs["description"]
+        if self.get("description") is not None:
+            return self.get("description")
+        return self.name
 
     def _calc_keywords(self):
         return self.get("keywords", default=[])
