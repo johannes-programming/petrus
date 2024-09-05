@@ -11,7 +11,6 @@ class Calc:
             raise AttributeError(name)
         if not hasattr(self, "_lock"):
             self._lock = set()
-        print(self, name)
         if name in self._lock:
             print(self, name, self._lock)
             raise Exception

@@ -125,66 +125,6 @@ class Legacy(Calc):
         ans = "\n\n".join(blocks)
         return ans
 
-    def _calc_heading_rst_block(self):
-        lining = "=" * len(self.project)
-        ans = [lining, self.project, lining]
-        return ans
-
-    def _calc_overview_rst_block(self):
-        if self.description is None:
-            return None
-        heading = "Overview"
-        lining = "-" * len(heading)
-        ans = [heading, lining, "", self.description]
-        return ans
-
-    def _calc_installation_rst_block(self):
-        heading = "Installation"
-        lining = "-" * len(heading)
-        sentence = (
-            f"To install {self.project}, you can use `pip`. Open your terminal and run:"
-        )
-        codestart = ".. code-block:: bash"
-        codeline = f"    pip install {self.project}"
-        ans = [heading, lining, "", sentence, "", codestart, "", codeline]
-        return ans
-
-    def _calc_license_rst_block(self):
-        if self.license_textfile is None:
-            return None
-        heading = "License"
-        lining = "-" * len(heading)
-        sentence = "This project is licensed under the MIT License."
-        ans = [heading, lining, "", sentence]
-        return ans
-
-    def _calc_links_rst_block(self):
-        if len(self.urls) == 0:
-            return None
-        heading = "Links"
-        lining = "-" * len(heading)
-        points = list()
-        for k, v in self.urls.items():
-            point = f"* `{k} <{v}>`_"
-            points.append(point)
-        ans = [heading, lining, ""] + points
-        return ans
-
-    def _calc_credits_rst_block(self):
-        if self.final_author is None:
-            return None
-        heading = "Credits"
-        lines = list()
-        lines.append(heading)
-        lines.append("-" * len(heading))
-        if self.author is not None:
-            lines.append("- Author: " + self.author)
-        if self.email is not None:
-            lines.append("- Email: " + self.email)
-        lines.append("")
-        lines.append(f"Thank you for using {self.project}!")
-        return lines
-
     def _calc_setup_text(self):
         return "\n"
 
