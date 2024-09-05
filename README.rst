@@ -2,6 +2,11 @@
 petrus
 ======
 
+Overview
+--------
+
+Create/autocomplete/format a python project and upload it to PyPI.
+
 Installation
 ------------
 
@@ -24,6 +29,7 @@ Links
 
 Credits
 -------
+
 - Author: Johannes
 - Email: johannes-programming@mailfence.com
 
