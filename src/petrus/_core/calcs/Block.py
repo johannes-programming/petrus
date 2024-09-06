@@ -12,6 +12,8 @@ class Block(Calc):
             b = b.strip("\n")
             blocks.append(b)
         ans = "\n\n".join(blocks)
+        while "\n\n\n" in ans:
+            ans = ans.replace("\n\n\n", "\n\n")
         return ans
 
     def _calc_heading(self):
