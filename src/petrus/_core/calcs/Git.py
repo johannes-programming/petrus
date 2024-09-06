@@ -9,14 +9,10 @@ class Git(Calc):
         for a in args:
             if type(a) is not str:
                 raise TypeError(a)
-        if not force and not self.is_repo():
-            return
-        try:
-            subprocess.run(["git", "rev-parse"], check=True)
-        except subprocess.CalledProcessError:
+        if not (force or self.is_repo()):
             return
         args = ["git"] + list(args)
-        return subprocess.run(args, check=False)
+        return subprocess.run(args)
 
     def _calc_author(self):
         a = self.prog.kwargs["author"]
