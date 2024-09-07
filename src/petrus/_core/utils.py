@@ -22,15 +22,14 @@ def dict_match(a, b, /):
 
 
 def easy_list(iterable):
-    ans = sorted(list(set(iterable)))
-    ans = list(filter(lambda x: x, ans))
+    ans = list(set(iterable))
+    ans.sort()
     return ans
 
 
 def easy_dict(dictionary, *, purge=False):
     d = dict(dictionary)
     keys = sorted(list(d.keys()))
-    keys = filter(lambda k: d[k], keys)
     ans = {k: d[k] for k in keys}
     return ans
 

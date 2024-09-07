@@ -9,7 +9,7 @@ class File(Calc):
         return ".gitignore"
 
     def _calc_license(self):
-        ans = self.prog.pp["project", "license", "file"]
+        ans = self.prog.pp.get("project", "license", "file")
         if type(ans) is str:
             return ans
         return self._find("LICENSE.txt")
@@ -29,7 +29,7 @@ class File(Calc):
         return "pyproject.toml"
 
     def _calc_readme(self):
-        ans = self.prog.pp["project", "readme"]
+        ans = self.prog.pp.get("project", "readme")
         if type(ans) is str:
             return ans
         return self._find("README.rst")
