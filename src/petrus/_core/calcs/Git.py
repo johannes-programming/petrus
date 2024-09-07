@@ -49,7 +49,9 @@ class Git(Calc):
             args += ["--author", self.author]
         self(*args)
 
-    def push(self): ...
+    def push(self):
+        self("push").returncode and self("push", "-u")
+
     def is_repo(self):
         called = self("rev-parse", force=True)
         if called is None:
