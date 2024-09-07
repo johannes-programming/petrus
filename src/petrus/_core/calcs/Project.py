@@ -8,6 +8,9 @@ from petrus._core.Version import Version
 
 
 class Project(Calc):
+    def __post_init__(self):
+        self.prog.packages
+
     def _calc_authors(self):
         ans = self.get("authors", default=[])
         if type(ans) is not list:
@@ -82,8 +85,10 @@ class Project(Calc):
         return self.prog.file.readme
 
     def _calc_requires_python(self):
-        return self.prog.kwargs["requires_python"] or ">={0}.{1}.{2}".format(
-            *sys.version_info
+        return (
+            self.get("requires-python")
+            or self.prog.kwargs["requires_python"]
+            or ">={0}.{1}.{2}".format(*sys.version_info)
         )
 
     def _calc_urls(self):
@@ -100,7 +105,7 @@ class Project(Calc):
         return ans
 
     def _calc_version(self):
-        a = self.prog.kwargs["project_version"]
+        a = self.prog.kwargs["v"]
         b = self.get("version", default="0.0.0")
         c = str(Version.parse(b).apply(a))
         return c
@@ -120,6 +125,8 @@ class Project(Calc):
                 continue
             k = n[len(prefix) :]
             v = getattr(self, k)
-            ans[k.replace("_", "-")] = v
+            k = k.replace("_", "-")
+            print(k)
+            ans[k] = v
         ans = utils.easy_dict(ans)
         return ans

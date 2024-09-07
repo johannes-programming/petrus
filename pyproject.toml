@@ -19,6 +19,7 @@ dependencies = [
     "isort>=5.9.3",
     "packaging>=23.2",
     "requests>=2.31.0",
+    "tomlhold>=0.0.3",
     "tomli-w>=1.0.0",
     "twine>=5.1.1",
 ]
@@ -26,7 +27,7 @@ description = "petrus"
 name = "petrus"
 readme = "README.rst"
 requires-python = ">=3.12.4"
-version = "0.0.17"
+version = "0.0.18"
 
 [project.license]
 file = "LICENSE.txt"
