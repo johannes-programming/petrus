@@ -1,11 +1,12 @@
 from petrus._core.calcs.Calc import Calc
 
+_BLOCKKEYS = "heading overview installation license links credits".split()
+
 
 class Block(Calc):
     def _calc_text(self):
-        keys = "heading overview installation license links credits".split()
         blocks = []
-        for k in keys:
+        for k in _BLOCKKEYS:
             b = getattr(self, k)
             if b is None:
                 continue

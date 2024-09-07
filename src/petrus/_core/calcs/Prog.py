@@ -1,6 +1,8 @@
 import datetime
 import os
 
+import tomlhold
+
 from petrus._core import utils
 from petrus._core.calcs.Block import Block
 from petrus._core.calcs.Calc import Calc
@@ -9,7 +11,6 @@ from petrus._core.calcs.File import File
 from petrus._core.calcs.Git import Git
 from petrus._core.calcs.Project import Project
 from petrus._core.calcs.Text import Text
-from petrus._core.TOML import TOML
 
 
 class Prog(Calc):
@@ -28,10 +29,9 @@ class Prog(Calc):
         self.git.init()
         if self.git.is_repo():
             self.save("gitignore")
-        self.pp["project"] = self.project.to_dict()
-        print(self.pp["project"])
+        self.pp["project"] = self.project.todict()
         self.pp["build-system"] = self.build_system
-        self.pp[()] = utils.easy_dict(self.pp[()])
+        self.pp.data = utils.easy_dict(self.pp.data)
         self.text.pp = str(self.pp)
         self.save("license")
         self.save("manifest")
@@ -112,7 +112,7 @@ class Prog(Calc):
         return ans
 
     def _calc_pp(self):
-        return TOML(text=self.text.pp)
+        return tomlhold.Holder(self.text.pp)
 
     def _calc_project(self):
         return Project(self)

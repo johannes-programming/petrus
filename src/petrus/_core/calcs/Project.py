@@ -6,6 +6,12 @@ from petrus._core import utils
 from petrus._core.calcs.Calc import Calc
 from petrus._core.Version import Version
 
+CLASSIFIERS = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
 
 class Project(Calc):
     def __post_init__(self):
@@ -43,7 +49,7 @@ class Project(Calc):
         ans = self.get("classifiers")
         if ans is not None:
             return ans
-        ans = ["Programming Language :: Python", "Programming Language :: Python :: 3"]
+        ans = CLASSIFIERS
         if not utils.isfile(self.prog.file.license):
             ans += ["License :: OSI Approved :: MIT License"]
         ans = utils.easy_list(ans)
@@ -111,13 +117,9 @@ class Project(Calc):
         return c
 
     def get(self, *args, default=None):
-        args = ("project",) + tuple(args)
-        ans = self.prog.pp[args]
-        if ans is None:
-            return default
-        return ans
+        return self.prog.pp.get("project", *args, default=default)
 
-    def to_dict(self) -> None:
+    def todict(self) -> None:
         ans = self.get(default={})
         prefix = "_calc_"
         for n, m in inspect.getmembers(self):
