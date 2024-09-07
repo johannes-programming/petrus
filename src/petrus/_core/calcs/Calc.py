@@ -12,7 +12,6 @@ class Calc:
         if not hasattr(self, "_lock"):
             self._lock = set()
         if name in self._lock:
-            print(self, name, self._lock)
             raise Exception
         self._lock.add(name)
         try:

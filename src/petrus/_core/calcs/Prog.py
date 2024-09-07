@@ -29,7 +29,7 @@ class Prog(Calc):
         if self.git.is_repo():
             self.save("gitignore")
         self.pp["project"] = self.project.to_dict()
-        print(self.pp)
+        print(self.pp["project"])
         self.pp["build-system"] = self.build_system
         self.pp[()] = utils.easy_dict(self.pp[()])
         self.text.pp = str(self.pp)
