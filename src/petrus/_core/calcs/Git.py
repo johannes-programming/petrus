@@ -50,7 +50,7 @@ class Git(Calc):
         self(*args)
 
     def push(self):
-        self("push").returncode and self("push", "-u")
+        pass  # self("push").returncode and self("push", "-u")
 
     def is_repo(self):
         called = self("rev-parse", force=True)
