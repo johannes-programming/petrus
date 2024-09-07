@@ -15,12 +15,12 @@ from petrus._core.TOML import TOML
 class Prog(Calc):
     _CORE = "kwargs"
     INPUTS = {
-        "description": None,
         "author": None,
-        "email": None,
+        "description": None,
+        "email": "Email of the author.",
         "requires_python": None,
         "github": None,
-        "project_version": None,
+        "v": "Version string for the project.",
         "year": None,
     }
 
@@ -28,8 +28,8 @@ class Prog(Calc):
         self.git.init()
         if self.git.is_repo():
             self.save("gitignore")
-        self.packages
         self.pp["project"] = self.project.to_dict()
+        print(self.pp)
         self.pp["build-system"] = self.build_system
         self.pp[()] = utils.easy_dict(self.pp[()])
         self.text.pp = str(self.pp)

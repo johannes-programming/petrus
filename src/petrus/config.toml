@@ -3,8 +3,8 @@ author = "Johannes"
 description = ""
 email = "johannes-programming@mailfence.com"
 github = "johannes-programming"
-project_version = "+"
 requires_python = ""
+v = "+"
 year = ""
 
 [general]
