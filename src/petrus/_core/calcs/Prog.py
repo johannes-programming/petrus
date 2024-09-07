@@ -28,6 +28,7 @@ class Prog(Calc):
         self.git.init()
         if self.git.is_repo():
             self.save("gitignore")
+        self.packages
         self.pp["project"] = self.project.to_dict()
         self.pp["build-system"] = self.build_system
         self.pp[()] = utils.easy_dict(self.pp[()])
@@ -37,7 +38,6 @@ class Prog(Calc):
         self.save("pp")
         self.save("readme")
         self.save("setup")
-        self.packages
         utils.run_isort()
         utils.run_black(os.getcwd())
         self.git.commit_version()
@@ -105,8 +105,10 @@ class Prog(Calc):
                 ans.append(x)
         if not self.file.exists("pp"):
             ans.append(self.project.name)
-            self.save("init")
-            self.save("main")
+            if not self._is_pkg(self.project.name):
+                self.save("init")
+                self.save("main")
+        ans = utils.easy_list(ans)
         return ans
 
     def _calc_pp(self):
