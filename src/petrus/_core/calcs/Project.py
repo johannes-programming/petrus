@@ -126,7 +126,6 @@ class Project(Calc):
             k = n[len(prefix) :]
             v = getattr(self, k)
             k = k.replace("_", "-")
-            print(k)
             ans[k] = v
         ans = utils.easy_dict(ans)
         return ans
