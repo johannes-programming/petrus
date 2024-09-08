@@ -19,7 +19,6 @@ class Calc:
             object.__setattr__(self, name, ans)
         finally:
             self._lock.remove(name)
-        print(self, name, ans)
         return ans
 
     def __init__(self, core, /) -> None:
