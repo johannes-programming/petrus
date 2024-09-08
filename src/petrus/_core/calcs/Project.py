@@ -116,7 +116,9 @@ class Project(Calc):
         a = self.prog.kwargs["v"]
         try:
             args = self.parse_bump(a)
-        except ValueError:
+        except ValueError as e:
+            print(str(e), repr(e))
+            print("\n" * 10)
             return a
         b = self.get("version", default="0.0.0")
         try:
