@@ -17,8 +17,7 @@ CLASSIFIERS = [
 
 
 class Project(Calc):
-    def __post_init__(self):
-        self.prog.packages
+    def __post_init__(self): ...
 
     def _calc_authors(self):
         ans = self.get("authors", default=[])
