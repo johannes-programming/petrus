@@ -40,9 +40,13 @@ def _run_deco(old, /):
     doc += "\n"
     for k, v in _inputs().items():
         old.__annotations__[k] = typing.Optional[str]
-        setattr(old, k, None)
+        field = dataclasses.field(
+            default=None,
+            kw_only=True,
+        )
+        setattr(old, k, field)
         doc += f"\n{k}: {v}"
-    old = dataclasses.dataclass(old)
+    old = dataclasses.dataclass(old, frozen=True)
 
     @functools.wraps(old)
     def new(*args, **kwargs):
@@ -54,8 +58,8 @@ def _run_deco(old, /):
 
 def main(args=None):
     parser = argparse.ArgumentParser(
-        fromfile_prefix_chars="@",
         description=_desc(),
+        fromfile_prefix_chars="@",
     )
     parser.add_argument(
         "-V",
