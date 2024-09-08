@@ -1,6 +1,9 @@
 import inspect
 import os
+import string
 import sys
+
+import v440
 
 from petrus._core import utils
 from petrus._core.calcs.Calc import Calc
@@ -112,12 +115,41 @@ class Project(Calc):
 
     def _calc_version(self):
         a = self.prog.kwargs["v"]
+        try:
+            args = self.parse_bump(a)
+        except ValueError:
+            return a
         b = self.get("version", default="0.0.0")
-        c = str(Version.parse(b).apply(a))
-        return c
+        try:
+            c = v440.Version(b)
+            c.bump(*args)
+        except:
+            return b
+        return str(c)
 
     def get(self, *args, default=None):
         return self.prog.pp.get("project", *args, default=default)
+
+    @staticmethod
+    def parse_bump(line):
+        line = line.strip()
+        if not line.startswith("bump"):
+            raise ValueError
+        line = line[4:].lstrip()
+        if not line.startswith("("):
+            raise ValueError
+        line = line[1:].lstrip()
+        if not line.endswith(")"):
+            raise ValueError
+        line = line[:-1].rstrip()
+        if line.endswith(","):
+            line = line[:-1].rstrip()
+        chars = string.digits + string.whitespace + ",-"
+        if line.strip(chars):
+            raise ValueError
+        line = line.split(",")
+        line = [int(x.strip()) for x in line]
+        return line
 
     def todict(self) -> None:
         ans = self.get(default={})
