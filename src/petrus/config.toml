@@ -4,7 +4,7 @@ description = ""
 email = "johannes-programming@mailfence.com"
 github = "johannes-programming"
 requires_python = ""
-v = "+"
+v = "bump(2)"
 year = ""
 
 [general]
