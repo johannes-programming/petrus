@@ -7,7 +7,6 @@ import v440
 
 from petrus._core import utils
 from petrus._core.calcs.Calc import Calc
-from petrus._core.Version import Version
 
 CLASSIFIERS = [
     "Programming Language :: Python",
