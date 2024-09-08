@@ -58,7 +58,10 @@ def main(args=None):
         description=_desc(),
     )
     parser.add_argument(
-        "-V", "--version", action="version", version=metadata.version("petrus")
+        "-V",
+        "--version",
+        action="version",
+        version=metadata.version("petrus"),
     )
     parser.add_argument("path", nargs="?")
     for k, v in _inputs().items():
