@@ -5,7 +5,7 @@ import functools
 import os
 import tomllib
 import typing
-from importlib import resources
+from importlib import metadata, resources
 
 from petrus._core.calcs.Prog import Prog
 
@@ -53,7 +53,13 @@ def _run_deco(old, /):
 
 
 def main(args=None):
-    parser = argparse.ArgumentParser(fromfile_prefix_chars="@", description=_desc())
+    parser = argparse.ArgumentParser(
+        fromfile_prefix_chars="@",
+        description=_desc(),
+    )
+    parser.add_argument(
+        "-V", "--version", action="version", version=metadata.version("petrus")
+    )
     parser.add_argument("path", nargs="?")
     for k, v in _inputs().items():
         opt = "--" + k.replace("_", "-")
