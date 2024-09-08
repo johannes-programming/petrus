@@ -29,6 +29,7 @@ class Prog(Calc):
         self.git.init()
         if self.git.is_repo():
             self.save("gitignore")
+        self.packages
         self.pp["project"] = self.project.todict()
         self.pp["build-system"] = self.build_system
         self.pp.data = utils.easy_dict(self.pp.data)
@@ -66,7 +67,7 @@ class Prog(Calc):
         return Block(self)
 
     def _calc_build_system(self):
-        ans = self.pp["build-system"]
+        ans = self.pp.get("build-system")
         if type(ans) is dict:
             ans = utils.easy_dict(ans)
         if ans is not None:
