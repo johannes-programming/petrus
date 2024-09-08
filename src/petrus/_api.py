@@ -28,7 +28,7 @@ def _inputs():
 
 
 def _inputs_sortkey(pair):
-    if pair[0] == "path":
+    if pair[0] in {"help", "path", "version"}:
         raise KeyError
     if "-" in pair[0]:
         raise KeyError
@@ -65,6 +65,7 @@ def main(args=None):
         "-V",
         "--version",
         action="version",
+        dest="version",
         version=metadata.version("petrus"),
     )
     parser.add_argument("path", nargs="?")
