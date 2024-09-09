@@ -118,11 +118,22 @@ class Project(Calc):
         except ValueError:
             return a
         b = self.get("version", default="0.0.0")
+        print(b)
         try:
             c = v440.Version(b)
-            c.bump(*args)
-        except:
+            print(c, args, list(c.release))
+            c.release.bump(*args)
+            print(c)
+        except v440.VersionError as e:
+            print(e, file=sys.stderr)
+            raise
             return b
+        print(c)
+        print(c.pre.phase, c.pre.subphase)
+        print(c._aux(), c.pre, c.post, c.dev)
+        print(c.public)
+        print(c.local)
+        print("\n" * 10)
         return str(c)
 
     def get(self, *args, default=None):
