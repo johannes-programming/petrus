@@ -10,7 +10,7 @@ Create/autocomplete/format a python project and upload it to PyPI.
 Installation
 ------------
 
-To install petrus, you can use `pip`. Open your terminal and run:
+To install ``petrus``, you can use ``pip``. Open your terminal and run:
 
 .. code-block:: bash
 
