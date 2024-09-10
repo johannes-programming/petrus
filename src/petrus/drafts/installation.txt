@@ -1,7 +1,7 @@
 Installation
 ------------
 
-To install {name}, you can use `pip`. Open your terminal and run:
+To install ``{name}``, you can use ``pip``. Open your terminal and run:
 
 .. code-block:: bash
 
