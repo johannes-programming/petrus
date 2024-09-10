@@ -33,4 +33,4 @@ Credits
 - Author: Johannes
 - Email: johannes-programming@mailfence.com
 
-Thank you for using petrus!
+Thank you for using ``petrus``!
