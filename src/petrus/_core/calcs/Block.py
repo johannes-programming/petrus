@@ -68,7 +68,7 @@ class Block(Calc):
         while not lines.endswith("\n\n"):
             lines += "\n"
         pn = self.prog.project.name
-        lines += "Thank you for using %s!" % pn
+        lines += "Thank you for using ``%s``!" % pn
         return lines
 
     @staticmethod
