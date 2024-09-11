@@ -30,6 +30,7 @@ or
 
 .. code-block:: python
 
+    # python
     import petrus
     petrus.main(["-h"])
 
