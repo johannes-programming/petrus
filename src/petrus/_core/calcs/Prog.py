@@ -16,13 +16,13 @@ from petrus._core.calcs.Text import Text
 class Prog(Calc):
     _CORE = "kwargs"
     INPUTS = {
-        "author": None,
-        "description": None,
+        "author": "The author of the project.",
+        "description": "The description of the project.",
         "email": "Email of the author.",
-        "requires_python": None,
-        "github": None,
-        "v": "Version string for the project.",
-        "year": None,
+        "requires_python": "The minimum python version of the project. You may use 'current'.",
+        "github": "The github username for linking the source.",
+        "v": "Version string for the project. You may want to use 'bump(2, 1)'.",
+        "year": "Year of creating the project. You may want to use 'current'.",
     }
 
     def __post_init__(self):
@@ -122,7 +122,11 @@ class Prog(Calc):
         return Text(self)
 
     def _calc_year(self):
-        return self.kwargs["year"] or str(datetime.datetime.now().year)
+        ans = self.kwargs["year"]
+        if ans == "current":
+            return str(datetime.datetime.now().year)
+        else:
+            return ans
 
     @staticmethod
     def _is_pkg(path):
