@@ -55,7 +55,7 @@ If an option is not used (i.e. given the value ``None``) it defaults to the valu
     description = ""
     email = "johannes-programming@mailfence.com"
     github = "johannes-programming"
-    requires_python = "current"
+    py = "current"
     v = "bump(2)"
     year = "current"
 
