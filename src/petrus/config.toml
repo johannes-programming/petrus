@@ -3,9 +3,9 @@ author = "Johannes"
 description = ""
 email = "johannes-programming@mailfence.com"
 github = "johannes-programming"
-requires_python = ""
-v = "bump(2)"
-year = ""
+requires_python = "current"
+v = "bump(2, 1)"
+year = "current"
 
 [general]
 root = ""
