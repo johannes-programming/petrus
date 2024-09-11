@@ -30,7 +30,7 @@ class File(Calc):
 
     def _calc_readme(self):
         ans = self.prog.pp.get("project", "readme")
-        if type(ans) is str:
+        if type(ans) is str and os.path.exists(ans):
             return ans
         return self._find("README.rst")
 
