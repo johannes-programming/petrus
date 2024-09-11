@@ -130,45 +130,10 @@ class Project(Calc):
         return ans
 
     def _calc_version(self):
-        a = self.prog.kwargs["v"]
-        b = self.get("version", default="0.0.0")
-        if a == "":
-            return b
-        try:
-            args = self.parse_bump(a)
-        except ValueError:
-            return a
-        try:
-            c = v440.Version(b)
-            c.release.bump(*args)
-        except v440.VersionError as e:
-            print(e, file=sys.stderr)
-            return b
-        return str(c)
+        return self.prog.version_formatted
 
     def get(self, *args, default=None):
         return self.prog.pp.get("project", *args, default=default)
-
-    @staticmethod
-    def parse_bump(line):
-        line = line.strip()
-        if not line.startswith("bump"):
-            raise ValueError
-        line = line[4:].lstrip()
-        if not line.startswith("("):
-            raise ValueError
-        line = line[1:].lstrip()
-        if not line.endswith(")"):
-            raise ValueError
-        line = line[:-1].rstrip()
-        if line.endswith(","):
-            line = line[:-1].rstrip()
-        chars = string.digits + string.whitespace + ",-"
-        if line.strip(chars):
-            raise ValueError
-        line = line.split(",")
-        line = [int(x.strip()) for x in line]
-        return line
 
     def todict(self) -> None:
         ans = self.get(default={})
