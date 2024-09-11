@@ -60,7 +60,7 @@ If an option is not used (i.e. given the value ``None``) it defaults to the valu
     root = ""
 
 If that fails the arguments default to the empty string. The empty string itself usually results in skipping whatever steps required the information.
-The ``general.root`` setting allows to change directory even before ``path`` (see help message) is applied.
+The ``general.root`` setting allows to change directory even before ``path`` is applied.
 It is recommended to create a ``config.toml`` file inside the ``petrus`` package before usage.
 
 License
