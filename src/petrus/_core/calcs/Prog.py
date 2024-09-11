@@ -20,10 +20,10 @@ class Prog(Calc):
         "classifiers": "The classifiers of the project. Comma separated. You may include {mit} or {preset}. Recommended value is '{preset}, {mit}, Programming Language :: Python, Programming Language :: Python :: 3, Programming Language :: Python :: 3 :: Only'.",
         "description": "The description of the project.",
         "email": "Email of the author.",
-        "requires_python": "The python version of the project. You may use 'preset' and 'current'. Recommended value is 'preset \\| current'.",
+        "requires_python": "The python version of the project. A list separated by '\\|'. The first non empty item is used. You may use {preset} and {current}. Recommended value is '{preset} \\| {current}'.",
         "github": "The github username for linking the source.",
-        "v": "Version string for the project. You may use 'bump(2, 1)'.",
-        "year": "Year of creating the project. You may use '{current}'.",
+        "v": "Version string for the project. Recommended is 'bump(2, 1)'.",
+        "year": "Year of creating the project. Recommended is '{current}'.",
     }
 
     def __post_init__(self):

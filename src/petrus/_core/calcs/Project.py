@@ -102,7 +102,7 @@ class Project(Calc):
 
     def _calc_requires_python(self):
         kwarg = self.prog.kwargs["requires_python"]
-        preset = self.get("requires-python")
+        preset = self.get("requires-python", default="")
         current = ">={0}.{1}.{2}".format(*sys.version_info)
         if kwarg == "":
             return preset
