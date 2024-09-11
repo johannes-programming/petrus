@@ -131,11 +131,13 @@ class Project(Calc):
 
     def _calc_version(self):
         a = self.prog.kwargs["v"]
+        b = self.get("version", default="0.0.0")
+        if a == "":
+            return b
         try:
             args = self.parse_bump(a)
         except ValueError:
             return a
-        b = self.get("version", default="0.0.0")
         try:
             c = v440.Version(b)
             c.release.bump(*args)
