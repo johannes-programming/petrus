@@ -39,9 +39,12 @@ The arguments of ``main`` can also be used analogously on the function ``run`` (
 .. code-block:: python
 
     # The following lines are all identical:
-    petrus.main(["--author", "John Doe"])
-    petrus.run(author="John Doe")
-    petrus.run(author="John Doe", email=None)
+    petrus.main(["--author", "John Doe", "path/to/project"])
+    petrus.main(["--author=John Doe", "path/to/project"])
+    petrus.main(["--author", "John Doe", "--", "path/to/project"])
+    petrus.run("path/to/project", author="John Doe")
+    petrus.run(author="John Doe", path="path/to/project")
+    petrus.run("path/to/project", author="John Doe", email=None)
 
 If an option is not used (i.e. given the value ``None``) it defaults to the value provided in the ``default`` table in the included file ``config.toml`` (if existent).
 
