@@ -19,10 +19,11 @@ class Prog(Calc):
         "author": "The author of the project.",
         "description": "The description of the project.",
         "email": "Email of the author.",
-        "requires_python": "The minimum python version of the project. You may use 'current'.",
+        "py": "The minimum python version of the project if none is given. You may use 'current'.",
+        "requires_python": "The minimum python version of the project - overwriting --py and previously set values. You may use 'current'.",
         "github": "The github username for linking the source.",
-        "v": "Version string for the project. You may want to use 'bump(2, 1)'.",
-        "year": "Year of creating the project. You may want to use 'current'.",
+        "v": "Version string for the project. You may use 'bump(2, 1)'.",
+        "year": "Year of creating the project. You may use 'current'.",
     }
 
     def __post_init__(self):
