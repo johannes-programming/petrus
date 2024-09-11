@@ -1,7 +1,10 @@
 import datetime
 import os
+import string
+import sys
 
 import tomlhold
+import v440
 
 from petrus._core import utils
 from petrus._core.calcs.Block import Block
@@ -23,6 +26,7 @@ class Prog(Calc):
         "requires_python": "The python version of the project. A list separated by '\\|'. The first non empty item is used. You may use {preset} and {current}. Recommended value is '{preset} \\| {current}'.",
         "github": "The github username for linking the source.",
         "v": "Version string for the project. Recommended is 'bump(2, 1)'.",
+        "vformat": "Format of the version string, i.e. how many numerals in the release string. Recommended is '3'.",
         "year": "Year of creating the project. Recommended is '{current}'.",
     }
 
@@ -122,6 +126,36 @@ class Prog(Calc):
     def _calc_text(self):
         return Text(self)
 
+    def _calc_version_formatted(self):
+        ans = self.version_unformatted
+        kwarg = self.kwargs["vformat"]
+        if kwarg == "":
+            return ans
+        kwarg = int(kwarg)
+        try:
+            ans = v440.Version(ans)
+            ans = ans.format(kwarg)
+        except v440.VersionError:
+            pass
+        return str(ans)
+
+    def _calc_version_unformatted(self):
+        a = self.kwargs["v"]
+        b = self.project.get("version", default="0.0.0")
+        if a == "":
+            return b
+        try:
+            args = self.parse_bump(a)
+        except ValueError:
+            return a
+        try:
+            c = v440.Version(b)
+            c.release.bump(*args)
+        except v440.VersionError as e:
+            print(e, file=sys.stderr)
+            return b
+        return str(c)
+
     def _calc_year(self):
         ans = self.kwargs["year"]
         current = str(datetime.datetime.now().year)
@@ -134,6 +168,27 @@ class Prog(Calc):
             return False
         f = os.path.join(path, "__init__.py")
         return utils.isfile(f)
+
+    @staticmethod
+    def parse_bump(line):
+        line = line.strip()
+        if not line.startswith("bump"):
+            raise ValueError
+        line = line[4:].lstrip()
+        if not line.startswith("("):
+            raise ValueError
+        line = line[1:].lstrip()
+        if not line.endswith(")"):
+            raise ValueError
+        line = line[:-1].rstrip()
+        if line.endswith(","):
+            line = line[:-1].rstrip()
+        chars = string.digits + string.whitespace + ",-"
+        if line.strip(chars):
+            raise ValueError
+        line = line.split(",")
+        line = [int(x.strip()) for x in line]
+        return line
 
     def save(self, n, /):
         file = getattr(self.file, n)
