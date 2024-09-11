@@ -106,6 +106,8 @@ class Project(Calc):
             return ans
         if self.prog.github:
             ans.setdefault("Source", self.prog.github)
+        p = f"https://pypi.org/project/{self.name}"
+        ans.setdefault("Documentation", p)
         p = f"https://pypi.org/project/{self.name}/#files"
         ans.setdefault("Download", p)
         ans = utils.easy_dict(ans)
