@@ -47,14 +47,23 @@ class Project(Calc):
         return ans
 
     def _calc_classifiers(self):
-        ans = self.get("classifiers")
-        if ans is not None:
-            return ans
-        ans = CLASSIFIERS
-        if not utils.isfile(self.prog.file.license):
-            ans += ["License :: OSI Approved :: MIT License"]
-        ans = utils.easy_list(ans)
-        return ans
+        preset = self.get("classifiers", default=[])
+        if type(preset) is not list:
+            return preset
+        preset = ", ".join(preset)
+        if utils.isfile(self.prog.file.license):
+            mit = ""
+        else:
+            mit = "License :: OSI Approved :: MIT License"
+        kwarg = self.prog.kwargs["classifiers"]
+        if kwarg == "":
+            return preset
+        kwarg = kwarg.format(preset=preset, mit=mit)
+        kwarg = kwarg.split(",")
+        kwarg = [x.strip() for x in kwarg]
+        kwarg = [x for x in kwarg if x]
+        kwarg = utils.easy_list(kwarg)
+        return kwarg
 
     def _calc_dependencies(self):
         ans = self.get("dependencies", default=[])
@@ -92,17 +101,17 @@ class Project(Calc):
         return self.prog.file.readme
 
     def _calc_requires_python(self):
-        kwargA = self.prog.kwargs["py"]
-        kwargA = self.parse_py(kwargA)
-        kwargB = self.prog.kwargs["requires_python"]
-        kwargB = self.parse_py(kwargB)
-        prev = self.get("requires-python")
-        if kwargB:
-            return kwargB
-        if prev is not None:
-            return prev
-        if kwargA:
-            return A
+        kwarg = self.prog.kwargs["requires_python"]
+        preset = self.get("requires-python")
+        current = ">={0}.{1}.{2}".format(*sys.version_info)
+        if kwarg == "":
+            return preset
+        kwarg = kwarg.format(preset=preset, current=current)
+        kwarg = kwarg.split("\\|")
+        kwarg = [x.strip() for x in kwarg]
+        for x in kwarg:
+            if x:
+                return x
         return None
 
     def _calc_urls(self):
@@ -158,12 +167,6 @@ class Project(Calc):
         line = line.split(",")
         line = [int(x.strip()) for x in line]
         return line
-
-    @staticmethod
-    def parse_py(kwarg, /):
-        if kwarg == "current":
-            return ">={0}.{1}.{2}".format(*sys.version_info)
-        return kwarg
 
     def todict(self) -> None:
         ans = self.get(default={})
