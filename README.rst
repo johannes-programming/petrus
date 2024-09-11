@@ -24,13 +24,14 @@ This project is licensed under the MIT License.
 Links
 -----
 
+* `Documentation <https://pypi.org/project/petrus>`_
 * `Download <https://pypi.org/project/petrus/#files>`_
 * `Source <https://github.com/johannes-programming/petrus>`_
 
 Credits
 -------
 
-- Author: Johannes
-- Email: johannes-programming@mailfence.com
+* Author: Johannes
+* Email: johannes-programming@mailfence.com
 
 Thank you for using ``petrus``!
