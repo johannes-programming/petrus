@@ -1,2 +1,2 @@
 include src/petrus/drafts/*.txt
-include src/petrus/config.toml
+exclude src/petrus/config.toml

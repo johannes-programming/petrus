@@ -92,11 +92,12 @@ class Project(Calc):
         return self.prog.file.readme
 
     def _calc_requires_python(self):
-        return (
-            self.get("requires-python")
-            or self.prog.kwargs["requires_python"]
-            or ">={0}.{1}.{2}".format(*sys.version_info)
-        )
+        kwarg = self.prog.kwargs["requires_python"]
+        if kwarg == "":
+            return self.get("requires-python")
+        if kwarg == "current":
+            return ">={0}.{1}.{2}".format(*sys.version_info)
+        return kwarg
 
     def _calc_urls(self):
         ans = self.get("urls")
@@ -160,6 +161,8 @@ class Project(Calc):
                 continue
             k = n[len(prefix) :]
             v = getattr(self, k)
+            if v is None:
+                continue
             k = k.replace("_", "-")
             ans[k] = v
         ans = utils.easy_dict(ans)
