@@ -27,11 +27,12 @@ keywords = []
 name = "petrus"
 readme = "README.rst"
 requires-python = ">=3.12"
-version = "0.3.11"
+version = "0.3.12"
 
 [project.license]
 file = "LICENSE.txt"
 
 [project.urls]
+Documentation = "https://pypi.org/project/petrus"
 Download = "https://pypi.org/project/petrus/#files"
 Source = "https://github.com/johannes-programming/petrus"
