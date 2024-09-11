@@ -17,13 +17,13 @@ class Prog(Calc):
     _CORE = "kwargs"
     INPUTS = {
         "author": "The author of the project.",
+        "classifiers": "The classifiers of the project. Comma separated. You may include {mit} or {preset}. Recommended value is '{preset}, {mit}, Programming Language :: Python, Programming Language :: Python :: 3, Programming Language :: Python :: 3 :: Only'.",
         "description": "The description of the project.",
         "email": "Email of the author.",
-        "py": "The minimum python version of the project if none is given. You may use 'current'.",
-        "requires_python": "The minimum python version of the project - overwriting --py and previously set values. You may use 'current'.",
+        "requires_python": "The python version of the project. You may use 'preset' and 'current'. Recommended value is 'preset \\| current'.",
         "github": "The github username for linking the source.",
         "v": "Version string for the project. You may use 'bump(2, 1)'.",
-        "year": "Year of creating the project. You may use 'current'.",
+        "year": "Year of creating the project. You may use '{current}'.",
     }
 
     def __post_init__(self):
@@ -124,10 +124,9 @@ class Prog(Calc):
 
     def _calc_year(self):
         ans = self.kwargs["year"]
-        if ans == "current":
-            return str(datetime.datetime.now().year)
-        else:
-            return ans
+        current = str(datetime.datetime.now().year)
+        ans = ans.format(current)
+        return ans
 
     @staticmethod
     def _is_pkg(path):
