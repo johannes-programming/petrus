@@ -37,7 +37,7 @@ The arguments of ``main`` can also be used analogously on the function ``run`` (
 
 .. code-block:: python
 
-    # The following lines are all identically:
+    # The following lines are all identical:
     petrus.main(["--author", "John Doe"])
     petrus.run(author="John Doe")
     petrus.run(author="John Doe", email=None)
