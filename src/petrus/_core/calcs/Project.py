@@ -92,12 +92,18 @@ class Project(Calc):
         return self.prog.file.readme
 
     def _calc_requires_python(self):
-        kwarg = self.prog.kwargs["requires_python"]
-        if kwarg == "":
-            return self.get("requires-python")
-        if kwarg == "current":
-            return ">={0}.{1}.{2}".format(*sys.version_info)
-        return kwarg
+        kwargA = self.prog.kwargs["py"]
+        kwargA = self.parse_py(kwargA)
+        kwargB = self.prog.kwargs["requires_python"]
+        kwargB = self.parse_py(kwargB)
+        prev = self.get("requires-python")
+        if kwargB:
+            return kwargB
+        if prev is not None:
+            return prev
+        if kwargA:
+            return A
+        return None
 
     def _calc_urls(self):
         ans = self.get("urls")
@@ -152,6 +158,12 @@ class Project(Calc):
         line = line.split(",")
         line = [int(x.strip()) for x in line]
         return line
+
+    @staticmethod
+    def parse_py(kwarg, /):
+        if kwarg == "current":
+            return ">={0}.{1}.{2}".format(*sys.version_info)
+        return kwarg
 
     def todict(self) -> None:
         ans = self.get(default={})

@@ -3,7 +3,7 @@ author = "Johannes"
 description = ""
 email = "johannes-programming@mailfence.com"
 github = "johannes-programming"
-requires_python = "current"
+py = "current"
 v = "bump(2, 1)"
 year = "current"
 
