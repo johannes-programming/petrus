@@ -11,12 +11,15 @@ from petrus._core.calcs.Prog import Prog
 
 __all__ = ["main", "run"]
 
+_PATH_HELP = "The path where the project will be created/currently exists."
+
 
 def _desc():
-    return "Update a python project. \
+    return """Create/update a python project. \
 The default values of the arguments are taken \
 from the default table of the config.toml file \
-inside of the petrus package."
+inside of the petrus package.
+Visit https://pypi.org/project/petrus/ for more information."""
 
 
 def _inputs():
@@ -68,7 +71,7 @@ def main(args=None):
         dest="version",
         version=metadata.version("petrus"),
     )
-    parser.add_argument("path", nargs="?")
+    parser.add_argument("path", nargs="?", help=_PATH_HELP)
     for k, v in _inputs().items():
         opt = "--" + k.replace("_", "-")
         parser.add_argument(opt, help=v)
