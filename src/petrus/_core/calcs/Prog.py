@@ -125,7 +125,7 @@ class Prog(Calc):
     def _calc_year(self):
         ans = self.kwargs["year"]
         current = str(datetime.datetime.now().year)
-        ans = ans.format(current)
+        ans = ans.format(current=current)
         return ans
 
     @staticmethod
