@@ -95,7 +95,15 @@ class Project(Calc):
 
     def _calc_name(self):
         basename = os.path.basename(os.getcwd())
-        return self.get("name") or basename
+        raw = self.get("name") or basename
+        raw = str(raw)
+        ans = ""
+        for x in raw:
+            if x in (string.ascii_letters + string.digits):
+                ans += x
+            else:
+                ans += "_"
+        return ans
 
     def _calc_readme(self):
         return self.prog.file.readme
