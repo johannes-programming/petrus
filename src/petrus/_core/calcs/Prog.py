@@ -129,9 +129,6 @@ class Prog(Calc):
     def _calc_version_formatted(self):
         ans = self.version_unformatted
         kwarg = self.kwargs["vformat"]
-        if kwarg == "":
-            return ans
-        kwarg = int(kwarg)
         try:
             ans = v440.Version(ans)
             ans = ans.format(kwarg)
