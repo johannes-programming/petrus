@@ -91,7 +91,7 @@ class run:
 
 def _prog(path, **kwargs):
     try:
-        cfg = resources.read_text("petrus", "config.toml")
+        cfg = resources.files("petrus").joinpath("config.toml").read_text()
     except:
         cfg = ""
     cfg = tomllib.loads(cfg)
