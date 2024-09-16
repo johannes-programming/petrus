@@ -8,12 +8,6 @@ import v440
 from petrus._core import utils
 from petrus._core.calcs.Calc import Calc
 
-CLASSIFIERS = [
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3 :: Only",
-]
-
 
 class Project(Calc):
     def __post_init__(self): ...
@@ -60,6 +54,8 @@ class Project(Calc):
             return preset
         kwarg = kwarg.format(preset=preset, mit=mit)
         kwarg = kwarg.split(",")
+        kwarg = [x.replace("::", " :: ") for x in kwarg]
+        kwarg = [" ".join(x.split()) for x in kwarg]
         kwarg = [x.strip() for x in kwarg]
         kwarg = [x for x in kwarg if x]
         kwarg = utils.easy_list(kwarg)
