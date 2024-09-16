@@ -10,4 +10,4 @@ vformat = "3"
 year = "{current}"
 
 [general]
-root = ""
+root = "~/Desktop"
