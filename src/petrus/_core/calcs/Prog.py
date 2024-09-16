@@ -266,9 +266,9 @@ class Prog(Calc):
         self.mkpkg(b)
         if os.listdir(b) != ["__init__.py"]:
             return
-        f = os.path.join(b, "test_sum_unittest.py")
+        f = os.path.join(b, "test_1984.py")
         with open(f, "w") as s:
-            s.write(self.draft.test_sum_unittest)
+            s.write(self.draft.test_1984)
 
     @staticmethod
     def touch(file):
