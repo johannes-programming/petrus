@@ -1,6 +1,8 @@
 import datetime
 import os
+import shutil
 import string
+import subprocess
 import sys
 
 import tomlhold
@@ -34,10 +36,11 @@ class Prog(Calc):
         self.git.init()
         if self.git.is_repo():
             self.save("gitignore")
-        self.packages
+        for p in self.packages:
+            self.tests(p)
         self.pp["project"] = self.project.todict()
         self.pp["build-system"] = self.build_system
-        self.pp.data = utils.easy_dict(self.pp.data)
+        self.pp.data = self.easy_dict(self.pp.data)
         self.text.pp = str(self.pp)
         self.save("license")
         self.save("manifest")
@@ -74,13 +77,13 @@ class Prog(Calc):
     def _calc_build_system(self):
         ans = self.pp.get("build-system")
         if type(ans) is dict:
-            ans = utils.easy_dict(ans)
+            ans = self.easy_dict(ans)
         if ans is not None:
             return ans
         ans = dict()
         ans["requires"] = ["setuptools>=61.0.0"]
         ans["build-backend"] = "setuptools.build_meta"
-        ans = utils.easy_dict(ans)
+        ans = self.easy_dict(ans)
         return ans
 
     def _calc_draft(self):
@@ -99,23 +102,26 @@ class Prog(Calc):
         return f"https://github.com/{u}/{self.project.name}"
 
     def _calc_packages(self):
-        utils.mkdir("src")
+        self.mkdir("src")
         ans = []
         for x in os.listdir("src"):
-            if self._is_pkg(x):
+            y = os.path.join("src", x)
+            if self.ispkg(y):
+                ans.append(y)
+        if len(ans):
+            return self.easy_list(ans)
+        for x in os.listdir():
+            if self.ispkg(x, todir=False):
                 ans.append(x)
         if len(ans):
-            return ans
-        for x in os.listdir():
-            if self._is_pkg(x):
-                ans.append(x)
-        if not self.file.exists("pp"):
-            ans.append(self.project.name)
-            if not self._is_pkg(self.project.name):
-                self.save("init")
-                self.save("main")
-        ans = utils.easy_list(ans)
-        return ans
+            return self.easy_list(ans)
+        if self.file.exists("pp"):
+            return list()
+        pro = os.path.join("src", self.project.name)
+        if not self.ispkg(pro):
+            self.save("init")
+            self.save("main")
+        return [pro]
 
     def _calc_pp(self):
         return tomlhold.Holder(self.text.pp)
@@ -160,11 +166,56 @@ class Prog(Calc):
         return ans
 
     @staticmethod
-    def _is_pkg(path):
-        if not os.path.isdir(path):
-            return False
+    def easy_dict(dictionary, *, purge=False):
+        d = dict(dictionary)
+        keys = sorted(list(d.keys()))
+        ans = {k: d[k] for k in keys}
+        return ans
+
+    @staticmethod
+    def easy_list(iterable):
+        ans = list(set(iterable))
+        ans.sort()
+        return ans
+
+    def ispkg(self, path, *, todir=True):
+        root, name = os.path.split(path)
+        tr, ext = os.path.splitext(name)
+        if os.path.isdir(path):
+            init = os.path.join(path, "__init__.py")
+            if not os.path.exists(init):
+                return False
+            if not os.path.isfile(init):
+                raise FileExistsError
+            if ext != "":
+                raise Exception(ext)
+            return True
+        if os.path.isfile(path):
+            if ext != ".py":
+                return False
+            if not todir:
+                return True
+            pro = os.path.join(root, tr)
+            init = os.path.join(pro, "__init__.py")
+            if os.path.exists(init):
+                raise FileExistsError
+            self.mkdir(pro)
+            self.git.move(path, init)
+            return True
+        return False
+
+    @classmethod
+    def mkdir(cls, path):
+        if utils.isdir(path):
+            return
+        os.mkdir(path)
+
+    def mkpkg(self, path):
+        if self.ispkg(path):
+            return
+        self.mkdir(path)
         f = os.path.join(path, "__init__.py")
-        return utils.isfile(f)
+        self.touch(f)
 
     @staticmethod
     def parse_bump(line):
@@ -187,6 +238,18 @@ class Prog(Calc):
         line = [int(x.strip()) for x in line]
         return line
 
+    @staticmethod
+    def py(*args):
+        args = [sys.executable, "-m"] + list(args)
+        return subprocess.run(args)
+
+    @staticmethod
+    def pypi():
+        shutil.rmtree("dist", ignore_errors=True)
+        if py("build").returncode:
+            return
+        subprocess.run(["twine", "upload", "dist/*"])
+
     def save(self, n, /):
         file = getattr(self.file, n)
         text = getattr(self.text, n)
@@ -195,3 +258,16 @@ class Prog(Calc):
             os.mkdir(root)
         with open(file, "w") as s:
             s.write(text)
+
+    def tests(self, pkg):
+        a = os.path.join(pkg)
+        b = os.path.join(pkg, "tests")
+        self.mkpkg(a)
+        self.mkpkg(b)
+
+    @staticmethod
+    def touch(file):
+        if utils.isfile(file):
+            return
+        with open(file, "w"):
+            pass

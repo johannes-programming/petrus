@@ -10,27 +10,12 @@ import black
 import isort
 import requests
 
-from petrus._core import utils
-
 
 def dict_match(a, b, /):
     a = dict(a)
     b = dict(b)
     keys = set(a.keys()) & set(b.keys())
     ans = all(a[k] == b[k] for k in keys)
-    return ans
-
-
-def easy_list(iterable):
-    ans = list(set(iterable))
-    ans.sort()
-    return ans
-
-
-def easy_dict(dictionary, *, purge=False):
-    d = dict(dictionary)
-    keys = sorted(list(d.keys()))
-    ans = {k: d[k] for k in keys}
     return ans
 
 
@@ -82,12 +67,6 @@ def isfile(path):
     if not os.path.isfile(path):
         raise ValueError
     return True
-
-
-def mkdir(path):
-    if isdir(path):
-        return
-    os.mkdir(path)
 
 
 def py(*args):
