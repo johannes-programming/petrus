@@ -14,20 +14,29 @@ __all__ = ["main", "run"]
 _PATH_HELP = "The path where the project will be created/currently exists."
 
 
+def _cfgfile():
+    return resources.files("petrus").joinpath("config.toml")
+
+
 def _desc():
-    return """Create/update a python project. \
-The default values of the arguments are taken \
+    return f"""Create/update a python project. \
+The default values of the (non flag) options are taken \
 from the default table of the config.toml file \
 inside of the petrus package.
-Visit https://pypi.org/project/petrus/ for more information."""
+Modify at {repr(str(_cfgfile()))}.
+See also {repr(_link())}."""
 
 
 def _inputs():
     pairs = list(dict(Prog.INPUTS).items())
-    # pairs = list(_input_format(x) for x in pairs)
+    pairs = list(_input_format(*x) for x in pairs)
     pairs.sort(key=_inputs_sortkey)
     ans = dict(pairs)
     return ans
+
+
+def _input_format(k, v, /):
+    return k.strip(), v.strip()
 
 
 def _inputs_sortkey(pair):
@@ -36,6 +45,10 @@ def _inputs_sortkey(pair):
     if "-" in pair[0]:
         raise KeyError
     return pair[0]
+
+
+def _link():
+    return "https://pypi.org/project/petrus/"
 
 
 def _run_deco(old, /):
@@ -63,6 +76,7 @@ def main(args=None):
     parser = argparse.ArgumentParser(
         description=_desc(),
         fromfile_prefix_chars="@",
+        formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
         "-V",
@@ -91,7 +105,7 @@ class run:
 
 def _prog(path, **kwargs):
     try:
-        cfg = resources.files("petrus").joinpath("config.toml").read_text()
+        cfg = _cfgfile().read_text()
     except:
         cfg = ""
     cfg = tomllib.loads(cfg)
