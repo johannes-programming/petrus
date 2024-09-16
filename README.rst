@@ -82,6 +82,6 @@ Credits
 -------
 
 * Author: Johannes
-* Email: johannes-programming@mailfence.com
+* Email: `johannes-programming@mailfence.com <mailto:johannes-programming@mailfence.com>`_
 
 Thank you for using ``petrus``!
