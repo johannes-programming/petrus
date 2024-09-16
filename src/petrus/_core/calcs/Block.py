@@ -64,7 +64,7 @@ class Block(Calc):
         if n:
             lines += "* Author: %s\n" % n
         if e:
-            lines += "* Email: %s\n" % e
+            lines += "* Email: `%s <mailto:%s>`_\n" % (e, e)
         while not lines.endswith("\n\n"):
             lines += "\n"
         pn = self.prog.project.name
