@@ -24,7 +24,7 @@ class Project(Calc):
         for k, v in a.items():
             if v:
                 author[k] = v
-        author = utils.easy_dict(author)
+        author = self.prog.easy_dict(author)
         used = False
         for i in range(len(ans)):
             try:
@@ -34,7 +34,7 @@ class Project(Calc):
             fit = utils.dict_match(ans[i], author)
             if fit and not used:
                 ans[i].update(author)
-            ans[i] = utils.easy_dict(ans[i])
+            ans[i] = self.prog.easy_dict(ans[i])
             used |= fit
         if not used:
             ans.insert(0, author)
@@ -58,7 +58,7 @@ class Project(Calc):
         kwarg = [" ".join(x.split()) for x in kwarg]
         kwarg = [x.strip() for x in kwarg]
         kwarg = [x for x in kwarg if x]
-        kwarg = utils.easy_list(kwarg)
+        kwarg = self.prog.easy_list(kwarg)
         return kwarg
 
     def _calc_dependencies(self):
@@ -66,7 +66,7 @@ class Project(Calc):
         if type(ans) is not list:
             return ans
         ans = [utils.fix_dependency(x) for x in ans]
-        ans = utils.easy_list(ans)
+        ans = self.prog.easy_list(ans)
         return ans
 
     def _calc_description(self):
@@ -130,7 +130,7 @@ class Project(Calc):
         ans.setdefault("Documentation", p)
         p = f"https://pypi.org/project/{self.name}/#files"
         ans.setdefault("Download", p)
-        ans = utils.easy_dict(ans)
+        ans = self.prog.easy_dict(ans)
         return ans
 
     def _calc_version(self):
@@ -151,5 +151,5 @@ class Project(Calc):
                 continue
             k = k.replace("_", "-")
             ans[k] = v
-        ans = utils.easy_dict(ans)
+        ans = self.prog.easy_dict(ans)
         return ans
