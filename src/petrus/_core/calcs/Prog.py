@@ -243,10 +243,10 @@ class Prog(Calc):
         args = [sys.executable, "-m"] + list(args)
         return subprocess.run(args)
 
-    @staticmethod
-    def pypi():
+    @classmethod
+    def pypi(cls):
         shutil.rmtree("dist", ignore_errors=True)
-        if py("build").returncode:
+        if cls.py("build").returncode:
             return
         subprocess.run(["twine", "upload", "dist/*"])
 
@@ -264,6 +264,11 @@ class Prog(Calc):
         b = os.path.join(pkg, "tests")
         self.mkpkg(a)
         self.mkpkg(b)
+        if os.listdir(b) != ["__init__.py"]:
+            return
+        f = os.path.join(b, "test_sum_unittest.py")
+        with open(f, "w") as s:
+            s.write(self.draft.test_sum_unittest)
 
     @staticmethod
     def touch(file):
