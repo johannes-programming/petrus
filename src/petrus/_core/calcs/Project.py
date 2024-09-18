@@ -55,10 +55,7 @@ class Project(Calc):
         ans = kwarg
         ans = ans.format(preset=preset, mit=mit)
         ans = ans.split(",")
-        ans = [x.replace("::", " :: ") for x in ans]
-        ans = [" ".join(x.split()) for x in ans]
-        ans = [x.strip() for x in ans]
-        ans = [x for x in ans if x]
+        ans = self.format_classifiers(ans)
         if self.prog.development_status == "":
             ans = self.prog.easy_list(ans)
             return ans
@@ -69,7 +66,9 @@ class Project(Calc):
                 continue
             cleaned.append(x)
         ans = cleaned
-        ans.append(prefix + self.prog.development_status)
+        status = prefix + self.prog.development_status
+        ans.append(status)
+        ans = self.format_classifiers(ans)
         ans = self.prog.easy_list(ans)
         return ans
 
@@ -147,6 +146,14 @@ class Project(Calc):
 
     def _calc_version(self):
         return self.prog.version_formatted
+
+    @classmethod
+    def format_classifiers(cls, ans, /):
+        ans = [x.replace("::", " :: ") for x in ans]
+        ans = [" ".join(x.split()) for x in ans]
+        ans = [x.strip() for x in ans]
+        ans = [x for x in ans if x]
+        return ans
 
     def get(self, *args, default=None):
         return self.prog.pp.get("project", *args, default=default)
