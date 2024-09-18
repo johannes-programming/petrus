@@ -128,7 +128,7 @@ class Prog(Calc):
             return "alpha"
         if v.pre.phase == "b":
             return "beta"
-        if v.release < [0, 1]:
+        if v.release < "0.1":
             return "pre"
         if v.isdevrelease():
             return "alpha"
