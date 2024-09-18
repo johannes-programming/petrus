@@ -2,6 +2,7 @@
 author = "Johannes"
 classifiers = "{preset}, {mit}, Programming Language :: Python, Programming Language :: Python :: 3, Programming Language :: Python :: 3 :: Only"
 description = ""
+development_status = "infer"
 email = "johannes-programming@mailfence.com"
 github = "johannes-programming"
 requires_python = "{preset} \\| {current}"
