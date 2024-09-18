@@ -30,7 +30,7 @@ keywords = []
 name = "petrus"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "0.4.24"
+version = "0.4.25"
 
 [project.license]
 file = "LICENSE.txt"
