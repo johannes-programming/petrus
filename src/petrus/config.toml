@@ -1,0 +1,13 @@
+[default]
+author = "Johannes"
+classifiers = "{preset}, {mit}, Programming Language :: Python, Programming Language :: Python :: 3, Programming Language :: Python :: 3 :: Only"
+description = ""
+email = "johannes-programming@mailfence.com"
+github = "johannes-programming"
+requires_python = "{preset} \\| {current}"
+v = "bump(2, 1)"
+vformat = "3"
+year = "{current}"
+
+[general]
+root = "~/Desktop"
