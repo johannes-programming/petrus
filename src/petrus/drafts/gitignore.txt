@@ -123,5 +123,8 @@ dmypy.json
 # Pyre type checker
 .pyre/ 
 
+# PKG-INFO
+PKG-INFO
+
 # .DS_store
 **/.DS_store
