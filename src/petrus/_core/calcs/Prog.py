@@ -24,6 +24,7 @@ class Prog(Calc):
         "author": "The author of the project.",
         "classifiers": "The classifiers of the project. Comma separated. You may include {mit} or {preset}. Recommended value is '{preset}, {mit}, Programming Language :: Python, Programming Language :: Python :: 3, Programming Language :: Python :: 3 :: Only'.",
         "description": "The description of the project.",
+        "development_status": "The projects development status. Communicated as a classifier. May be 'infer'.",
         "email": "Email of the author.",
         "requires_python": "The python version of the project. A list separated by '\\|'. The first non empty item is used. You may use {preset} and {current}. Recommended value is '{preset} \\| {current}'.",
         "github": "The github username for linking the source.",
@@ -85,6 +86,62 @@ class Prog(Calc):
         ans["build-backend"] = "setuptools.build_meta"
         ans = self.easy_dict(ans)
         return ans
+
+    def _calc_development_status(self):
+        kwarg = self.kwargs["development_status"]
+        if kwarg == "infer":
+            kwarg = self.development_status_infered
+        if kwarg == "":
+            return ""
+        kwarg = kwarg.strip().lower()
+        values = [
+            "1 - Planning",
+            "2 - Pre-Alpha",
+            "3 - Alpha",
+            "4 - Beta",
+            "5 - Production/Stable",
+            "6 - Mature",
+            "7 - Inactive",
+        ]
+        i = float("inf")
+        ans = list()
+        for x in values:
+            try:
+                j = x.lower().index(kwarg)
+            except ValueError:
+                continue
+            if j == i:
+                ans.append(x)
+            if j < i:
+                ans = [x]
+                i = j
+        print(kwarg, ans)
+        (ans,) = ans
+        return ans
+
+    def _calc_development_status_infered(self):
+        try:
+            v = v440.Version(self.project.version)
+        except:
+            return ""
+        if v.pre.phase == "a":
+            return "alpha"
+        if v.pre.phase == "b":
+            return "beta"
+        if v.release < [0, 1]:
+            return "pre"
+        if v.isdevrelease():
+            return "alpha"
+        if v.pre.phase == "rc":
+            return "beta"
+        if not v.ispostrelease():
+            if v.release.major < 1:
+                return "alpha"
+            if v.release.major > 1900:
+                return "beta"
+        if v.release.major < 4:
+            return "stable"
+        return "mature"
 
     def _calc_draft(self):
         return Draft(self)
