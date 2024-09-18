@@ -201,7 +201,7 @@ class Prog(Calc):
 
     def _calc_version_unformatted(self):
         a = self.kwargs["v"]
-        b = self.project.get("version", default="0.0.0")
+        b = self.project.get("version", default="0.0.0.dev0")
         if a == "":
             return b
         try:
