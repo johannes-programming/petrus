@@ -52,14 +52,26 @@ class Project(Calc):
         kwarg = self.prog.kwargs["classifiers"]
         if kwarg == "":
             return preset
-        kwarg = kwarg.format(preset=preset, mit=mit)
-        kwarg = kwarg.split(",")
-        kwarg = [x.replace("::", " :: ") for x in kwarg]
-        kwarg = [" ".join(x.split()) for x in kwarg]
-        kwarg = [x.strip() for x in kwarg]
-        kwarg = [x for x in kwarg if x]
-        kwarg = self.prog.easy_list(kwarg)
-        return kwarg
+        ans = kwarg
+        ans = ans.format(preset=preset, mit=mit)
+        ans = ans.split(",")
+        ans = [x.replace("::", " :: ") for x in ans]
+        ans = [" ".join(x.split()) for x in ans]
+        ans = [x.strip() for x in ans]
+        ans = [x for x in ans if x]
+        if self.prog.development_status == "":
+            ans = self.prog.easy_list(ans)
+            return ans
+        prefix = "Development Status :: "
+        cleaned = list()
+        for x in ans:
+            if x.lower().startswith(prefix.lower()):
+                continue
+            cleaned.append(x)
+        ans = cleaned
+        ans.append(prefix + self.prog.development_status)
+        ans = self.prog.easy_list(ans)
+        return ans
 
     def _calc_dependencies(self):
         ans = self.get("dependencies", default=[])
