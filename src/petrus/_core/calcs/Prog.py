@@ -82,7 +82,7 @@ class Prog(Calc):
         if ans is not None:
             return ans
         ans = dict()
-        ans["requires"] = ["setuptools>=61.0.0"]
+        ans["requires"] = ["setuptools>=61.0"]
         ans["build-backend"] = "setuptools.build_meta"
         ans = self.easy_dict(ans)
         return ans
@@ -128,6 +128,8 @@ class Prog(Calc):
             return "alpha"
         if v.pre.phase == "b":
             return "beta"
+        if v == self.version_default:
+            return "planning"
         if v.release < "0.1":
             return "pre"
         if v.isdevrelease():
@@ -189,6 +191,9 @@ class Prog(Calc):
     def _calc_text(self):
         return Text(self)
 
+    def _calc_version_default(self):
+        return "0.0.0.dev0"
+
     def _calc_version_formatted(self):
         ans = self.version_unformatted
         kwarg = self.kwargs["vformat"]
@@ -201,13 +206,18 @@ class Prog(Calc):
 
     def _calc_version_unformatted(self):
         a = self.kwargs["v"]
-        b = self.project.get("version", default="0.0.0.dev0")
+        b = self.project.get("version")
         if a == "":
-            return b
+            if b is None:
+                return self.version_default
+            else:
+                return b
         try:
             args = self.parse_bump(a)
         except ValueError:
             return a
+        if b is None:
+            return self.version_default
         try:
             c = v440.Version(b)
             c.release.bump(*args)
