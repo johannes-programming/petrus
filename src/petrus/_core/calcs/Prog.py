@@ -115,7 +115,6 @@ class Prog(Calc):
             if j < i:
                 ans = [x]
                 i = j
-        print(kwarg, ans)
         (ans,) = ans
         return ans
 
