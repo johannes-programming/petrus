@@ -44,15 +44,16 @@ class Project(Calc):
         preset = self.get("classifiers", default=[])
         if type(preset) is not list:
             return preset
-        preset = ", ".join(preset)
         if utils.isfile(self.prog.file.license):
             mit = ""
         else:
             mit = "License :: OSI Approved :: MIT License"
         kwarg = self.prog.kwargs["classifiers"]
         if kwarg == "":
+            preset = utils.easy_list(preset)
             return preset
         ans = kwarg
+        preset = ", ".join(preset)
         ans = ans.format(preset=preset, mit=mit)
         ans = ans.split(",")
         ans = self.format_classifiers(ans)
