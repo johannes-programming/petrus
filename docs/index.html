@@ -2,33 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dummy Page</title>
+    <title>Petrus</title>
 </head>
 <body>
+    <h1>Petrus</h1>
 
-    <header>
-        <h1>Welcome to My Page for petrus</h1>
-    </header>
+    <h2>Overview</h2>
+    <p>Create/autocomplete/format a python project and upload it to PyPI.</p>
 
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </nav>
+    <h2>Installation</h2>
+    <p>To install <code>petrus</code>, you can use <code>pip</code>. Open your terminal and run:</p>
 
-    <section>
-        <h2>About This Page</h2>
-        <p>Hello</p>
-        <p>This is a simple dummy HTML page created for demonstration purposes.</p>
-    </section>
+    <pre><code>pip install petrus</code></pre>
 
-    <footer>
-        <p>Copyright &copy; 2024 Dummy Page. All rights reserved.</p>
-    </footer>
+    <h2>Usage</h2>
+    <p>The <code>petrus</code> package provides the functions <code>main</code> and <code>run</code>. <code>main</code> provides the CLI. To familiarize yourself with <code>petrus</code>, it may be a good starting point to use the help option of <code>main</code>:</p>
 
+    <pre><code># bash
+python3 -m petrus -h</code></pre>
+
+    <p>or</p>
+
+    <pre><code># python
+import petrus
+petrus.main(["-h"])</code></pre>
+
+    <p>The arguments of <code>main</code> can also be used analogously on the function <code>run</code> (except for the flags <code>-h</code> and <code>-V</code>).</p>
+
+    <pre><code># The following lines are all identical:
+petrus.main(["--author", "John Doe", "path/to/project"])
+petrus.main(["--author=John Doe", "path/to/project"])
+petrus.main(["--author", "John Doe", "--", "path/to/project"])
+petrus.run("path/to/project", author="John Doe")
+petrus.run(author="John Doe", path="path/to/project")
+petrus.run("path/to/project", author="John Doe", email=None)</code></pre>
+
+    <p>If an option is not used (i.e., given the value <code>None</code>), it defaults to the value provided in the <code>default</code> table in the included file <code>config.toml</code> (if existent).</p>
+
+    <pre><code>[default]
+author = "Johannes"
+description = ""
+email = "johannes-programming@mailfence.com"
+github = "johannes-programming"
+requires_python = "{preset} \\| {current}"
+v = "bump(2, 1)"
+year = "{current}"
+
+[general]
+root = ""</code></pre>
+
+    <p>If that fails, the arguments default to the empty string. The empty string itself usually results in skipping whatever steps required the information. The <code>general.root</code> setting allows changing the directory even before <code>path</code> is applied. It is recommended to create a <code>config.toml</code> file inside the <code>petrus</code> package before usage.</p>
+
+    <h2>License</h2>
+    <p>This project is licensed under the MIT License.</p>
+
+    <h2>Links</h2>
+    <ul>
+        <li><a href="https://pypi.org/project/petrus/#files" target="_blank">Download</a></li>
+        <li><a href="https://pypi.org/project/petrus" target="_blank">Index</a></li>
+        <li><a href="https://github.com/johannes-programming/petrus" target="_blank">Source</a></li>
+        <li><a href="http://www.petrus.johannes-programming.online" target="_blank">Website</a></li>
+    </ul>
+
+    <h2>Credits</h2>
+    <ul>
+        <li>Author: <a href="http://www.johannes-programming.online">Johannes</a></li>
+        <li>Email: <a href="mailto:johannes-programming@mailfence.com">johannes-programming@mailfence.com</a></li>
+    </ul>
+
+    <p>Thank you for using <code>petrus</code>!</p>
 </body>
 </html>
