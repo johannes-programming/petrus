@@ -329,8 +329,21 @@ class Prog(Calc):
         a = os.path.join(pkg)
         b = os.path.join(pkg, "tests")
         self.mkpkg(a)
-        self.mkpkg(b)
-        if os.listdir(b) != ["__init__.py"]:
+        if self.ispkg(b):
+            return
+        self.mkdir(b)
+        f = os.path.join(b, "__init__.py")
+        if not utils.isfile(f):
+            text = self.draft.tests
+            base = os.path.basename(pkg)
+            text = text.format(pkg=base)
+            with open(f, "w") as s:
+                s.write(text)
+        for f in os.listdir(b):
+            if f == "__init__.py":
+                continue
+            if f.startswith("."):
+                continue
             return
         f = os.path.join(b, "test_1984.py")
         with open(f, "w") as s:
