@@ -182,7 +182,7 @@ class Prog(Calc):
         return [pro]
 
     def _calc_pp(self):
-        return tomlhold.Holder.fromstr(self.text.pp)
+        return tomlhold.Holder.loads(self.text.pp)
 
     def _calc_project(self):
         return Project(self)
