@@ -50,6 +50,7 @@ class Prog(Calc):
         self.save("setup")
         utils.run_isort()
         utils.run_black(os.getcwd())
+        utils.run_html_prettifier(os.getcwd())
         self.git.commit_version()
         self.git.push()
         utils.pypi()
