@@ -2,7 +2,7 @@ import unittest
 
 __all__ = ["test"]
 
-def test():
+def test() -> unittest.TextTestRunner:
     loader = unittest.TestLoader()
     tests = loader.discover(start_dir="{pkg}.tests")
     runner = unittest.TextTestRunner()

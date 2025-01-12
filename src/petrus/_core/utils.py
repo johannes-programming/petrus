@@ -7,6 +7,8 @@ import subprocess
 import sys
 
 import black
+import bs4
+import filelisting
 import isort
 import requests
 
@@ -34,11 +36,36 @@ def fix_dependency(line, /):
     return dependency
 
 
+def prettify_html(file: str) -> None:
+    # Read the HTML file
+    with open(file, "r", encoding="utf-8") as stream:
+        content = stream.read()
+
+    # Parse the HTML content
+    soup = bs4.BeautifulSoup(content, "html.parser")
+
+    # Beautify the HTML
+    formatter = bs4.formatter.HTMLFormatter(indent=4)
+    beautified_html = soup.prettify(formatter=formatter)
+
+    # Save the beautified HTML to a new file
+    with open(file, "w", encoding="utf-8") as stream:
+        stream.write(beautified_html)
+
+
 def run_black(path):
     try:
         return black.main([path])
     except:
         pass
+
+
+def run_html_prettifier(path):
+    for file in filelisting.file_generator(path):
+        filename = os.path.basename(file)
+        ext = os.path.splitext(filename)
+        if ext != ".html":
+            continue
 
 
 def run_isort():
