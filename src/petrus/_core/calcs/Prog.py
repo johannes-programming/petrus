@@ -158,7 +158,7 @@ class Prog(Calc):
         u = self.kwargs["github"]
         if u == "":
             return ""
-        return f"https://github.com/{u}/{self.project.name}"
+        return f"https://github.com/{u}/{self.project.name}/"
 
     def _calc_packages(self):
         self.mkdir("src")
