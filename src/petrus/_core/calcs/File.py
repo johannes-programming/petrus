@@ -5,6 +5,10 @@ from petrus._core.calcs.Calc import Calc
 
 
 class File(Calc):
+    def _calc_core(self):
+        n = self.prog.project.name
+        return os.path.join("src", n, "core", "__init__.py")
+
     def _calc_gitignore(self):
         return ".gitignore"
 
