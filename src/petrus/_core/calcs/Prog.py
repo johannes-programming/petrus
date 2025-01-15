@@ -28,6 +28,7 @@ class Prog(Calc):
         "email": "Email of the author.",
         "requires_python": "The python version of the project. A list separated by '\\|'. The first non empty item is used. You may use {preset} and {current}. Recommended value is '{preset} \\| {current}'.",
         "github": "The github username for linking the source.",
+        "token": "The PyPI token.",
         "v": "Version string for the project. Recommended is 'bump(2, 1)'.",
         "vformat": "Format of the version string, i.e. how many numerals in the release string. Recommended is '3'.",
         "year": "Year of creating the project. Recommended is '{current}'.",
@@ -313,10 +314,12 @@ class Prog(Calc):
 
     @classmethod
     def pypi(cls):
+        raise Exception
         shutil.rmtree("dist", ignore_errors=True)
         if cls.py("build").returncode:
             return
-        subprocess.run(["twine", "upload", "dist/*"])
+        args = ["twine", "upload", "dist/*"]
+        subprocess.run(args)
 
     def save(self, n, /):
         file = getattr(self.file, n)
