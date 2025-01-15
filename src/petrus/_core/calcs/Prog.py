@@ -178,6 +178,7 @@ class Prog(Calc):
             return list()
         pro = os.path.join("src", self.project.name)
         if not self.ispkg(pro):
+            self.save("core")
             self.save("init")
             self.save("main")
         return [pro]
@@ -320,8 +321,17 @@ class Prog(Calc):
     def save(self, n, /):
         file = getattr(self.file, n)
         text = getattr(self.text, n)
-        root = os.path.dirname(file)
-        if root and not os.path.exists(root):
+        roots = list()
+        root = file
+        while True:
+            root = os.path.dirname(root)
+            if not root:
+                break
+            if os.path.exists(root):
+                break
+            roots.append(root)
+        while roots:
+            root = roots.pop()
             os.mkdir(root)
         with open(file, "w") as s:
             s.write(text)

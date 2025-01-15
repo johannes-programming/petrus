@@ -19,11 +19,16 @@ class Text(Calc):
             return ""
         return f()
 
+    def _calc_core(self):
+        n = self.prog.project.name
+        return self.prog.draft.core.format(project=n)
+
     def _calc_gitignore(self):
         return self.prog.draft.gitignore
 
     def _calc_init(self):
-        return self.prog.draft.init
+        n = self.prog.project.name
+        return self.prog.draft.init.format(project=n)
 
     def _calc_license(self):
         d = dict()
