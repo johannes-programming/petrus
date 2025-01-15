@@ -54,7 +54,7 @@ class Prog(Calc):
         utils.run_html_prettifier(os.getcwd())
         self.git.commit_version()
         self.git.push()
-        utils.pypi()
+        self.pypi()
 
     def _calc_author(self):
         f = lambda z: str(z).strip()
@@ -312,13 +312,14 @@ class Prog(Calc):
         args = [sys.executable, "-m"] + list(args)
         return subprocess.run(args)
 
-    @classmethod
-    def pypi(cls):
-        raise Exception
+    def pypi(self):
         shutil.rmtree("dist", ignore_errors=True)
-        if cls.py("build").returncode:
+        if utils.py("build").returncode:
             return
         args = ["twine", "upload", "dist/*"]
+        token = self.kwargs["token"]
+        if token != "":
+            args += ["-u", "__token__", "-p", token]
         subprocess.run(args)
 
     def save(self, n, /):
