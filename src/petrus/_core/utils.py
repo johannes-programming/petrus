@@ -105,7 +105,8 @@ def pypi():
     shutil.rmtree("dist", ignore_errors=True)
     if py("build").returncode:
         return
-    subprocess.run(["twine", "upload", "dist/*"])
+    args = ["twine", "upload", "dist/*"]
+    subprocess.run(args)
 
 
 def walk(path, *, recursively):
