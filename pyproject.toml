@@ -17,6 +17,7 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Typing :: Typed",
 ]
 dependencies = [
     "black>=24.4.2",
@@ -34,7 +35,7 @@ keywords = []
 name = "petrus"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "0.4.58"
+version = "0.4.59"
 
 [project.license]
 file = "LICENSE.txt"
