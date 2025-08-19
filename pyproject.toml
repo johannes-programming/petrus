@@ -21,7 +21,7 @@ classifiers = [
 ]
 dependencies = [
     "black>=24.5,<25",
-    "bs4>=0.0.2",
+    "bs4>=0.0.2,<1",
     "build>=1.2.1",
     "filelisting>=1.2.4",
     "isort>=5.9.3",
@@ -35,7 +35,7 @@ keywords = []
 name = "petrus"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "0.4.74"
+version = "0.4.75"
 
 [project.license]
 file = "LICENSE.txt"
