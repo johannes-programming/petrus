@@ -21,19 +21,27 @@ def dict_match(a, b, /):
     return ans
 
 
-def fix_dependency(line, /):
-    dependency = line.strip()
-    chars = set(dependency)
+def fix_dependency(line: str, /) -> str:
+    ans: str = line.strip()
+    chars: set = set(ans)
     chars -= set(string.ascii_letters)
     chars -= set(string.digits)
     chars -= set("-_")
     if len(chars):
-        return dependency
-    version = _get_some_version(dependency)
+        return ans
+    version = _get_some_version(ans)
     if version is None:
-        return dependency
-    dependency += ">=" + version
-    return dependency
+        return ans
+    opener: str = ""
+    x: str
+    for x in opener:
+        if x in string.digits:
+            opener += x
+        else:
+            break
+    limit: int = int(opener) + 1
+    ans: str = f"{ans}>={version},<{limit}"
+    return ans
 
 
 def prettify_html(file: str) -> None:
