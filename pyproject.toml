@@ -20,7 +20,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "black>=24.4.2",
+    "black>=24.4.2,<25",
     "bs4>=0.0.2",
     "build>=1.2.1",
     "filelisting>=1.2.4",
@@ -35,7 +35,7 @@ keywords = []
 name = "petrus"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "0.4.67"
+version = "0.4.68"
 
 [project.license]
 file = "LICENSE.txt"
