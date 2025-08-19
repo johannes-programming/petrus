@@ -34,7 +34,7 @@ def fix_dependency(line: str, /) -> str:
         return ans
     opener: str = ""
     x: str
-    for x in opener:
+    for x in version:
         if x in string.digits:
             opener += x
         else:
