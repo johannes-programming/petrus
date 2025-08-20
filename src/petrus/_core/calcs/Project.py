@@ -2,15 +2,16 @@ import inspect
 import os
 import string
 import sys
+from typing import *
 
 from petrus._core import utils
 from petrus._core.calcs.Calc import Calc
 
 
 class Project(Calc):
-    def __post_init__(self): ...
+    def __post_init__(self: Self): ...
 
-    def _calc_authors(self):
+    def _calc_authors(self: Self):
         ans = self.get("authors", default=[])
         if type(ans) is not list:
             return ans
@@ -38,7 +39,7 @@ class Project(Calc):
             ans.insert(0, author)
         return ans
 
-    def _calc_classifiers(self):
+    def _calc_classifiers(self: Self):
         preset = self.get("classifiers", default=[])
         if type(preset) is not list:
             return preset
@@ -71,7 +72,7 @@ class Project(Calc):
         ans = self.prog.easy_list(ans)
         return ans
 
-    def _calc_dependencies(self):
+    def _calc_dependencies(self: Self):
         ans = self.get("dependencies", default=[])
         if type(ans) is not list:
             return ans
@@ -79,17 +80,17 @@ class Project(Calc):
         ans = self.prog.easy_list(ans)
         return ans
 
-    def _calc_description(self):
+    def _calc_description(self: Self):
         if self.prog.kwargs["description"]:
             return self.prog.kwargs["description"]
         if self.get("description") is not None:
             return self.get("description")
         return self.name
 
-    def _calc_keywords(self):
+    def _calc_keywords(self: Self):
         return self.get("keywords", default=[])
 
-    def _calc_license(self):
+    def _calc_license(self: Self):
         ans = self.get("license")
         if ans is None:
             ans = dict()
@@ -99,7 +100,7 @@ class Project(Calc):
             ans["file"] = self.prog.file.license
         return ans
 
-    def _calc_name(self):
+    def _calc_name(self: Self):
         basename = os.path.basename(os.getcwd())
         raw = self.get("name") or basename
         raw = str(raw)
@@ -111,10 +112,10 @@ class Project(Calc):
                 ans += "_"
         return ans
 
-    def _calc_readme(self):
+    def _calc_readme(self: Self):
         return self.prog.file.readme
 
-    def _calc_requires_python(self):
+    def _calc_requires_python(self: Self):
         kwarg = self.prog.kwargs["requires_python"]
         preset = self.get("requires-python", default="")
         current = ">={0}.{1}.{2}".format(*sys.version_info)
@@ -128,7 +129,7 @@ class Project(Calc):
                 return x
         return None
 
-    def _calc_urls(self):
+    def _calc_urls(self: Self):
         ans = self.get("urls")
         if ans is None:
             ans = dict()
@@ -143,7 +144,7 @@ class Project(Calc):
         ans = self.prog.easy_dict(ans)
         return ans
 
-    def _calc_version(self):
+    def _calc_version(self: Self):
         return self.prog.version_formatted
 
     @classmethod
@@ -154,10 +155,10 @@ class Project(Calc):
         ans = [x for x in ans if x]
         return ans
 
-    def get(self, *args, default=None):
+    def get(self: Self, *args, default=None):
         return self.prog.pp.get("project", *args, default=default)
 
-    def todict(self) -> None:
+    def todict(self: Self) -> None:
         ans = self.get(default={})
         prefix = "_calc_"
         for n, m in inspect.getmembers(self):
