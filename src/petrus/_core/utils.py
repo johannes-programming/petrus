@@ -5,6 +5,7 @@ import shutil
 import string
 import subprocess
 import sys
+from typing import *
 
 import black
 import bs4
@@ -13,7 +14,7 @@ import isort
 import requests
 
 
-def dict_match(a, b, /):
+def dict_match(a: Any, b: Any, /) -> bool:
     a = dict(a)
     b = dict(b)
     keys = set(a.keys()) & set(b.keys())
@@ -61,14 +62,17 @@ def prettify_html(file: str) -> None:
         stream.write(beautified_html)
 
 
-def run_black(path):
+def run_black(path: Any) -> Any:
     try:
         return black.main([path])
     except:
         pass
 
 
-def run_html_prettifier(path):
+def run_html_prettifier(path: Any) -> None:
+    ext: Any
+    file: str
+    filename: Any
     for file in filelisting.file_generator(path):
         filename = os.path.basename(file)
         ext = os.path.splitext(filename)
@@ -76,9 +80,9 @@ def run_html_prettifier(path):
             continue
 
 
-def run_isort():
-    files = []
-    walk = os.walk(os.getcwd())
+def run_isort() -> None:
+    files: list = []
+    walk: Iterator = os.walk(os.getcwd())
     for root, dnames, fnames in walk:
         for fname in fnames:
             f = os.path.join(root, fname)
@@ -88,7 +92,7 @@ def run_isort():
             isort.file(f)
 
 
-def isdir(path):
+def isdir(path: Any) -> bool:
     if not os.path.exists(path):
         return False
     if not os.path.isdir(path):
@@ -96,7 +100,7 @@ def isdir(path):
     return True
 
 
-def isfile(path):
+def isfile(path: Any) -> bool:
     if not os.path.exists(path):
         return False
     if not os.path.isfile(path):
@@ -104,44 +108,45 @@ def isfile(path):
     return True
 
 
-def py(*args):
-    args = [sys.executable, "-m"] + list(args)
+def py(*args: Any) -> subprocess.CompletedProcess[bytes]:
+    args: list = [sys.executable, "-m"] + list(args)
     return subprocess.run(args)
 
 
-def walk(path, *, recursively):
+def walk(path: Any, *, recursively: Any) -> Generator:
+    x: Any
     if not os.path.exists(path):
         return (x for x in ())
     if not recursively:
         ans = os.listdir(path)
         ans = (os.path.join(path, n) for n in ans)
         ans = filter(os.path.isfile, ans)
-        for f in ans:
-            yield f
+        for x in ans:
+            yield x
         return
     for root, dnames, fnames in os.walk(path):
         for fname in fnames:
             yield os.path.join(root, fname)
 
 
-def _get_some_version(pkg, /):
+def _get_some_version(pkg: Any, /) -> Any:
     return _get_local_version(pkg) or _get_latest_version(pkg)
 
 
-def _get_local_version(pkg, /):
+def _get_local_version(pkg: Any, /) -> Any:
     try:
         ans = importlib.metadata.version(pkg)
     except:
         return None
-    url = "https://pypi.org/pypi/%s/%s" % (pkg, ans)
+    url: str = "https://pypi.org/pypi/%s/%s" % (pkg, ans)
     r = requests.get(url)
     if r.status_code == 404:
         return None
     return ans
 
 
-def _get_latest_version(pkg, /):
-    url = "https://pypi.org/pypi/%s/json" % pkg
+def _get_latest_version(pkg: Any, /) -> Any:
+    url: str = "https://pypi.org/pypi/%s/json" % pkg
     try:
         r = requests.get(url)
         return r.json()["info"]["version"]
