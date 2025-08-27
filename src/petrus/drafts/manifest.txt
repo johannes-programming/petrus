@@ -1,1 +1,1 @@
-recursive-include src *.toml
+recursive-include src/{project} *.toml
