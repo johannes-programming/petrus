@@ -43,5 +43,9 @@ class Text(Calc):
         n = self.prog.project.name
         return self.prog.draft.main.format(project=n)
 
+    def _calc_manifest(self: Self) -> Any:
+        n = self.prog.project.name
+        return self.prog.draft.manifest.format(project=n)
+
     def _calc_readme(self: Self) -> Any:
         return self.prog.block.text
