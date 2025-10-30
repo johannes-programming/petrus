@@ -84,7 +84,7 @@ class Prog(Calc):
         if ans is not None:
             return ans
         ans = dict()
-        ans["requires"] = ["setuptools>=61.0"]
+        ans["requires"] = ["setuptools>=64.0"]
         ans["build-backend"] = "setuptools.build_meta"
         ans = self.easy_dict(ans)
         return ans
