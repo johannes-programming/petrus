@@ -17,6 +17,8 @@ from petrus._core.calcs.Git import Git
 from petrus._core.calcs.Project import Project
 from petrus._core.calcs.Text import Text
 
+from typing import *
+
 
 class Prog(Calc):
     _CORE = "kwargs"
@@ -77,14 +79,19 @@ class Prog(Calc):
     def _calc_block(self):
         return Block(self)
 
-    def _calc_build_system(self):
+    def _calc_build_system(self: Self) -> Any:
+        ans: Any
+        i: int
         ans = self.pp.get("build-system")
         if type(ans) is dict:
             ans = self.easy_dict(ans)
+            for i in range(len(ans["requires"])):
+                if ans["requires"][i].startswith("setuptools"):
+                    ans["requires"][i] = "setuptools>=64.0"
         if ans is not None:
             return ans
         ans = dict()
-        ans["requires"] = ["setuptools>=61.0"]
+        ans["requires"] = ["setuptools>=64.0"]
         ans["build-backend"] = "setuptools.build_meta"
         ans = self.easy_dict(ans)
         return ans
