@@ -2,14 +2,13 @@ from typing import *
 
 
 class BaseCalc:
-    _CORE = "prog"
 
     def __delattr__(self: Self, name):
         self.__check(name)
         object.__delattr__(self, name)
 
-    def __init__(self: Self, core, /) -> None:
-        object.__setattr__(self, type(self)._CORE, core)
+    def __init__(self: Self, prog: Any, /) -> None:
+        self.prog = prog
         getattr(self, "__post_init__", int)()
 
     def __setattr__(self: Self, name, value):

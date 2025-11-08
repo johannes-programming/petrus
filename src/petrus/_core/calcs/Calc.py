@@ -4,7 +4,6 @@ from .BaseCalc import BaseCalc
 
 
 class Calc(BaseCalc):
-    _CORE = "prog"
 
     def __getattr__(self: Self, name: Any) -> Any:
         name_: str
@@ -23,5 +22,5 @@ class Calc(BaseCalc):
             self._lock.remove(name_)
         return ans
 
-    def _calc(self: Self, name):
+    def _calc(self: Self, name: Any) -> Any:
         return getattr(self, f"_calc_{name}")()
