@@ -127,7 +127,7 @@ class Prog(BaseCalc):
         return ans
 
     @cached_property
-    def development_status_infered(self: Self) -> Any:
+    def development_status_infered(self: Self) -> str:
         v: v440.Version
         try:
             v = v440.Version(self.project.version)
