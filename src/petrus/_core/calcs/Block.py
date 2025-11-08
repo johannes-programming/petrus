@@ -1,3 +1,4 @@
+from functools import cached_property
 from typing import *
 
 from petrus._core.calcs.Calc import Calc
@@ -6,7 +7,8 @@ _BLOCKKEYS = "heading overview installation license links credits".split()
 
 
 class Block(Calc):
-    def _calc_text(self: Self) -> str:
+    @cached_property
+    def text(self: Self) -> str:
         ans: str
         blocks: list
         blocks = []
@@ -21,7 +23,8 @@ class Block(Calc):
             ans = ans.replace("\n\n\n", "\n\n")
         return ans
 
-    def _calc_heading(self: Self) -> str:
+    @cached_property
+    def heading(self: Self) -> str:
         n: Any
         l: str
         ans: str
@@ -30,7 +33,8 @@ class Block(Calc):
         ans = "%s\n%s\n%s" % (l, n, l)
         return ans
 
-    def _calc_overview(self: Self) -> str:
+    @cached_property
+    def overview(self: Self) -> str:
         d: str
         lines: str
         d = str(self.prog.project.description)
@@ -40,14 +44,16 @@ class Block(Calc):
         lines += str(d)
         return lines
 
-    def _calc_installation(self: Self) -> Any:
+    @cached_property
+    def installation(self: Self) -> Any:
         name: Any
         ans: Any
         name = self.prog.project.name
         ans = self.prog.draft.installation.format(name=name)
         return ans
 
-    def _calc_license(self: Self) -> str:
+    @cached_property
+    def license(self: Self) -> str:
         mit: str
         classifiers: Any
         lines: str
@@ -61,7 +67,8 @@ class Block(Calc):
         lines += "This project is licensed under the MIT License."
         return lines
 
-    def _calc_links(self: Self) -> str:
+    @cached_property
+    def links(self: Self) -> str:
         urls: Any
         lines: str
         urls = self.prog.project.urls
@@ -74,7 +81,8 @@ class Block(Calc):
             lines += "* `%s <%s>`_\n" % i
         return lines
 
-    def _calc_credits(self: Self) -> str:
+    @cached_property
+    def credits(self: Self) -> str:
         n: Any
         e: Any
         lines: str
