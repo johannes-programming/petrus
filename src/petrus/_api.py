@@ -19,12 +19,7 @@ def _cfgfile():
 
 
 def _desc():
-    return f"""Create/update a python project. \
-The default values of the (non flag) options are taken \
-from the default table of the config.toml file \
-inside of the petrus package.
-Modify at {repr(str(_cfgfile()))}.
-See also {repr(_link())}."""
+    return Const.const.data["CONST"]["DESC"] % (str(_cfgfile()), _link())
 
 
 def _inputs():
