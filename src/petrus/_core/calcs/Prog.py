@@ -11,8 +11,8 @@ import tomlhold
 import v440
 
 from petrus._core import utils
+from petrus._core.calcs.BaseCalc import BaseCalc
 from petrus._core.calcs.Block import Block
-from petrus._core.calcs.Calc import Calc
 from petrus._core.calcs.Draft import Draft
 from petrus._core.calcs.File import File
 from petrus._core.calcs.Git import Git
@@ -20,7 +20,7 @@ from petrus._core.calcs.Project import Project
 from petrus._core.calcs.Text import Text
 
 
-class Prog(Calc):
+class Prog(BaseCalc):
     _CORE = "kwargs"
     INPUTS = {
         "author": "The author of the project.",
@@ -133,24 +133,24 @@ class Prog(Calc):
             v = v440.Version(self.project.version)
         except:
             return ""
-        if v.pre.phase == "a":
+        if v.public.qual.pre.lit == "a":
             return "alpha"
-        if v.pre.phase == "b":
+        if v.public.qual.pre.lit == "b":
             return "beta"
         if v == self.version_default:
             return "planning"
-        if v.release < "0.1":
+        if v.public.base.release < v440.core.Release.Release("0.1"):
             return "pre"
-        if v.isdevrelease():
+        if v.public.qual.isdevrelease():
             return "alpha"
-        if v.pre.phase == "rc":
+        if v.public.qual.pre.lit == "rc":
             return "beta"
-        if not v.ispostrelease():
-            if v.release.major < 1:
+        if not v.public.qual.ispostrelease():
+            if v.public.base.release.major < 1:
                 return "alpha"
-            if v.release.major > 1900:
+            if v.public.base.release.major > 1900:
                 return "beta"
-        if v.release.major < 4:
+        if v.public.base.release.major < 4:
             return "stable"
         return "mature"
 
@@ -223,7 +223,7 @@ class Prog(Calc):
         kwarg = self.kwargs["vformat"]
         try:
             ans = v440.Version(ans)
-            ans = ans.format(kwarg)
+            ans = format(ans, kwarg)
         except v440.VersionError:
             pass
         return str(ans)
