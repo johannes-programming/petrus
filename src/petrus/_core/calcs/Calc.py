@@ -1,3 +1,6 @@
+from typing import *
+
+
 class Calc:
     _CORE = "prog"
 

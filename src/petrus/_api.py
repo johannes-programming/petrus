@@ -6,6 +6,7 @@ import os
 import tomllib
 import typing
 from importlib import metadata, resources
+from typing import *
 
 from petrus._core.calcs.Prog import Prog
 

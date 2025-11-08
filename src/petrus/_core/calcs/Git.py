@@ -1,5 +1,6 @@
 import os
 import subprocess
+from typing import *
 
 from petrus._core.calcs.Calc import Calc
 
