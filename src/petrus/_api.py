@@ -9,6 +9,7 @@ from importlib import metadata, resources
 from typing import *
 
 from petrus._core.calcs.Prog import Prog
+from petrus._core.consts.Const import Const
 
 __all__ = ["main", "run"]
 
@@ -29,7 +30,7 @@ See also {repr(_link())}."""
 
 
 def _inputs():
-    pairs = list(dict(Prog.INPUTS).items())
+    pairs = list(Const.const.data["INPUTS"].items())
     pairs = list(_input_format(*x) for x in pairs)
     pairs.sort(key=_inputs_sortkey)
     ans = dict(pairs)
