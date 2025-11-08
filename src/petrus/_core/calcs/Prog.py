@@ -36,7 +36,7 @@ class Prog(Calc):
         "year": "Year of creating the project. Recommended is '{current}'.",
     }
 
-    def __post_init__(self: Self) -> Any:
+    def __post_init__(self: Self) -> None:
         self.git.init()
         if self.git.is_repo():
             self.save("gitignore")
@@ -263,7 +263,10 @@ class Prog(Calc):
         return ans
 
     @staticmethod
-    def easy_dict(dictionary: Any, *, purge: Any = False) -> Any:
+    def easy_dict(dictionary: Any, *, purge: Any = False) -> dict:
+        d: dict
+        keys: Iterable
+        ans: dict
         d = dict(dictionary)
         keys = sorted(list(d.keys()))
         ans = {k: d[k] for k in keys}
