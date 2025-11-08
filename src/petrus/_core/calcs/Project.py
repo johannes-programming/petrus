@@ -9,9 +9,9 @@ from petrus._core.calcs.Calc import Calc
 
 
 class Project(Calc):
-    def __post_init__(self: Self): ...
+    def __post_init__(self: Self) -> None: ...
 
-    def _calc_authors(self: Self):
+    def _calc_authors(self: Self) -> Any:
         ans = self.get("authors", default=[])
         if type(ans) is not list:
             return ans
@@ -39,7 +39,7 @@ class Project(Calc):
             ans.insert(0, author)
         return ans
 
-    def _calc_classifiers(self: Self):
+    def _calc_classifiers(self: Self) -> Any:
         preset = self.get("classifiers", default=[])
         if type(preset) is not list:
             return preset
@@ -72,25 +72,28 @@ class Project(Calc):
         ans = self.prog.easy_list(ans)
         return ans
 
-    def _calc_dependencies(self: Self):
+    def _calc_dependencies(self: Self) -> Any:
+        ans: Any
+        ans_: list
         ans = self.get("dependencies", default=[])
         if type(ans) is not list:
             return ans
-        ans = [utils.fix_dependency(x) for x in ans]
-        ans = self.prog.easy_list(ans)
-        return ans
+        ans_ = [utils.fix_dependency(x) for x in ans]
+        ans_ = self.prog.easy_list(ans_)
+        return ans_
 
-    def _calc_description(self: Self):
+    def _calc_description(self: Self) -> Any:
         if self.prog.kwargs["description"]:
             return self.prog.kwargs["description"]
         if self.get("description") is not None:
             return self.get("description")
         return self.name
 
-    def _calc_keywords(self: Self):
+    def _calc_keywords(self: Self) -> Any:
         return self.get("keywords", default=[])
 
-    def _calc_license(self: Self):
+    def _calc_license(self: Self) -> Any:
+        ans: Any
         ans = self.get("license")
         if ans is None:
             ans = dict()
@@ -100,7 +103,11 @@ class Project(Calc):
             ans["file"] = self.prog.file.license
         return ans
 
-    def _calc_name(self: Self):
+    def _calc_name(self: Self) -> Any:
+        basename: Any
+        raw: Any
+        ans: Any
+        x: Any
         basename = os.path.basename(os.getcwd())
         raw = self.get("name") or basename
         raw = str(raw)
@@ -112,10 +119,10 @@ class Project(Calc):
                 ans += "_"
         return ans
 
-    def _calc_readme(self: Self):
+    def _calc_readme(self: Self) -> Any:
         return self.prog.file.readme
 
-    def _calc_requires_python(self: Self):
+    def _calc_requires_python(self: Self) -> Any:
         kwarg = self.prog.kwargs["requires_python"]
         preset = self.get("requires-python", default="")
         current = ">={0}.{1}.{2}".format(*sys.version_info)
@@ -129,7 +136,7 @@ class Project(Calc):
                 return x
         return None
 
-    def _calc_urls(self: Self):
+    def _calc_urls(self: Self) -> Any:
         ans = self.get("urls")
         if ans is None:
             ans = dict()
@@ -144,21 +151,25 @@ class Project(Calc):
         ans = self.prog.easy_dict(ans)
         return ans
 
-    def _calc_version(self: Self):
+    def _calc_version(self: Self) -> Any:
         return self.prog.version_formatted
 
     @classmethod
-    def format_classifiers(cls, ans, /):
+    def format_classifiers(cls: type, value: Iterable, /) -> list:
+        ans: list
+        ans = list(value)
         ans = [x.replace("::", " :: ") for x in ans]
         ans = [" ".join(x.split()) for x in ans]
         ans = [x.strip() for x in ans]
         ans = [x for x in ans if x]
         return ans
 
-    def get(self: Self, *args, default=None):
+    def get(self: Self, *args: Any, default: Any = None) -> Any:
         return self.prog.pp.get("project", *args, default=default)
 
-    def todict(self: Self) -> None:
+    def todict(self: Self) -> Any:
+        ans: Any
+        prefix: str
         ans = self.get(default={})
         prefix = "_calc_"
         for n, m in inspect.getmembers(self):
