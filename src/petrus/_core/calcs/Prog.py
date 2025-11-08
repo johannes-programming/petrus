@@ -21,7 +21,6 @@ from petrus._core.calcs.Text import Text
 
 
 class Prog(BaseCalc):
-    _CORE = "kwargs"
     INPUTS = {
         "author": "The author of the project.",
         "classifiers": "The classifiers of the project. Comma separated. You may include {mit} or {preset}. Recommended value is '{preset}, {mit}, Programming Language :: Python, Programming Language :: Python :: 3, Programming Language :: Python :: 3 :: Only'.",
@@ -35,6 +34,10 @@ class Prog(BaseCalc):
         "vformat": "Format of the version string, i.e. how many numerals in the release string. Recommended is '3'.",
         "year": "Year of creating the project. Recommended is '{current}'.",
     }
+
+    def __init__(self: Self, kwargs: Any, /) -> None:
+        self.kwargs = kwargs
+        self.__post_init__()
 
     def __post_init__(self: Self) -> None:
         self.git.init()
