@@ -10,6 +10,7 @@ class File(BaseCalc):
 
     @cached_property
     def core(self: Self) -> Any:
+        n: Any
         n = self.prog.project.name
         return os.path.join("src", n, "core", "__init__.py")
 
@@ -19,6 +20,7 @@ class File(BaseCalc):
 
     @cached_property
     def license(self: Self) -> Any:
+        ans: Any
         ans = self.prog.pp.get("project", "license", "file")
         if type(ans) is str:
             return ans
@@ -26,11 +28,13 @@ class File(BaseCalc):
 
     @cached_property
     def main(self: Self) -> Any:
+        n: Any
         n = self.prog.project.name
         return os.path.join("src", n, "__main__.py")
 
     @cached_property
     def init(self: Self) -> Any:
+        n: Any
         n = self.prog.project.name
         return os.path.join("src", n, "__init__.py")
 
@@ -44,6 +48,7 @@ class File(BaseCalc):
 
     @cached_property
     def readme(self: Self) -> Any:
+        ans: Any
         ans = self.prog.pp.get("project", "readme")
         if type(ans) is str and os.path.exists(ans):
             return ans
@@ -54,11 +59,14 @@ class File(BaseCalc):
         return "setup.cfg"
 
     def exists(self: Self, name: Any) -> bool:
+        f: Any
         f = getattr(self, name)
         return os.path.exists(f)
 
     @staticmethod
     def _find(file: Any) -> Any:
+        t: Any
+        l: list[str]
         if utils.isfile(file):
             return file
         t = os.path.splitext(file)[0]
