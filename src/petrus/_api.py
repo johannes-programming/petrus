@@ -14,20 +14,20 @@ from petrus._core.consts.Const import Const
 __all__ = ["main", "run"]
 
 
-def _cfgfile():
+def _cfgfile() -> Any:
     return resources.files("petrus").joinpath("config.toml")
 
 
-def _desc():
+def _desc() -> str:
     return Const.const.data["CONST"]["DESC"] % (str(_cfgfile()), _link())
 
 
-def _inputs():
+def _inputs() -> dict:
+    pairs: list
     pairs = list(Const.const.data["INPUTS"].items())
     pairs = list(_input_format(*x) for x in pairs)
     pairs.sort(key=_inputs_sortkey)
-    ans = dict(pairs)
-    return ans
+    return dict(pairs)
 
 
 def _input_format(k, v, /):
@@ -42,8 +42,8 @@ def _inputs_sortkey(pair):
     return pair[0]
 
 
-def _link():
-    return "https://pypi.org/project/petrus/"
+def _link() -> str:
+    return Const.const.data["CONST"]["LINK"]
 
 
 def _run_deco(old, /):
