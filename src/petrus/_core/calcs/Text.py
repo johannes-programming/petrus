@@ -9,6 +9,7 @@ class Text(Calc):
     prog: Any
 
     def _calc(self: Self, name: Any) -> Any:
+        lines: Optional[list]
         f: Any
         f = getattr(self.prog.file, name)
         try:
