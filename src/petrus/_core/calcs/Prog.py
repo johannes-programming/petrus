@@ -58,7 +58,8 @@ class Prog(Calc):
         self.git.push()
         self.pypi()
 
-    def _calc_author(self: Self) -> Any:
+    @cached_property
+    def author(self: Self) -> Any:
         f = lambda z: str(z).strip()
         n = f(self.kwargs["author"])
         e = f(self.kwargs["email"])
@@ -80,7 +81,8 @@ class Prog(Calc):
     def block(self: Self) -> Block:
         return Block(self)
 
-    def _calc_build_system(self: Self) -> Any:
+    @cached_property
+    def build_system(self: Self) -> Any:
         ans = self.pp.get("build-system")
         if type(ans) is dict:
             ans = self.easy_dict(ans)
@@ -92,7 +94,8 @@ class Prog(Calc):
         ans = self.easy_dict(ans)
         return ans
 
-    def _calc_development_status(self: Self) -> Any:
+    @cached_property
+    def development_status(self: Self) -> Any:
         kwarg = self.kwargs["development_status"]
         if kwarg == "infer":
             kwarg = self.development_status_infered
@@ -123,7 +126,8 @@ class Prog(Calc):
         (ans,) = ans
         return ans
 
-    def _calc_development_status_infered(self: Self) -> Any:
+    @cached_property
+    def development_status_infered(self: Self) -> Any:
         try:
             v = v440.Version(self.project.version)
         except:
@@ -149,23 +153,28 @@ class Prog(Calc):
             return "stable"
         return "mature"
 
-    def _calc_draft(self: Self) -> Draft:
+    @cached_property
+    def draft(self: Self) -> Draft:
         return Draft(self)
 
-    def _calc_file(self: Self) -> File:
+    @cached_property
+    def file(self: Self) -> File:
         return File(self)
 
-    def _calc_git(self: Self) -> Git:
+    @cached_property
+    def git(self: Self) -> Git:
         return Git(self)
 
-    def _calc_github(self: Self) -> str:
+    @cached_property
+    def github(self: Self) -> str:
         u: Any
         u = self.kwargs["github"]
         if u == "":
             return ""
         return f"https://github.com/{u}/{self.project.name}/"
 
-    def _calc_packages(self: Self) -> list:
+    @cached_property
+    def packages(self: Self) -> list:
         ans: list
         self.mkdir("src")
         ans = []
@@ -189,19 +198,24 @@ class Prog(Calc):
             self.save("main")
         return [pro]
 
-    def _calc_pp(self: Self) -> tomlhold.TOMLHolder:
+    @cached_property
+    def pp(self: Self) -> tomlhold.TOMLHolder:
         return tomlhold.TOMLHolder.loads(self.text.pp)
 
-    def _calc_project(self: Self) -> Project:
+    @cached_property
+    def project(self: Self) -> Project:
         return Project(self)
 
-    def _calc_text(self: Self) -> Text:
+    @cached_property
+    def text(self: Self) -> Text:
         return Text(self)
 
-    def _calc_version_default(self: Self) -> str:
+    @cached_property
+    def version_default(self: Self) -> str:
         return "0.0.0.dev0"
 
-    def _calc_version_formatted(self: Self) -> str:
+    @cached_property
+    def version_formatted(self: Self) -> str:
         ans: Any
         kwarg: Any
         ans = self.version_unformatted
@@ -213,7 +227,8 @@ class Prog(Calc):
             pass
         return str(ans)
 
-    def _calc_version_unformatted(self: Self) -> Any:
+    @cached_property
+    def version_unformatted(self: Self) -> Any:
         args: Any
         a: Any
         b: Any
@@ -238,7 +253,8 @@ class Prog(Calc):
             return b
         return str(c)
 
-    def _calc_year(self: Self) -> Any:
+    @cached_property
+    def year(self: Self) -> Any:
         ans: Any
         current: str
         ans = self.kwargs["year"]
