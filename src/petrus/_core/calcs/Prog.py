@@ -16,6 +16,7 @@ from petrus._core.calcs.File import File
 from petrus._core.calcs.Git import Git
 from petrus._core.calcs.Project import Project
 from petrus._core.calcs.Text import Text
+from typing import *
 
 
 class Prog(Calc):
@@ -34,7 +35,7 @@ class Prog(Calc):
         "year": "Year of creating the project. Recommended is '{current}'.",
     }
 
-    def __post_init__(self):
+    def __post_init__(self:Self) -> None:
         self.git.init()
         if self.git.is_repo():
             self.save("gitignore")
@@ -56,7 +57,7 @@ class Prog(Calc):
         self.git.push()
         self.pypi()
 
-    def _calc_author(self):
+    def _calc_author(self:Self) -> Any:
         f = lambda z: str(z).strip()
         n = f(self.kwargs["author"])
         e = f(self.kwargs["email"])
@@ -74,10 +75,10 @@ class Prog(Calc):
                 return y
         return x
 
-    def _calc_block(self):
+    def _calc_block(self:Self) -> Block:
         return Block(self)
 
-    def _calc_build_system(self):
+    def _calc_build_system(self:Self) -> Any:
         ans = self.pp.get("build-system")
         if type(ans) is dict:
             ans = self.easy_dict(ans)
@@ -89,10 +90,10 @@ class Prog(Calc):
         ans = self.easy_dict(ans)
         return ans
 
-    def _calc_development_status(self):
+    def _calc_development_status(self:Self) -> Any:
         kwarg = self.kwargs["development_status"]
         if kwarg == "infer":
-            kwarg = self.development_status_infered
+            kwarg = self.development_status_inferred
         if kwarg == "":
             return ""
         kwarg = kwarg.strip().lower()
@@ -120,48 +121,51 @@ class Prog(Calc):
         (ans,) = ans
         return ans
 
-    def _calc_development_status_infered(self):
+    def _calc_development_status_inferred(self:Self)->str:
+        v:v440.Version
         try:
             v = v440.Version(self.project.version)
         except:
             return ""
-        if v.pre.phase == "a":
+        if v.public.qual.pre.lit == "a":
             return "alpha"
-        if v.pre.phase == "b":
+        if v.public.qual.pre.lit == "b":
             return "beta"
         if v == self.version_default:
             return "planning"
-        if v.release < "0.1":
+        if v.public.base.release < v440.core.Release("0.1"):
             return "pre"
-        if v.isdevrelease():
+        if v.public.qual.isdevrelease():
             return "alpha"
-        if v.pre.phase == "rc":
+        if v.public.qual.pre.lit == "rc":
             return "beta"
-        if not v.ispostrelease():
-            if v.release.major < 1:
+        if not v.public.qual.ispostrelease():
+            if v.public.base.release.major < 1:
                 return "alpha"
-            if v.release.major > 1900:
+            if v.public.base.release.major > 1900:
                 return "beta"
-        if v.release.major < 4:
+        if v.public.base.release.major < 4:
             return "stable"
         return "mature"
 
-    def _calc_draft(self):
+    def _calc_draft(self:Self) -> Draft:
         return Draft(self)
 
-    def _calc_file(self):
+    def _calc_file(self:Self) -> File:
         return File(self)
 
-    def _calc_git(self):
+    def _calc_git(self:Self) -> Git:
         return Git(self)
 
-    def _calc_github(self):
+    def _calc_github(self:Self) -> str:
+        u:Any
         u = self.kwargs["github"]
         if u == "":
             return ""
         return f"https://github.com/{u}/{self.project.name}/"
 
-    def _calc_packages(self):
+    def _calc_packages(self:Self) -> list:
+        ans:list
         self.mkdir("src")
         ans = []
         for x in os.listdir("src"):
@@ -184,29 +188,29 @@ class Prog(Calc):
             self.save("main")
         return [pro]
 
-    def _calc_pp(self):
+    def _calc_pp(self:Self) -> Any:
         return tomlhold.Holder.loads(self.text.pp)
 
-    def _calc_project(self):
+    def _calc_project(self:Self) -> Project:
         return Project(self)
 
-    def _calc_text(self):
+    def _calc_text(self:Self) -> Text:
         return Text(self)
 
-    def _calc_version_default(self):
+    def _calc_version_default(self:Self) -> str:
         return "0.0.0.dev0"
 
-    def _calc_version_formatted(self):
+    def _calc_version_formatted(self:Self) -> Any:
+        v: v440.Version
         ans = self.version_unformatted
         kwarg = self.kwargs["vformat"]
         try:
-            ans = v440.Version(ans)
-            ans = ans.format(kwarg)
+            v = v440.Version(ans)
+            return format(v, kwarg)
         except v440.VersionError:
-            pass
-        return str(ans)
+            return str(ans)
 
-    def _calc_version_unformatted(self):
+    def _calc_version_unformatted(self:Self) -> Any:
         a = self.kwargs["v"]
         b = self.project.get("version")
         if a == "":
@@ -228,26 +232,30 @@ class Prog(Calc):
             return b
         return str(c)
 
-    def _calc_year(self):
+    def _calc_year(self:Self) -> Any:
         ans = self.kwargs["year"]
         current = str(datetime.datetime.now().year)
         ans = ans.format(current=current)
         return ans
 
     @staticmethod
-    def easy_dict(dictionary, *, purge=False):
+    def easy_dict(dictionary:Any, *, purge:Any=False) -> dict:
+        d:dict
+        keys:Iterable
+        ans:dict
         d = dict(dictionary)
         keys = sorted(list(d.keys()))
         ans = {k: d[k] for k in keys}
         return ans
 
     @staticmethod
-    def easy_list(iterable):
+    def easy_list(iterable:Iterable) -> list:
+        ans:list
         ans = list(set(iterable))
         ans.sort()
         return ans
 
-    def ispkg(self, path, *, todir=True):
+    def ispkg(self:Self, path:Any, *, todir:Any=True) -> bool:
         root, name = os.path.split(path)
         tr, ext = os.path.splitext(name)
         if os.path.isdir(path):
@@ -274,12 +282,13 @@ class Prog(Calc):
         return False
 
     @classmethod
-    def mkdir(cls, path):
+    def mkdir(cls:type, path:Any) -> None:
         if utils.isdir(path):
             return
         os.mkdir(path)
 
-    def mkpkg(self, path):
+    def mkpkg(self:Self, path:Any) -> None:
+        f:Any
         if self.ispkg(path):
             return
         self.mkdir(path)
@@ -287,7 +296,7 @@ class Prog(Calc):
         self.touch(f)
 
     @staticmethod
-    def parse_bump(line):
+    def parse_bump(line:Any) -> Any:
         line = line.strip()
         if not line.startswith("bump"):
             raise ValueError
@@ -308,11 +317,11 @@ class Prog(Calc):
         return line
 
     @staticmethod
-    def py(*args):
+    def py(*args:Any) -> Any:
         args = [sys.executable, "-m"] + list(args)
         return subprocess.run(args)
 
-    def pypi(self):
+    def pypi(self:Self) -> Any:
         shutil.rmtree("dist", ignore_errors=True)
         if utils.py("build").returncode:
             return
@@ -322,7 +331,7 @@ class Prog(Calc):
             args += ["-u", "__token__", "-p", token]
         subprocess.run(args)
 
-    def save(self, n, /):
+    def save(self:Self, n:Any, /) -> None:
         file = getattr(self.file, n)
         text = getattr(self.text, n)
         roots = list()
@@ -340,7 +349,7 @@ class Prog(Calc):
         with open(file, "w") as s:
             s.write(text)
 
-    def tests(self, pkg):
+    def tests(self:Self, pkg:Any) -> Any:
         a = os.path.join(pkg)
         b = os.path.join(pkg, "tests")
         self.mkpkg(a)
@@ -365,7 +374,7 @@ class Prog(Calc):
             s.write(self.draft.test_1984)
 
     @staticmethod
-    def touch(file):
+    def touch(file:Any) -> Any:
         if utils.isfile(file):
             return
         with open(file, "w"):
