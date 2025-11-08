@@ -1,4 +1,5 @@
 import importlib.resources
+from typing import *
 
 from petrus._core.calcs.Calc import Calc
 

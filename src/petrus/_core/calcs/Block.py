@@ -1,3 +1,5 @@
+from typing import *
+
 from petrus._core.calcs.Calc import Calc
 
 _BLOCKKEYS = "heading overview installation license links credits".split()
