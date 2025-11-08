@@ -6,34 +6,34 @@ from petrus._core.calcs.Calc import Calc
 
 
 class File(Calc):
-    def _calc_core(self: Self):
+    def _calc_core(self: Self) -> Any:
         n = self.prog.project.name
         return os.path.join("src", n, "core", "__init__.py")
 
     def _calc_gitignore(self: Self) -> str:
         return ".gitignore"
 
-    def _calc_license(self: Self):
+    def _calc_license(self: Self) -> Any:
         ans = self.prog.pp.get("project", "license", "file")
         if type(ans) is str:
             return ans
         return self._find("LICENSE.txt")
 
-    def _calc_main(self: Self):
+    def _calc_main(self: Self) -> Any:
         n = self.prog.project.name
         return os.path.join("src", n, "__main__.py")
 
-    def _calc_init(self: Self):
+    def _calc_init(self: Self) -> Any:
         n = self.prog.project.name
         return os.path.join("src", n, "__init__.py")
 
-    def _calc_manifest(self: Self):
+    def _calc_manifest(self: Self) -> Any:
         return "MANIFEST.in"
 
-    def _calc_pp(self: Self):
+    def _calc_pp(self: Self) -> Any:
         return "pyproject.toml"
 
-    def _calc_readme(self: Self):
+    def _calc_readme(self: Self) -> Any:
         ans = self.prog.pp.get("project", "readme")
         if type(ans) is str and os.path.exists(ans):
             return ans
