@@ -27,10 +27,10 @@ class File(Calc):
         n = self.prog.project.name
         return os.path.join("src", n, "__init__.py")
 
-    def _calc_manifest(self: Self) -> Any:
+    def _calc_manifest(self: Self) -> str:
         return "MANIFEST.in"
 
-    def _calc_pp(self: Self) -> Any:
+    def _calc_pp(self: Self) -> str:
         return "pyproject.toml"
 
     def _calc_readme(self: Self) -> Any:
@@ -47,7 +47,7 @@ class File(Calc):
         return os.path.exists(f)
 
     @staticmethod
-    def _find(file: Any):
+    def _find(file: Any) -> Any:
         if utils.isfile(file):
             return file
         t = os.path.splitext(file)[0]
