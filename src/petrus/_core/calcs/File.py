@@ -1,45 +1,56 @@
 import os
+from functools import cached_property
 from typing import *
 
 from petrus._core import utils
-from petrus._core.calcs.Calc import Calc
+from petrus._core.calcs.BaseCalc import BaseCalc
 
 
-class File(Calc):
-    def _calc_core(self: Self) -> Any:
+class File(BaseCalc):
+
+    @cached_property
+    def core(self: Self) -> Any:
         n = self.prog.project.name
         return os.path.join("src", n, "core", "__init__.py")
 
-    def _calc_gitignore(self: Self) -> str:
+    @cached_property
+    def gitignore(self: Self) -> str:
         return ".gitignore"
 
-    def _calc_license(self: Self) -> Any:
+    @cached_property
+    def license(self: Self) -> Any:
         ans = self.prog.pp.get("project", "license", "file")
         if type(ans) is str:
             return ans
         return self._find("LICENSE.txt")
 
-    def _calc_main(self: Self) -> Any:
+    @cached_property
+    def main(self: Self) -> Any:
         n = self.prog.project.name
         return os.path.join("src", n, "__main__.py")
 
-    def _calc_init(self: Self) -> Any:
+    @cached_property
+    def init(self: Self) -> Any:
         n = self.prog.project.name
         return os.path.join("src", n, "__init__.py")
 
-    def _calc_manifest(self: Self) -> str:
+    @cached_property
+    def manifest(self: Self) -> str:
         return "MANIFEST.in"
 
-    def _calc_pp(self: Self) -> str:
+    @cached_property
+    def pp(self: Self) -> str:
         return "pyproject.toml"
 
-    def _calc_readme(self: Self) -> Any:
+    @cached_property
+    def readme(self: Self) -> Any:
         ans = self.prog.pp.get("project", "readme")
         if type(ans) is str and os.path.exists(ans):
             return ans
         return self._find("README.rst")
 
-    def _calc_setup(self: Self) -> str:
+    @cached_property
+    def setup(self: Self) -> str:
         return "setup.cfg"
 
     def exists(self: Self, name: Any) -> bool:
