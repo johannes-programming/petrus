@@ -3,7 +3,7 @@ from typing import *
 
 class BaseCalc:
 
-    def __delattr__(self: Self, name):
+    def __delattr__(self: Self, name: Any) -> None:
         self.__check(name)
         object.__delattr__(self, name)
 
@@ -11,11 +11,11 @@ class BaseCalc:
         self.prog = prog
         getattr(self, "__post_init__", int)()
 
-    def __setattr__(self: Self, name, value):
+    def __setattr__(self: Self, name: Any, value: Any) -> None:
         self.__check(name)
         object.__setattr__(self, name, value)
 
-    def __check(self: Self, name):
+    def __check(self: Self, name: Any) -> None:
         if name.startswith("_"):
             return
         if not hasattr(super(), name):
