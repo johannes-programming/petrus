@@ -13,8 +13,6 @@ from petrus._core.consts.Const import Const
 
 __all__ = ["main", "run"]
 
-_PATH_HELP = "The path where the project will be created/currently exists."
-
 
 def _cfgfile():
     return resources.files("petrus").joinpath("config.toml")
@@ -87,7 +85,11 @@ def main(args=None):
         dest="version",
         version=metadata.version("petrus"),
     )
-    parser.add_argument("path", nargs="?", help=_PATH_HELP)
+    parser.add_argument(
+        "path",
+        nargs="?",
+        help=Const.const.data["CONST"]["PATH_HELP"],
+    )
     for k, v in _inputs().items():
         opt = "--" + k.replace("_", "-")
         parser.add_argument(opt, help=v)
