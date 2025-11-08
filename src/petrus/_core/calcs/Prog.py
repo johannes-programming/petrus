@@ -4,6 +4,7 @@ import shutil
 import string
 import subprocess
 import sys
+from functools import cached_property
 from typing import Any, Iterable, Self
 
 import tomlhold
@@ -75,7 +76,8 @@ class Prog(Calc):
                 return y
         return x
 
-    def _calc_block(self: Self) -> Any:
+    @cached_property
+    def block(self: Self) -> Block:
         return Block(self)
 
     def _calc_build_system(self: Self) -> Any:
