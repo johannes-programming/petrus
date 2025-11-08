@@ -85,7 +85,7 @@ class Prog(Calc):
     def build_system(self: Self) -> Any:
         ans = self.pp.get("build-system")
         if type(ans) is dict:
-            ans = self.easy_dict(ans)
+            return self.easy_dict(ans)
         if ans is not None:
             return ans
         ans = dict()
@@ -128,6 +128,7 @@ class Prog(Calc):
 
     @cached_property
     def development_status_infered(self: Self) -> Any:
+        v: v440.Version
         try:
             v = v440.Version(self.project.version)
         except:
