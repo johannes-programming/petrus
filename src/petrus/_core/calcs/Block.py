@@ -6,7 +6,9 @@ _BLOCKKEYS = "heading overview installation license links credits".split()
 
 
 class Block(Calc):
-    def _calc_text(self):
+    def _calc_text(self: Self) -> str:
+        ans: str
+        blocks: list
         blocks = []
         for k in _BLOCKKEYS:
             b = getattr(self, k)
@@ -19,13 +21,18 @@ class Block(Calc):
             ans = ans.replace("\n\n\n", "\n\n")
         return ans
 
-    def _calc_heading(self):
+    def _calc_heading(self: Self) -> str:
+        n: Any
+        l: str
+        ans: str
         n = self.prog.project.name
         l = "=" * len(n)
         ans = "%s\n%s\n%s" % (l, n, l)
         return ans
 
-    def _calc_overview(self):
+    def _calc_overview(self: Self) -> str:
+        d: str
+        lines: str
         d = str(self.prog.project.description)
         if not d:
             return None
@@ -33,12 +40,17 @@ class Block(Calc):
         lines += str(d)
         return lines
 
-    def _calc_installation(self):
+    def _calc_installation(self: Self) -> Any:
+        name: Any
+        ans: Any
         name = self.prog.project.name
         ans = self.prog.draft.installation.format(name=name)
         return ans
 
-    def _calc_license(self):
+    def _calc_license(self: Self) -> str:
+        mit: str
+        classifiers: Any
+        lines: str
         mit = "License :: OSI Approved :: MIT License"
         classifiers = self.prog.project.classifiers
         if type(classifiers) is not list:
@@ -49,7 +61,9 @@ class Block(Calc):
         lines += "This project is licensed under the MIT License."
         return lines
 
-    def _calc_links(self):
+    def _calc_links(self: Self) -> str:
+        urls: Any
+        lines: str
         urls = self.prog.project.urls
         if type(urls) is not dict:
             return None
@@ -60,7 +74,11 @@ class Block(Calc):
             lines += "* `%s <%s>`_\n" % i
         return lines
 
-    def _calc_credits(self):
+    def _calc_credits(self: Self) -> str:
+        n: Any
+        e: Any
+        lines: str
+        pn: Any
         n, e = self.prog.author
         lines = self.ftitle("Credits")
         if n:
@@ -74,9 +92,12 @@ class Block(Calc):
         return lines
 
     @staticmethod
-    def ftitle(value, /, lining="-"):
-        value = str(value)
-        lining = str(lining)
-        lining *= len(value)
-        ans = "%s\n%s\n\n" % (value, lining)
+    def ftitle(value: Any, /, lining: Any = "-") -> str:
+        v: str
+        l: str
+        ans: str
+        v = str(value)
+        l = str(lining)
+        l *= len(v)
+        ans = "%s\n%s\n\n" % (v, l)
         return ans
