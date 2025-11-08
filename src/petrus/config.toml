@@ -8,7 +8,7 @@ github = "johannes-programming"
 requires_python = "{preset} \\| >=3.11"
 token = ""
 v = "bump(2, 1)"
-vformat = "3"
+vformat = "..#"
 year = "{current}"
 
 [general]
