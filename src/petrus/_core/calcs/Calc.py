@@ -6,6 +6,7 @@ from .BaseCalc import BaseCalc
 class Calc(BaseCalc):
 
     def __getattr__(self: Self, name: Any) -> Any:
+        ans: Any
         name_: str
         name_ = str(name)
         if name_.startswith("_"):
