@@ -42,15 +42,17 @@ class Git(Calc):
         self.commit(m)
 
     def commit(self: Self, message: Any) -> None:
+        args: list[str]
+        m: str
         if message is None:
-            message = "a"
+            m = "a"
         else:
-            message = str(message)
+            m = str(message)
         try:
             self("add", "-A").check_returncode()
         except:
             return
-        args = ["commit", "--allow-empty", "-m", message]
+        args = ["commit", "--allow-empty", "-m", m]
         if self.author is not None:
             args += ["--author", self.author]
         self(*args)
