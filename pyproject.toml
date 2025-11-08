@@ -9,7 +9,7 @@ authors = [
     { email = "johannes.programming@gmail.com", name = "Johannes" },
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
@@ -35,7 +35,7 @@ keywords = []
 name = "petrus"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "0.7.1"
+version = "0.8.1.post0"
 
 [project.license]
 file = "LICENSE.txt"
