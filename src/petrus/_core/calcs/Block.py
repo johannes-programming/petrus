@@ -2,8 +2,7 @@ from functools import cached_property
 from typing import *
 
 from petrus._core.calcs.Calc import Calc
-
-_BLOCKKEYS = "heading overview installation license links credits".split()
+from petrus._core.consts.Const import Const
 
 
 class Block(Calc):
@@ -12,7 +11,7 @@ class Block(Calc):
         ans: str
         blocks: list
         blocks = []
-        for k in _BLOCKKEYS:
+        for k in Const.const.data["CONST"]["BLOCKKEYS"]:
             b = getattr(self, k)
             if b is None:
                 continue
