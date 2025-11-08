@@ -96,6 +96,12 @@ class Prog(BaseCalc):
 
     @cached_property
     def development_status(self: Self) -> Any:
+        kwarg: Any
+        values: Any
+        i: Any
+        ans: Any
+        x: Any
+        j: Any
         kwarg = self.kwargs["development_status"]
         if kwarg == "infer":
             kwarg = self.development_status_infered
