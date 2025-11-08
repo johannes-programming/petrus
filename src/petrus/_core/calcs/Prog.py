@@ -4,6 +4,7 @@ import shutil
 import string
 import subprocess
 import sys
+from typing import Any, Self
 
 import tomlhold
 import v440
@@ -34,7 +35,7 @@ class Prog(Calc):
         "year": "Year of creating the project. Recommended is '{current}'.",
     }
 
-    def __post_init__(self):
+    def __post_init__(self: Self) -> Any:
         self.git.init()
         if self.git.is_repo():
             self.save("gitignore")
@@ -56,7 +57,7 @@ class Prog(Calc):
         self.git.push()
         self.pypi()
 
-    def _calc_author(self):
+    def _calc_author(self: Self) -> Any:
         f = lambda z: str(z).strip()
         n = f(self.kwargs["author"])
         e = f(self.kwargs["email"])
@@ -74,10 +75,10 @@ class Prog(Calc):
                 return y
         return x
 
-    def _calc_block(self):
+    def _calc_block(self: Self) -> Any:
         return Block(self)
 
-    def _calc_build_system(self):
+    def _calc_build_system(self: Self) -> Any:
         ans = self.pp.get("build-system")
         if type(ans) is dict:
             ans = self.easy_dict(ans)
@@ -89,7 +90,7 @@ class Prog(Calc):
         ans = self.easy_dict(ans)
         return ans
 
-    def _calc_development_status(self):
+    def _calc_development_status(self: Self) -> Any:
         kwarg = self.kwargs["development_status"]
         if kwarg == "infer":
             kwarg = self.development_status_infered
@@ -120,7 +121,7 @@ class Prog(Calc):
         (ans,) = ans
         return ans
 
-    def _calc_development_status_infered(self):
+    def _calc_development_status_infered(self: Self) -> Any:
         try:
             v = v440.Version(self.project.version)
         except:
@@ -146,22 +147,22 @@ class Prog(Calc):
             return "stable"
         return "mature"
 
-    def _calc_draft(self):
+    def _calc_draft(self: Self) -> Any:
         return Draft(self)
 
-    def _calc_file(self):
+    def _calc_file(self: Self) -> Any:
         return File(self)
 
-    def _calc_git(self):
+    def _calc_git(self: Self) -> Any:
         return Git(self)
 
-    def _calc_github(self):
+    def _calc_github(self: Self) -> Any:
         u = self.kwargs["github"]
         if u == "":
             return ""
         return f"https://github.com/{u}/{self.project.name}/"
 
-    def _calc_packages(self):
+    def _calc_packages(self: Self) -> Any:
         self.mkdir("src")
         ans = []
         for x in os.listdir("src"):
@@ -184,19 +185,19 @@ class Prog(Calc):
             self.save("main")
         return [pro]
 
-    def _calc_pp(self):
+    def _calc_pp(self: Self) -> Any:
         return tomlhold.Holder.loads(self.text.pp)
 
-    def _calc_project(self):
+    def _calc_project(self: Self) -> Any:
         return Project(self)
 
-    def _calc_text(self):
+    def _calc_text(self: Self) -> Any:
         return Text(self)
 
-    def _calc_version_default(self):
+    def _calc_version_default(self: Self) -> Any:
         return "0.0.0.dev0"
 
-    def _calc_version_formatted(self):
+    def _calc_version_formatted(self: Self) -> Any:
         ans = self.version_unformatted
         kwarg = self.kwargs["vformat"]
         try:
@@ -206,7 +207,7 @@ class Prog(Calc):
             pass
         return str(ans)
 
-    def _calc_version_unformatted(self):
+    def _calc_version_unformatted(self: Self) -> Any:
         a = self.kwargs["v"]
         b = self.project.get("version")
         if a == "":
@@ -228,7 +229,7 @@ class Prog(Calc):
             return b
         return str(c)
 
-    def _calc_year(self):
+    def _calc_year(self: Self) -> Any:
         ans = self.kwargs["year"]
         current = str(datetime.datetime.now().year)
         ans = ans.format(current=current)
@@ -312,7 +313,7 @@ class Prog(Calc):
         args = [sys.executable, "-m"] + list(args)
         return subprocess.run(args)
 
-    def pypi(self):
+    def pypi(self: Self) -> Any:
         shutil.rmtree("dist", ignore_errors=True)
         if utils.py("build").returncode:
             return
