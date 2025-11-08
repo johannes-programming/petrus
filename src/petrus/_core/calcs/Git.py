@@ -1,11 +1,12 @@
 import os
 import subprocess
+from functools import cached_property
 from typing import *
 
-from petrus._core.calcs.Calc import Calc
+from petrus._core.calcs.BaseCalc import BaseCalc
 
 
-class Git(Calc):
+class Git(BaseCalc):
     def __call__(self: Self, *args: Any, force: Any = False) -> Any:
         a: Any
         args_: list[str]
@@ -17,7 +18,8 @@ class Git(Calc):
         args_ = ["git"] + list(args)
         return subprocess.run(args_)
 
-    def _calc_author(self: Self) -> Any:
+    @cached_property
+    def author(self: Self) -> Any:
         a: Any
         e: Any
         a = self.prog.kwargs["author"]
