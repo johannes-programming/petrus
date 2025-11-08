@@ -4,6 +4,7 @@ import dataclasses
 import functools
 import os
 import tomllib
+import types
 import typing
 from importlib import metadata, resources
 from typing import *
@@ -30,11 +31,11 @@ def _inputs() -> dict:
     return dict(pairs)
 
 
-def _input_format(k, v, /):
-    return k.strip(), v.strip()
+def _input_format(x: Any, y: Any, /) -> tuple:
+    return x.strip(), y.strip()
 
 
-def _inputs_sortkey(pair):
+def _inputs_sortkey(pair: tuple) -> Any:
     if pair[0] in {"help", "path", "version"}:
         raise KeyError
     if "-" in pair[0]:
@@ -46,7 +47,7 @@ def _link() -> str:
     return Const.const.data["CONST"]["LINK"]
 
 
-def _run_deco(old, /):
+def _run_deco(old: Any, /) -> types.FunctionType:
     doc = _desc()
     doc += "\n"
     for k, v in _inputs().items():
@@ -60,14 +61,15 @@ def _run_deco(old, /):
     old = dataclasses.dataclass(old, frozen=True)
 
     @functools.wraps(old)
-    def new(*args, **kwargs):
+    def new(*args: Any, **kwargs: Any) -> None:
         old(*args, **kwargs)
 
     new.__doc__ = doc
     return new
 
 
-def main(args=None):
+def main(args=None) -> None:
+    parser: argparse.ArgumentParser
     parser = argparse.ArgumentParser(
         description=_desc(),
         fromfile_prefix_chars="@",
@@ -97,12 +99,12 @@ def main(args=None):
 class run:
     path: typing.Optional[str] = None
 
-    def __post_init__(self):
+    def __post_init__(self: Self) -> None:
         kwargs = dataclasses.asdict(self)
         _prog(**kwargs)
 
 
-def _prog(path, **kwargs):
+def _prog(path: Any, **kwargs: Any) -> Any:
     try:
         cfg = _cfgfile().read_text()
     except:
@@ -126,8 +128,10 @@ def _prog(path, **kwargs):
         Prog(kwargs)
 
 
-def _normpath(path):
-    path = os.path.expanduser(path)
-    path = os.path.expandvars(path)
-    path = os.path.normpath(path)
-    return path
+def _normpath(path: Any) -> Any:
+    ans: Any
+    ans = path
+    ans = os.path.expanduser(ans)
+    ans = os.path.expandvars(ans)
+    ans = os.path.normpath(ans)
+    return ans
