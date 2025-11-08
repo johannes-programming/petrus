@@ -1,10 +1,15 @@
+from __future__ import annotations
+
 from typing import *
 
 from petrus._core.calcs.Calc import Calc
 
 
 class Text(Calc):
+    prog: Any
+
     def _calc(self: Self, name: Any) -> Any:
+        f: Any
         f = getattr(self.prog.file, name)
         try:
             with open(f, "r") as s:
@@ -22,6 +27,7 @@ class Text(Calc):
         return f()
 
     def _calc_core(self: Self) -> Any:
+        n: Any
         n = self.prog.project.name
         return self.prog.draft.core.format(project=n)
 
@@ -29,10 +35,12 @@ class Text(Calc):
         return self.prog.draft.gitignore
 
     def _calc_init(self: Self) -> Any:
+        n: Any
         n = self.prog.project.name
         return self.prog.draft.init.format(project=n)
 
     def _calc_license(self: Self) -> Any:
+        d: dict
         d = dict()
         d["year"] = self.prog.year
         d["author"] = self.prog.author[0]
@@ -40,10 +48,12 @@ class Text(Calc):
         return ans
 
     def _calc_main(self: Self) -> Any:
+        n: Any
         n = self.prog.project.name
         return self.prog.draft.main.format(project=n)
 
     def _calc_manifest(self: Self) -> Any:
+        n: Any
         n = self.prog.project.name
         return self.prog.draft.manifest.format(project=n)
 

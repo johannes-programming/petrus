@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 import inspect
 import os
 import string
 import sys
+from functools import cached_property
 from typing import *
 
 from petrus._core import utils
@@ -9,18 +12,30 @@ from petrus._core.calcs.Calc import Calc
 
 
 class Project(Calc):
+
+    prog: Any
+
     def __post_init__(self: Self) -> None: ...
 
-    def _calc_authors(self: Self) -> Any:
+    @cached_property
+    def authors(self: Self) -> Any:
+        i: Any
+        k: Any
+        v: Any
+        aa: dict
+        ans: Any
+        author: dict
+        fit: Any
+        used: Any
         ans = self.get("authors", default=[])
         if type(ans) is not list:
             return ans
         ans = list(ans)
         author = dict()
-        a = dict()
-        a["name"] = self.prog.kwargs["author"]
-        a["email"] = self.prog.kwargs["email"]
-        for k, v in a.items():
+        aa = dict()
+        aa["name"] = self.prog.kwargs["author"]
+        aa["email"] = self.prog.kwargs["email"]
+        for k, v in aa.items():
             if v:
                 author[k] = v
         author = self.prog.easy_dict(author)
@@ -39,7 +54,8 @@ class Project(Calc):
             ans.insert(0, author)
         return ans
 
-    def _calc_classifiers(self: Self) -> Any:
+    @cached_property
+    def classifiers(self: Self) -> Any:
         preset = self.get("classifiers", default=[])
         if type(preset) is not list:
             return preset
@@ -72,7 +88,8 @@ class Project(Calc):
         ans = self.prog.easy_list(ans)
         return ans
 
-    def _calc_dependencies(self: Self) -> Any:
+    @cached_property
+    def dependencies(self: Self) -> Any:
         ans: Any
         ans_: list
         ans = self.get("dependencies", default=[])
@@ -82,17 +99,20 @@ class Project(Calc):
         ans_ = self.prog.easy_list(ans_)
         return ans_
 
-    def _calc_description(self: Self) -> Any:
+    @cached_property
+    def description(self: Self) -> Any:
         if self.prog.kwargs["description"]:
             return self.prog.kwargs["description"]
         if self.get("description") is not None:
             return self.get("description")
         return self.name
 
-    def _calc_keywords(self: Self) -> Any:
+    @cached_property
+    def keywords(self: Self) -> Any:
         return self.get("keywords", default=[])
 
-    def _calc_license(self: Self) -> Any:
+    @cached_property
+    def license(self: Self) -> Any:
         ans: Any
         ans = self.get("license")
         if ans is None:
@@ -103,7 +123,8 @@ class Project(Calc):
             ans["file"] = self.prog.file.license
         return ans
 
-    def _calc_name(self: Self) -> Any:
+    @cached_property
+    def name(self: Self) -> Any:
         basename: Any
         raw: Any
         ans: Any
@@ -119,10 +140,12 @@ class Project(Calc):
                 ans += "_"
         return ans
 
-    def _calc_readme(self: Self) -> Any:
+    @cached_property
+    def readme(self: Self) -> Any:
         return self.prog.file.readme
 
-    def _calc_requires_python(self: Self) -> Any:
+    @cached_property
+    def requires_python(self: Self) -> Any:
         kwarg = self.prog.kwargs["requires_python"]
         preset = self.get("requires-python", default="")
         current = ">={0}.{1}.{2}".format(*sys.version_info)
@@ -136,7 +159,8 @@ class Project(Calc):
                 return x
         return None
 
-    def _calc_urls(self: Self) -> Any:
+    @cached_property
+    def urls(self: Self) -> Any:
         ans = self.get("urls")
         if ans is None:
             ans = dict()
@@ -151,7 +175,8 @@ class Project(Calc):
         ans = self.prog.easy_dict(ans)
         return ans
 
-    def _calc_version(self: Self) -> Any:
+    @cached_property
+    def version(self: Self) -> Any:
         return self.prog.version_formatted
 
     @classmethod
@@ -169,17 +194,20 @@ class Project(Calc):
 
     def todict(self: Self) -> Any:
         ans: Any
+        m: Any
+        n: Any
+        y: Any
         prefix: str
         ans = self.get(default={})
         prefix = "_calc_"
         for n, m in inspect.getmembers(self):
             if not n.startswith(prefix):
                 continue
-            k = n[len(prefix) :]
-            v = getattr(self, k)
-            if v is None:
+            x = n[len(prefix) :]
+            y = getattr(self, x)
+            if y is None:
                 continue
-            k = k.replace("_", "-")
-            ans[k] = v
+            x = x.replace("_", "-")
+            ans[x] = y
         ans = self.prog.easy_dict(ans)
         return ans

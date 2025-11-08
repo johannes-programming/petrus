@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from functools import cached_property
 from typing import *
@@ -8,11 +10,42 @@ from petrus._core.calcs.BaseCalc import BaseCalc
 
 class File(BaseCalc):
 
+    prog: Any
+    core: Any
+    gitignore: str
+    license: Any
+    main: Any
+    init: Any
+    manifest: str
+    pp: str
+    readme: Any
+    setup: str
+
+    @staticmethod
+    def _find(file: Any) -> Any:
+        t: Any
+        l: list[str]
+        if utils.isfile(file):
+            return file
+        t = os.path.splitext(file)[0]
+        l = os.listdir()
+        l = list(l)
+        l.sort(reverse=True)
+        for x in l:
+            if t == os.path.splitext(x)[0]:
+                return x
+        return file
+
     @cached_property
     def core(self: Self) -> Any:
         n: Any
         n = self.prog.project.name
         return os.path.join("src", n, "core", "__init__.py")
+
+    def exists(self: Self, name: Any) -> bool:
+        f: Any
+        f = getattr(self, name)
+        return os.path.exists(f)
 
     @cached_property
     def gitignore(self: Self) -> str:
@@ -57,23 +90,3 @@ class File(BaseCalc):
     @cached_property
     def setup(self: Self) -> str:
         return "setup.cfg"
-
-    def exists(self: Self, name: Any) -> bool:
-        f: Any
-        f = getattr(self, name)
-        return os.path.exists(f)
-
-    @staticmethod
-    def _find(file: Any) -> Any:
-        t: Any
-        l: list[str]
-        if utils.isfile(file):
-            return file
-        t = os.path.splitext(file)[0]
-        l = os.listdir()
-        l = list(l)
-        l.sort(reverse=True)
-        for x in l:
-            if t == os.path.splitext(x)[0]:
-                return x
-        return file

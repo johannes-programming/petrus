@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 import os
 import shutil
@@ -5,7 +7,7 @@ import string
 import subprocess
 import sys
 from functools import cached_property
-from typing import Any, Iterable, Self
+from typing import Any, Callable, Iterable, Self
 
 import tomlhold
 import v440
@@ -62,7 +64,14 @@ class Prog(BaseCalc):
         self.pypi()
 
     @cached_property
-    def author(self: Self) -> Any:
+    def author(self: Self) -> tuple:
+        authors: Any
+        a: Any
+        e: Any
+        f: Callable
+        n: Any
+        x: tuple
+        y: tuple
         f = lambda z: str(z).strip()
         n = f(self.kwargs["author"])
         e = f(self.kwargs["email"])
@@ -86,6 +95,7 @@ class Prog(BaseCalc):
 
     @cached_property
     def build_system(self: Self) -> Any:
+        ans: Any
         ans = self.pp.get("build-system")
         if type(ans) is dict:
             return self.easy_dict(ans)
