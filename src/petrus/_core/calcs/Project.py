@@ -94,7 +94,8 @@ class Project(Calc):
             return self.get("description")
         return self.name
 
-    def _calc_keywords(self: Self) -> Any:
+    @cached_property
+    def keywords(self: Self) -> Any:
         return self.get("keywords", default=[])
 
     def _calc_license(self: Self) -> Any:
