@@ -15,6 +15,19 @@ class _empty:
 
 
 class Project(BaseCalc):
+
+    authors: Any
+    classifiers: Any
+    dependencies: Any
+    description: Any
+    keywords: Any
+    license: Any
+    name: Any
+    readme: Any
+    requires_python: Any
+    urls: Any
+    version: Any
+
     def __post_init__(self: Self) -> None:
         self._version = _empty
 
