@@ -379,28 +379,34 @@ class Prog(BaseCalc):
             s.write(text)
 
     def tests(self: Self, pkg: Any) -> None:
+        a: Any
+        b: Any
+        file: Any
+        stream: Any
+        text: Any
+        base: Any
         a = os.path.join(pkg)
         b = os.path.join(pkg, "tests")
         self.mkpkg(a)
         if self.ispkg(b):
             return
         self.mkdir(b)
-        f = os.path.join(b, "__init__.py")
-        if not utils.isfile(f):
-            text = self.draft.tests
+        file = os.path.join(b, "__init__.py")
+        if not utils.isfile(file):
+            text = self.draft.getitem("tests")
             base = os.path.basename(pkg)
             text = text.format(pkg=base)
-            with open(f, "w") as s:
-                s.write(text)
-        for f in os.listdir(b):
-            if f == "__init__.py":
+            with open(file, "w") as stream:
+                stream.write(text)
+        for file in os.listdir(b):
+            if file == "__init__.py":
                 continue
-            if f.startswith("."):
+            if file.startswith("."):
                 continue
             return
-        f = os.path.join(b, "test_1984.py")
-        with open(f, "w") as s:
-            s.write(self.draft.test_1984)
+        file = os.path.join(b, "test_1984.py")
+        with open(file, "w") as stream:
+            stream.write(self.draft.getitem("test_1984"))
 
     @staticmethod
     def touch(file: Any) -> None:
