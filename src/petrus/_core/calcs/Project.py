@@ -191,7 +191,7 @@ class Project(BaseCalc):
         return self._version
 
     def _calc_version(self: Self) -> Any:
-        raise Exception
+        sys.exit("?")
 
     @classmethod
     def format_classifiers(cls: type, value: Iterable, /) -> list:
