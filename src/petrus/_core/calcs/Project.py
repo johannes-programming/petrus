@@ -18,6 +18,10 @@ class Project(BaseCalc):
     def __post_init__(self: Self) -> None:
         self._version = _empty
 
+    def _calc_version(self: Self) -> Any:
+        # this method is required for unclear reasons
+        sys.exit("?")
+
     @cached_property
     def authors(self: Self) -> Any:
         ans: Any
@@ -189,9 +193,6 @@ class Project(BaseCalc):
         if self._version is _empty:
             self._version = self.prog.version_formatted
         return self._version
-
-    def _calc_version(self: Self) -> Any:
-        sys.exit("?")
 
     @classmethod
     def format_classifiers(cls: type, value: Iterable, /) -> list:
