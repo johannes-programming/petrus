@@ -110,12 +110,11 @@ class Project(Calc):
     @property
     def name(self: Self) -> str:
         basename: Any
-        raw: Any
+        raw: str
         ans: Any
-        x: Any
+        x: str
         basename = os.path.basename(os.getcwd())
-        raw = self.get("name") or basename
-        raw = str(raw)
+        raw = str(self.get("name") or basename)
         ans = ""
         for x in raw:
             if x in (string.ascii_letters + string.digits):
