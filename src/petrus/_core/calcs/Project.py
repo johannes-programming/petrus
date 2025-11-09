@@ -6,12 +6,18 @@ from typing import *
 
 from petrus._core import utils
 from petrus._core.calcs.Calc import Calc
+from petrus._core.consts.Const import Const
 
 
 class Project(Calc):
     def __post_init__(self: Self) -> None: ...
 
     def _calc_authors(self: Self) -> Any:
+        ans: Any
+        author: dict
+        used: Any
+        fit: Any
+        i: Any
         ans = self.get("authors", default=[])
         if type(ans) is not list:
             return ans
@@ -44,7 +50,7 @@ class Project(Calc):
         if utils.isfile(self.prog.file.license):
             mit = ""
         else:
-            mit = "License :: OSI Approved :: MIT License"
+            mit = Const.const.data["CONST"]["MIT"]
         kwarg = self.prog.kwargs["classifiers"]
         if kwarg == "":
             preset = utils.easy_list(preset)
