@@ -87,7 +87,8 @@ class Project(Calc):
         ans_ = self.prog.easy_list(ans_)
         return ans_
 
-    def _calc_description(self: Self) -> Any:
+    @cached_property
+    def description(self: Self) -> Any:
         if self.prog.kwargs["description"]:
             return self.prog.kwargs["description"]
         if self.get("description") is not None:
