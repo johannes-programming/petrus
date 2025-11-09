@@ -179,7 +179,8 @@ class Project(Calc):
         ans = self.prog.easy_dict(ans)
         return ans
 
-    def _calc_version(self: Self) -> Any:
+    @cached_property
+    def version(self: Self) -> Any:
         return self.prog.version_formatted
 
     @classmethod
