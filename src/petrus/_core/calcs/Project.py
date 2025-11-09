@@ -44,7 +44,16 @@ class Project(Calc):
             ans.insert(0, author)
         return ans
 
-    def _calc_classifiers(self: Self) -> Any:
+    @cached_property
+    def classifiers(self: Self) -> Any:
+        preset: Any
+        mit: str
+        kwarg: Any
+        ans: Any
+        prefix: Any
+        cleaned: Any
+        x: Any
+        status: Any
         preset = self.get("classifiers", default=[])
         if type(preset) is not list:
             return preset
@@ -100,7 +109,8 @@ class Project(Calc):
     def keywords(self: Self) -> Any:
         return self.get("keywords", default=[])
 
-    def _calc_license(self: Self) -> Any:
+    @cached_property
+    def license(self: Self) -> Any:
         ans: Any
         ans = self.get("license")
         if ans is None:
@@ -131,7 +141,12 @@ class Project(Calc):
     def readme(self: Self) -> Any:
         return self.prog.file.readme
 
-    def _calc_requires_python(self: Self) -> Any:
+    @cached_property
+    def requires_python(self: Self) -> Any:
+        kwarg: Any
+        preset: Any
+        current: Any
+        x: Any
         kwarg = self.prog.kwargs["requires_python"]
         preset = self.get("requires-python", default="")
         current = ">={0}.{1}.{2}".format(*sys.version_info)
