@@ -33,7 +33,7 @@ class Project(Calc):
         for i in range(len(ans)):
             try:
                 ans[i] = dict(ans[i])
-            except:
+            except Exception:
                 continue
             fit = utils.dict_match(ans[i], author)
             if fit and not used:
