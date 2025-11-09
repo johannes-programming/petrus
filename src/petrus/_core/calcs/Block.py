@@ -53,14 +53,12 @@ class Block(Calc):
 
     @cached_property
     def license(self: Self) -> str:
-        mit: str
         classifiers: Any
         lines: str
-        mit = "License :: OSI Approved :: MIT License"
         classifiers = self.prog.project.classifiers
         if type(classifiers) is not list:
             return None
-        if mit not in classifiers:
+        if Const.const.data["CONST"]["MIT"] not in classifiers:
             return None
         lines = self.ftitle("License")
         lines += "This project is licensed under the MIT License."

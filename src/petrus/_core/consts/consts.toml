@@ -12,6 +12,7 @@ DESC = """Create/update a python project. The default values of the (non flag) o
 Modify at %r.
 See also %r."""
 LINK = "https://pypi.org/project/petrus/"
+MIT = "License :: OSI Approved :: MIT License"
 
 [INPUTS]
 author = "The author of the project."
