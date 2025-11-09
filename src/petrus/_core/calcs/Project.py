@@ -189,13 +189,7 @@ class Project(BaseCalc):
     def version(self: Self) -> Any:
         if self._version is not _empty:
             return self._version
-        if "version" in self._lock:
-            raise Exception
-        self._lock.add("version")
-        try:
-            self._version = self._calc_version()
-        finally:
-            self._lock.remove("version")
+        self._version = self._calc_version()
         return self._version
 
     def _calc_version(self: Self) -> Any:
