@@ -107,7 +107,8 @@ class Project(Calc):
             ans["file"] = self.prog.file.license
         return ans
 
-    def _calc_name(self: Self) -> Any:
+    @property
+    def name(self: Self) -> str:
         basename: Any
         raw: Any
         ans: Any
