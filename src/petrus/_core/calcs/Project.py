@@ -77,7 +77,8 @@ class Project(Calc):
         ans = self.prog.easy_list(ans)
         return ans
 
-    def _calc_dependencies(self: Self) -> Any:
+    @cached_property
+    def dependencies(self: Self) -> Any:
         ans: Any
         ans_: list
         ans = self.get("dependencies", default=[])
@@ -144,7 +145,10 @@ class Project(Calc):
                 return x
         return None
 
-    def _calc_urls(self: Self) -> Any:
+    @cached_property
+    def urls(self: Self) -> Any:
+        ans: Any
+        p: str
         ans = self.get("urls")
         if ans is None:
             ans = dict()
