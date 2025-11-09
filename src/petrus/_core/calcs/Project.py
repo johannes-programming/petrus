@@ -17,12 +17,10 @@ class Project(Calc):
             return ans
         ans = list(ans)
         author = dict()
-        a = dict()
-        a["name"] = self.prog.kwargs["author"]
-        a["email"] = self.prog.kwargs["email"]
-        for k, v in a.items():
-            if v:
-                author[k] = v
+        if self.prog.kwargs["author"]:
+            author["name"] = self.prog.kwargs["author"]
+        if self.prog.kwargs["email"]:
+            author["email"] = self.prog.kwargs["email"]
         author = self.prog.easy_dict(author)
         used = False
         for i in range(len(ans)):
