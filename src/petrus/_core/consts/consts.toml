@@ -13,6 +13,7 @@ Modify at %r.
 See also %r."""
 LINK = "https://pypi.org/project/petrus/"
 MIT = "License :: OSI Approved :: MIT License"
+MIT-LINE = "This project is licensed under the MIT License."
 
 [INPUTS]
 author = "The author of the project."

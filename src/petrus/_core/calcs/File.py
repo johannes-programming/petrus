@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from functools import cached_property
 from typing import *
@@ -5,18 +7,45 @@ from typing import *
 from petrus._core import utils
 from petrus._core.calcs.BaseCalc import BaseCalc
 
+if TYPE_CHECKING:
+    from petrus._core.calcs.Prog import Prog
+
 
 class File(BaseCalc):
 
-    @cached_property
-    def core(self: Self) -> Any:
-        n: Any
-        n = self.prog.project.name
-        return os.path.join("src", n, "core", "__init__.py")
+    prog: Prog
+
+    @staticmethod
+    def _find(file: Any) -> Any:
+        t: Any
+        l: list[str]
+        x: str
+        if utils.isfile(file):
+            return file
+        t = os.path.splitext(file)[0]
+        l = os.listdir()
+        l.sort(reverse=True)
+        for x in l:
+            if t == os.path.splitext(x)[0]:
+                return x
+        return file
+
+    core: Any
 
     @cached_property
+    def core(self: Self) -> Any:
+        return os.path.join("src", self.prog.project.name, "core", "__init__.py")
+
+    def exists(self: Self, name: Any) -> bool:
+        return os.path.exists(getattr(self, name))
+
+    gitignore: str
+
+    @property
     def gitignore(self: Self) -> str:
         return ".gitignore"
+
+    license: Any
 
     @cached_property
     def license(self: Self) -> Any:
@@ -26,25 +55,31 @@ class File(BaseCalc):
             return ans
         return self._find("LICENSE.txt")
 
-    @cached_property
+    main: Any
+
+    @property
     def main(self: Self) -> Any:
-        n: Any
-        n = self.prog.project.name
-        return os.path.join("src", n, "__main__.py")
+        return os.path.join("src", self.prog.project.name, "__main__.py")
+
+    init: Any
 
     @cached_property
     def init(self: Self) -> Any:
-        n: Any
-        n = self.prog.project.name
-        return os.path.join("src", n, "__init__.py")
+        return os.path.join("src", self.prog.project.name, "__init__.py")
 
-    @cached_property
+    manifest: str
+
+    @property
     def manifest(self: Self) -> str:
         return "MANIFEST.in"
 
-    @cached_property
+    pp: str
+
+    @property
     def pp(self: Self) -> str:
         return "pyproject.toml"
+
+    readme: Any
 
     @cached_property
     def readme(self: Self) -> Any:
@@ -54,26 +89,8 @@ class File(BaseCalc):
             return ans
         return self._find("README.rst")
 
-    @cached_property
+    setup: str
+
+    @property
     def setup(self: Self) -> str:
         return "setup.cfg"
-
-    def exists(self: Self, name: Any) -> bool:
-        f: Any
-        f = getattr(self, name)
-        return os.path.exists(f)
-
-    @staticmethod
-    def _find(file: Any) -> Any:
-        t: Any
-        l: list[str]
-        if utils.isfile(file):
-            return file
-        t = os.path.splitext(file)[0]
-        l = os.listdir()
-        l = list(l)
-        l.sort(reverse=True)
-        for x in l:
-            if t == os.path.splitext(x)[0]:
-                return x
-        return file
