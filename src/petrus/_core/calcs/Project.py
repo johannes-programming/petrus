@@ -10,8 +10,13 @@ from petrus._core.calcs.BaseCalc import BaseCalc
 from petrus._core.consts.Const import Const
 
 
+class _empty:
+    pass
+
+
 class Project(BaseCalc):
     def __post_init__(self: Self) -> None:
+        self._version = _empty
         self._lock = set()
 
     @cached_property
@@ -180,24 +185,18 @@ class Project(BaseCalc):
         ans = self.prog.easy_dict(ans)
         return ans
 
-    def __getattr__(self: Self, name: Any) -> Any:
-        ans: Any
-        name_: str
-        name_ = str(name)
-        if name_ != "version":
-            return object.__getattribute__(self, name_)
-        if name_ in self._lock:
+    @property
+    def version(self: Self) -> Any:
+        if self._version is not _empty:
+            return self._version
+        if "version" in self._lock:
             raise Exception
-        self._lock.add(name_)
+        self._lock.add("version")
         try:
-            ans = self._calc(name_)
-            object.__setattr__(self, name_, ans)
+            self._version = self._calc_version()
         finally:
-            self._lock.remove(name_)
-        return ans
-
-    def _calc(self: Self, name: Any) -> Any:
-        return getattr(self, f"_calc_{name}")()
+            self._lock.remove("version")
+        return self._version
 
     def _calc_version(self: Self) -> Any:
         return self.prog.version_formatted
