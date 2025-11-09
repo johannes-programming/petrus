@@ -187,10 +187,10 @@ class Project(BaseCalc):
     @property
     def version(self: Self) -> Any:
         if self._version is _empty:
-            self._version = self.__version()
+            self._version = self._calc_version()
         return self._version
 
-    def __version(self: Self) -> Any:
+    def _calc_version(self: Self) -> Any:
         return self.prog.version_formatted
 
     @classmethod
