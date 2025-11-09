@@ -13,7 +13,8 @@ from petrus._core.consts.Const import Const
 class Project(Calc):
     def __post_init__(self: Self) -> None: ...
 
-    def _calc_authors(self: Self) -> Any:
+    @cached_property
+    def authors(self: Self) -> Any:
         ans: Any
         author: dict
         used: Any
