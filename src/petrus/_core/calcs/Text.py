@@ -46,7 +46,7 @@ class Text(BaseCalc):
         return self.prog.draft.core.format(project=n)
 
     def _calc_gitignore(self: Self) -> Any:
-        return self.prog.draft.gitignore
+        return self.prog.draft.getitem("gitignore")
 
     def _calc_init(self: Self) -> Any:
         n = self.prog.project.name
