@@ -187,11 +187,11 @@ class Project(BaseCalc):
     @property
     def version(self: Self) -> Any:
         if self._version is _empty:
-            self._version = self._calc_version()
+            self._version = self.prog.version_formatted
         return self._version
 
     def _calc_version(self: Self) -> Any:
-        return self.prog.version_formatted
+        raise Exception
 
     @classmethod
     def format_classifiers(cls: type, value: Iterable, /) -> list:
