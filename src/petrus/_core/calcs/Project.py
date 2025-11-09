@@ -11,7 +11,8 @@ from petrus._core.consts.Const import Const
 
 
 class Project(BaseCalc):
-    def __post_init__(self: Self) -> None: ...
+    def __post_init__(self: Self) -> None:
+        self._lock = set()
 
     @cached_property
     def authors(self: Self) -> Any:
@@ -185,8 +186,6 @@ class Project(BaseCalc):
         name_ = str(name)
         if name_ != "version":
             return object.__getattribute__(self, name_)
-        if not hasattr(self, "_lock"):
-            self._lock = set()
         if name_ in self._lock:
             raise Exception
         self._lock.add(name_)
