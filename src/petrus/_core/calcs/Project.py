@@ -185,8 +185,6 @@ class Project(BaseCalc):
         name_ = str(name)
         if name_ != "version":
             return object.__getattribute__(self, name_)
-        if name_.startswith("_"):
-            raise AttributeError(name_)
         if not hasattr(self, "_lock"):
             self._lock = set()
         if name_ in self._lock:
