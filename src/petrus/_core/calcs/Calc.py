@@ -9,6 +9,8 @@ class Calc(BaseCalc):
         ans: Any
         name_: str
         name_ = str(name)
+        if hasattr(type(self), name_):
+            return object.__getattribute__(self, name_)
         if name_.startswith("_"):
             raise AttributeError(name_)
         if not hasattr(self, "_lock"):
