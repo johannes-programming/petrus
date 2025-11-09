@@ -2,6 +2,7 @@ import inspect
 import os
 import string
 import sys
+from functools import cached_property
 from typing import *
 
 from petrus._core import utils
@@ -107,7 +108,7 @@ class Project(Calc):
             ans["file"] = self.prog.file.license
         return ans
 
-    @property
+    @cached_property
     def name(self: Self) -> str:
         basename: Any
         raw: str
