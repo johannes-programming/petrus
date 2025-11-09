@@ -12,8 +12,6 @@ class Text(BaseCalc):
             return object.__getattribute__(self, name_)
         if name_.startswith("_"):
             raise AttributeError(name_)
-        if not hasattr(self, "_lock"):
-            self._lock = set()
         if name_ in self._lock:
             raise Exception
         self._lock.add(name_)
@@ -23,6 +21,9 @@ class Text(BaseCalc):
         finally:
             self._lock.remove(name_)
         return ans
+
+    def __post_init__(self: Self) -> None:
+        self._lock = set()
 
     def _calc(self: Self, name: Any) -> Any:
         f = getattr(self.prog.file, name)
