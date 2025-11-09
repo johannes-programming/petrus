@@ -1,11 +1,11 @@
 from functools import cached_property
 from typing import *
 
-from petrus._core.calcs.Calc import Calc
+from petrus._core.calcs.BaseCalc import BaseCalc
 from petrus._core.consts.Const import Const
 
 
-class Block(Calc):
+class Block(BaseCalc):
     @cached_property
     def text(self: Self) -> str:
         ans: str
