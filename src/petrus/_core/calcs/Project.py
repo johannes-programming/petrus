@@ -6,11 +6,11 @@ from functools import cached_property
 from typing import *
 
 from petrus._core import utils
-from petrus._core.calcs.Calc import Calc
+from petrus._core.calcs.BaseCalc import BaseCalc
 from petrus._core.consts.Const import Const
 
 
-class Project(Calc):
+class Project(BaseCalc):
     def __post_init__(self: Self) -> None: ...
 
     @cached_property
