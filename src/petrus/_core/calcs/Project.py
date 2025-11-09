@@ -123,7 +123,8 @@ class Project(Calc):
                 ans += "_"
         return ans
 
-    def _calc_readme(self: Self) -> Any:
+    @property
+    def readme(self: Self) -> Any:
         return self.prog.file.readme
 
     def _calc_requires_python(self: Self) -> Any:
