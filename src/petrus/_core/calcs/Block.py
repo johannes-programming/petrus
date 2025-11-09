@@ -72,7 +72,7 @@ class Block(BaseCalc):
         if Const.const.data["CONST"]["MIT"] not in classifiers:
             return None
         lines = self.ftitle("License")
-        lines += "This project is licensed under the MIT License."
+        lines += Const.const.data["CONST"]["MIT-LINE"]
         return lines
 
     links: str
