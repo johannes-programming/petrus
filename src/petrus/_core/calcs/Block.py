@@ -31,12 +31,9 @@ class Block(BaseCalc):
     def ftitle(value: Any, /, lining: Any = "-") -> str:
         v: str
         l: str
-        ans: str
         v = str(value)
-        l = str(lining)
-        l *= len(v)
-        ans = "%s\n%s\n\n" % (v, l)
-        return ans
+        l = str(lining) * len(v)
+        return "%s\n%s\n\n" % (v, l)
 
     heading: str
 
@@ -57,7 +54,7 @@ class Block(BaseCalc):
         name: Any
         ans: Any
         name = self.prog.project.name
-        ans = self.prog.draft.installation.format(name=name)
+        ans = self.prog.draft.getitem("installation").format(name=name)
         return ans
 
     license: Optional[str]
