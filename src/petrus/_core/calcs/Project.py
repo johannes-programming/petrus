@@ -5,6 +5,8 @@ import sys
 from functools import cached_property
 from typing import *
 
+from identityfunction import identityfunction
+
 from petrus._core import utils
 from petrus._core.calcs.BaseCalc import BaseCalc
 from petrus._core.consts.Const import Const
@@ -147,7 +149,7 @@ class Project(BaseCalc):
         ans = [x.replace("::", " :: ") for x in ans]
         ans = [" ".join(x.split()) for x in ans]
         ans = list(map(str.strip, ans))
-        ans = [x for x in ans if x]
+        ans = list(filter(identityfunction, ans))
         return ans
 
     def get(self: Self, *args: Any, default: Any = None) -> Any:
