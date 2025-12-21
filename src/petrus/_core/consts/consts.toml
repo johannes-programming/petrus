@@ -14,6 +14,19 @@ See also %r."""
 LINK = "https://pypi.org/project/petrus/"
 MIT = "License :: OSI Approved :: MIT License"
 MIT-LINE = "This project is licensed under the MIT License."
+PROJECT-KEYS = [
+    "authors",
+    "classifiers",
+    "dependencies",
+    "description",
+    "keywords",
+    "name",
+    "readme",
+    "requires_python",
+    "version",
+    "license",
+    "urls",
+]
 
 [INPUTS]
 author = "The author of the project."

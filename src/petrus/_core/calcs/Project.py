@@ -31,10 +31,6 @@ class Project(BaseCalc):
     def __post_init__(self: Self) -> None:
         self._version = _empty
 
-    def _calc_version(self: Self) -> Any:
-        # this method is required for unclear reasons
-        sys.exit("?")
-
     @cached_property
     def authors(self: Self) -> Any:
         ans: Any
@@ -222,13 +218,10 @@ class Project(BaseCalc):
 
     def todict(self: Self) -> Any:
         ans: Any
-        prefix: str
+        k: Any
+        v: Any
         ans = self.get(default={})
-        prefix = "_calc_"
-        for n, m in inspect.getmembers(self):
-            if not n.startswith(prefix):
-                continue
-            k = n[len(prefix) :]
+        for k in Const.const.data["CONST"]["PROJECT-KEYS"]:
             v = getattr(self, k)
             if v is None:
                 continue
