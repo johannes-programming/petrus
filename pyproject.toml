@@ -24,6 +24,7 @@ dependencies = [
     "black>=24.5,<25",
     "build>=1.2.1,<2",
     "filelisting>=1.2.6,<2",
+    "identityfunction>=1.0.3,<2",
     "isort>=6.0,<7",
     "requests>=2.31,<3",
     "tomlhold>=1.1,<2",
@@ -35,7 +36,7 @@ keywords = []
 name = "petrus"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "0.9.60"
+version = "0.9.61"
 
 [project.license]
 file = "LICENSE.txt"
