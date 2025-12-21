@@ -107,14 +107,14 @@ class Project(BaseCalc):
 
     @cached_property
     def dependencies(self: Self) -> Any:
-        ans: Any
-        ans_: list
-        ans = self.get("dependencies", default=[])
-        if type(ans) is not list:
-            return ans
-        ans_ = [utils.fix_dependency(x) for x in ans]
-        ans_ = self.prog.easy_list(ans_)
-        return ans_
+        x: Any
+        y: list
+        x = self.get("dependencies", default=[])
+        if type(x) is not list:
+            return x
+        y = list(map(utils.fix_dependency, x))
+        y = self.prog.easy_list(y)
+        return y
 
     @cached_property
     def description(self: Self) -> Any:
