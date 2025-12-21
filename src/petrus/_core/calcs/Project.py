@@ -140,6 +140,19 @@ class Project(BaseCalc):
             ans["file"] = self.prog.file.license
         return ans
 
+    @classmethod
+    def format_classifiers(cls: type, value: Iterable, /) -> list:
+        ans: list
+        ans = list(value)
+        ans = [x.replace("::", " :: ") for x in ans]
+        ans = [" ".join(x.split()) for x in ans]
+        ans = [x.strip() for x in ans]
+        ans = [x for x in ans if x]
+        return ans
+
+    def get(self: Self, *args: Any, default: Any = None) -> Any:
+        return self.prog.pp.get("project", *args, default=default)
+
     @cached_property
     def name(self: Self) -> str:
         basename: Any
@@ -179,6 +192,20 @@ class Project(BaseCalc):
                 return x
         return None
 
+    def todict(self: Self) -> Any:
+        ans: Any
+        x: Any
+        y: Any
+        ans = self.get(default={})
+        for x in Const.const.data["CONST"]["PROJECT-KEYS"]:
+            y = getattr(self, x)
+            if y is None:
+                continue
+            x = x.replace("_", "-")
+            ans[x] = y
+        ans = self.prog.easy_dict(ans)
+        return ans
+
     @cached_property
     def urls(self: Self) -> Any:
         ans: Any
@@ -202,30 +229,3 @@ class Project(BaseCalc):
         if self._version is _empty:
             self._version = self.prog.version_formatted
         return self._version
-
-    @classmethod
-    def format_classifiers(cls: type, value: Iterable, /) -> list:
-        ans: list
-        ans = list(value)
-        ans = [x.replace("::", " :: ") for x in ans]
-        ans = [" ".join(x.split()) for x in ans]
-        ans = [x.strip() for x in ans]
-        ans = [x for x in ans if x]
-        return ans
-
-    def get(self: Self, *args: Any, default: Any = None) -> Any:
-        return self.prog.pp.get("project", *args, default=default)
-
-    def todict(self: Self) -> Any:
-        ans: Any
-        k: Any
-        v: Any
-        ans = self.get(default={})
-        for k in Const.const.data["CONST"]["PROJECT-KEYS"]:
-            v = getattr(self, k)
-            if v is None:
-                continue
-            k = k.replace("_", "-")
-            ans[k] = v
-        ans = self.prog.easy_dict(ans)
-        return ans
