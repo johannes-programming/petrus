@@ -180,7 +180,6 @@ class Project(BaseCalc):
         kwarg: Any
         preset: Any
         current: Any
-        x: Any
         kwarg = self.prog.kwargs["requires_python"]
         preset = self.get("requires-python", default="")
         current = ">={0}.{1}.{2}".format(*sys.version_info)
@@ -188,11 +187,9 @@ class Project(BaseCalc):
             return preset
         kwarg = kwarg.format(preset=preset, current=current)
         kwarg = kwarg.split("\\|")
-        kwarg = [x.strip() for x in kwarg]
-        for x in kwarg:
-            if x:
-                return x
-        return None
+        kwarg = list(map(str.strip, kwarg))
+        kwarg = next(filter(identityfunction, kwarg), None)
+        return kwarg
 
     def todict(self: Self) -> Any:
         ans: Any
