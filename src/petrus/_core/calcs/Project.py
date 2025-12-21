@@ -146,7 +146,7 @@ class Project(BaseCalc):
         ans = list(value)
         ans = [x.replace("::", " :: ") for x in ans]
         ans = [" ".join(x.split()) for x in ans]
-        ans = [x.strip() for x in ans]
+        ans = list(map(str.strip, ans))
         ans = [x for x in ans if x]
         return ans
 
