@@ -1,11 +1,11 @@
 from typing import *
 
-from .BaseCalc import BaseCalc
+from .CacheCalc import CacheCalc
 
 __all__ = ["Text"]
 
 
-class Text(BaseCalc):
+class Text(CacheCalc):
     def __getattr__(self: Self, name: Any) -> Any:
         ans: Any
         name_: str
@@ -60,11 +60,10 @@ class Text(BaseCalc):
         return self.prog.draft.getitem("init").format(project=n)
 
     def _calc_license(self: Self) -> Any:
-        d = dict()
-        d["year"] = self.prog.year
-        d["author"] = self.prog.author[0]
-        ans = self.prog.draft.getitem("license").format(**d)
-        return ans
+        return self.prog.draft.getitem("license").format(
+            year=self.prog.year,
+            author=self.prog.author[0],
+        )
 
     def _calc_main(self: Self) -> Any:
         n = self.prog.project.name

@@ -1,4 +1,3 @@
-import inspect
 import os
 import string
 import sys
@@ -8,7 +7,7 @@ from typing import *
 from identityfunction import identityfunction
 
 from petrus._core import utils
-from petrus._core.calcs.BaseCalc import BaseCalc
+from petrus._core.calcs.CacheCalc import CacheCalc
 from petrus._core.consts.Const import Const
 
 __all__ = ["Project"]
@@ -18,7 +17,7 @@ class _empty:
     pass
 
 
-class Project(BaseCalc):
+class Project(CacheCalc):
 
     authors: Any
     classifiers: Any

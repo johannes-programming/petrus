@@ -11,8 +11,8 @@ import tomlhold
 import v440
 
 from petrus._core import utils
-from petrus._core.calcs.BaseCalc import BaseCalc
 from petrus._core.calcs.Block import Block
+from petrus._core.calcs.CacheCalc import CacheCalc
 from petrus._core.calcs.Draft import Draft
 from petrus._core.calcs.File import File
 from petrus._core.calcs.Git import Git
@@ -22,7 +22,7 @@ from petrus._core.calcs.Text import Text
 __all__ = ["Prog"]
 
 
-class Prog(BaseCalc):
+class Prog(CacheCalc):
 
     def __init__(self: Self, kwargs: Any, /) -> None:
         self.kwargs = kwargs

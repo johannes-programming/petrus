@@ -5,7 +5,7 @@ from functools import cached_property
 from typing import *
 
 from petrus._core import utils
-from petrus._core.calcs.BaseCalc import BaseCalc
+from petrus._core.calcs.CacheCalc import CacheCalc
 
 if TYPE_CHECKING:
     from petrus._core.calcs.Prog import Prog
@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 __all__ = ["File"]
 
 
-class File(BaseCalc):
+class File(CacheCalc):
 
     prog: Prog
 
