@@ -4,6 +4,8 @@ from functools import cached_property
 from importlib import resources
 from typing import *
 
+__all__ = ["Const"]
+
 
 class Const(enum.Enum):
     const = None

@@ -5,6 +5,8 @@ from typing import *
 
 from petrus._core.calcs.BaseCalc import BaseCalc
 
+__all__ = ["Git"]
+
 
 class Git(BaseCalc):
     def __call__(self: Self, *args: Any, force: Any = False) -> Any:
