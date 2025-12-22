@@ -31,8 +31,7 @@ class Prog(CacheCalc):
     def __post_init__(self: Self) -> None:
         self.git.init()
         self.git.ignore()
-        for p in self.packages:
-            self.tests(p)
+        map(self.tests, self.packages)
         self.pp["project"] = self.project.todict()
         self.pp["build-system"] = self.build_system
         self.pp.data = self.easy_dict(self.pp.data)
