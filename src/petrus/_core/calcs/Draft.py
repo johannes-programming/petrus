@@ -1,12 +1,12 @@
 import importlib.resources
 from typing import *
 
-from petrus._core.calcs.BaseCalc import BaseCalc
+from petrus._core.calcs.CacheCalc import CacheCalc
 
 __all__ = ["Draft"]
 
 
-class Draft(BaseCalc):
+class Draft(CacheCalc):
 
     def __getattr__(self: Self, name: str) -> Any:
         return self.getitem(name)

@@ -1,13 +1,13 @@
 from functools import cached_property
 from typing import *
 
-from petrus._core.calcs.BaseCalc import BaseCalc
+from petrus._core.calcs.CacheCalc import CacheCalc
 from petrus._core.consts.Const import Const
 
 __all__ = ["Block"]
 
 
-class Block(BaseCalc):
+class Block(CacheCalc):
 
     credits: str
     heading: str

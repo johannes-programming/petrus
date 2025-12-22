@@ -3,12 +3,12 @@ import subprocess
 from functools import cached_property
 from typing import *
 
-from petrus._core.calcs.BaseCalc import BaseCalc
+from petrus._core.calcs.CacheCalc import CacheCalc
 
 __all__ = ["Git"]
 
 
-class Git(BaseCalc):
+class Git(CacheCalc):
     def __call__(self: Self, *args: Any, force: Any = False) -> Any:
         a: Any
         args_: list[str]
