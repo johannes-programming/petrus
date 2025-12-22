@@ -1,11 +1,11 @@
 from typing import *
 
-from .CacheCalc import CacheCalc
+from .BaseCalc import BaseCalc
 
 __all__ = ["Text"]
 
 
-class Text(CacheCalc):
+class Text(BaseCalc):
     def __getattr__(self: Self, name: Any) -> Any:
         ans: Any
         name_: str
