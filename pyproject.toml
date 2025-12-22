@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-    "setuptools>=61.0",
+    "setuptools>=64.0",
 ]
 
 [project]
@@ -36,7 +36,7 @@ keywords = []
 name = "petrus"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "0.9.70"
+version = "0.9.71"
 
 [project.license]
 file = "LICENSE.txt"
