@@ -10,6 +10,8 @@ from petrus._core.calcs.BaseCalc import BaseCalc
 if TYPE_CHECKING:
     from petrus._core.calcs.Prog import Prog
 
+__all__ = ["File"]
+
 
 class File(BaseCalc):
 

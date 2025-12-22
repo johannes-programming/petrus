@@ -11,6 +11,8 @@ from petrus._core import utils
 from petrus._core.calcs.BaseCalc import BaseCalc
 from petrus._core.consts.Const import Const
 
+__all__ = ["Project"]
+
 
 class _empty:
     pass

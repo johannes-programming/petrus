@@ -19,6 +19,8 @@ from petrus._core.calcs.Git import Git
 from petrus._core.calcs.Project import Project
 from petrus._core.calcs.Text import Text
 
+__all__ = ["Prog"]
+
 
 class Prog(BaseCalc):
 
