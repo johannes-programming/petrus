@@ -49,15 +49,17 @@ class Text(BaseCalc):
         return method()
 
     def _calc_core(self: Self) -> Any:
-        n = self.prog.project.name
-        return self.prog.draft.getitem("core").format(project=n)
+        return self.prog.draft.getitem("core").format(
+            project=self.prog.project.name,
+        )
 
     def _calc_gitignore(self: Self) -> Any:
         return self.prog.draft.getitem("gitignore")
 
     def _calc_init(self: Self) -> Any:
-        n = self.prog.project.name
-        return self.prog.draft.getitem("init").format(project=n)
+        return self.prog.draft.getitem("init").format(
+            project=self.prog.project.name,
+        )
 
     def _calc_license(self: Self) -> Any:
         return self.prog.draft.getitem("license").format(
@@ -66,12 +68,14 @@ class Text(BaseCalc):
         )
 
     def _calc_main(self: Self) -> Any:
-        n = self.prog.project.name
-        return self.prog.draft.getitem("main").format(project=n)
+        return self.prog.draft.getitem("main").format(
+            project=self.prog.project.name,
+        )
 
     def _calc_manifest(self: Self) -> Any:
-        n = self.prog.project.name
-        return self.prog.draft.getitem("manifest").format(project=n)
+        return self.prog.draft.getitem("manifest").format(
+            project=self.prog.project.name,
+        )
 
     def _calc_readme(self: Self) -> Any:
         return self.prog.block.text
