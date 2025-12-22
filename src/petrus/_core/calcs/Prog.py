@@ -28,8 +28,7 @@ class Prog(BaseCalc):
 
     def __post_init__(self: Self) -> None:
         self.git.init()
-        if self.git.is_repo():
-            self.save("gitignore")
+        self.git.ignore()
         for p in self.packages:
             self.tests(p)
         self.pp["project"] = self.project.todict()
@@ -154,6 +153,22 @@ class Prog(BaseCalc):
     def draft(self: Self) -> Draft:
         return Draft(self)
 
+    @staticmethod
+    def easy_dict(dictionary: Any, *, purge: Any = False) -> dict:
+        d: dict
+        keys: Iterable
+        ans: dict
+        d = dict(dictionary)
+        keys = sorted(list(d.keys()))
+        ans = {k: d[k] for k in keys}
+        return ans
+
+    @staticmethod
+    def easy_list(iterable: Iterable) -> list:
+        ans = list(set(iterable))
+        ans.sort()
+        return ans
+
     @cached_property
     def file(self: Self) -> File:
         return File(self)
@@ -169,6 +184,52 @@ class Prog(BaseCalc):
         if u == "":
             return ""
         return f"https://github.com/{u}/{self.project.name}/"
+
+    def ispkg(self: Self, path: Any, *, todir: Any = True) -> bool:
+        root: Any
+        name: Any
+        tr: Any
+        ext: Any
+        init: Any
+        pro: Any
+        root, name = os.path.split(path)
+        tr, ext = os.path.splitext(name)
+        if os.path.isdir(path):
+            init = os.path.join(path, "__init__.py")
+            if not os.path.exists(init):
+                return False
+            if not os.path.isfile(init):
+                raise FileExistsError
+            if ext != "":
+                raise Exception(ext)
+            return True
+        if os.path.isfile(path):
+            if ext != ".py":
+                return False
+            if not todir:
+                return True
+            pro = os.path.join(root, tr)
+            init = os.path.join(pro, "__init__.py")
+            if os.path.exists(init):
+                raise FileExistsError
+            self.mkdir(pro)
+            self.git.move(path, init)
+            return True
+        return False
+
+    @classmethod
+    def mkdir(cls: type, path: Any) -> None:
+        if utils.isdir(path):
+            return
+        os.mkdir(path)
+
+    def mkpkg(self: Self, path: Any) -> None:
+        f: Any
+        if self.ispkg(path):
+            return
+        self.mkdir(path)
+        f = os.path.join(path, "__init__.py")
+        self.touch(f)
 
     @cached_property
     def packages(self: Self) -> list:
@@ -195,6 +256,27 @@ class Prog(BaseCalc):
             self.save("main")
         return [pro]
 
+    @staticmethod
+    def parse_bump(line: Any) -> Any:
+        line = line.strip()
+        if not line.startswith("bump"):
+            raise ValueError
+        line = line[4:].lstrip()
+        if not line.startswith("("):
+            raise ValueError
+        line = line[1:].lstrip()
+        if not line.endswith(")"):
+            raise ValueError
+        line = line[:-1].rstrip()
+        if line.endswith(","):
+            line = line[:-1].rstrip()
+        chars = string.digits + string.whitespace + ",-"
+        if line.strip(chars):
+            raise ValueError
+        line = line.split(",")
+        line = [int(x.strip()) for x in line]
+        return line
+
     @cached_property
     def pp(self: Self) -> tomlhold.TOMLHolder:
         return tomlhold.TOMLHolder.loads(self.text.pp)
@@ -203,9 +285,87 @@ class Prog(BaseCalc):
     def project(self: Self) -> Project:
         return Project(self)
 
+    @staticmethod
+    def py(*args: Any) -> Any:
+        args_: list
+        args_ = [sys.executable, "-m"] + list(args)
+        return subprocess.run(args_)
+
+    def pypi(self: Self) -> None:
+        args: list
+        token: Any
+        shutil.rmtree("dist", ignore_errors=True)
+        if utils.py("build").returncode:
+            return
+        args = ["twine", "upload", "dist/*"]
+        token = self.kwargs["token"]
+        if token != "":
+            args += ["-u", "__token__", "-p", token]
+        subprocess.run(args)
+
+    def save(self: Self, name: Any, /) -> None:
+        file: Any
+        text: Any
+        root: Any
+        roots: Any
+        stream: Any
+        file = getattr(self.file, name)
+        text = getattr(self.text, name)
+        roots = list()
+        root = file
+        while True:
+            root = os.path.dirname(root)
+            if not root:
+                break
+            if os.path.exists(root):
+                break
+            roots.append(root)
+        while roots:
+            root = roots.pop()
+            os.mkdir(root)
+        with open(file, "w") as stream:
+            stream.write(text)
+
+    def tests(self: Self, pkg: Any) -> None:
+        a: Any
+        b: Any
+        file: Any
+        stream: Any
+        text: Any
+        base: Any
+        a = os.path.join(pkg)
+        b = os.path.join(pkg, "tests")
+        self.mkpkg(a)
+        if self.ispkg(b):
+            return
+        self.mkdir(b)
+        file = os.path.join(b, "__init__.py")
+        if not utils.isfile(file):
+            text = self.draft.getitem("tests")
+            base = os.path.basename(pkg)
+            text = text.format(pkg=base)
+            with open(file, "w") as stream:
+                stream.write(text)
+        for file in os.listdir(b):
+            if file == "__init__.py":
+                continue
+            if file.startswith("."):
+                continue
+            return
+        file = os.path.join(b, "test_1984.py")
+        with open(file, "w") as stream:
+            stream.write(self.draft.getitem("test_1984"))
+
     @cached_property
     def text(self: Self) -> Text:
         return Text(self)
+
+    @staticmethod
+    def touch(file: Any) -> None:
+        if utils.isfile(file):
+            return
+        with open(file, "w"):
+            pass
 
     @cached_property
     def version_default(self: Self) -> str:
@@ -258,159 +418,3 @@ class Prog(BaseCalc):
         current = str(datetime.datetime.now().year)
         ans = ans.format(current=current)
         return ans
-
-    @staticmethod
-    def easy_dict(dictionary: Any, *, purge: Any = False) -> dict:
-        d: dict
-        keys: Iterable
-        ans: dict
-        d = dict(dictionary)
-        keys = sorted(list(d.keys()))
-        ans = {k: d[k] for k in keys}
-        return ans
-
-    @staticmethod
-    def easy_list(iterable: Iterable) -> list:
-        ans = list(set(iterable))
-        ans.sort()
-        return ans
-
-    def ispkg(self: Self, path: Any, *, todir: Any = True) -> bool:
-        root: Any
-        name: Any
-        tr: Any
-        ext: Any
-        init: Any
-        pro: Any
-        root, name = os.path.split(path)
-        tr, ext = os.path.splitext(name)
-        if os.path.isdir(path):
-            init = os.path.join(path, "__init__.py")
-            if not os.path.exists(init):
-                return False
-            if not os.path.isfile(init):
-                raise FileExistsError
-            if ext != "":
-                raise Exception(ext)
-            return True
-        if os.path.isfile(path):
-            if ext != ".py":
-                return False
-            if not todir:
-                return True
-            pro = os.path.join(root, tr)
-            init = os.path.join(pro, "__init__.py")
-            if os.path.exists(init):
-                raise FileExistsError
-            self.mkdir(pro)
-            self.git.move(path, init)
-            return True
-        return False
-
-    @classmethod
-    def mkdir(cls: type, path: Any) -> None:
-        if utils.isdir(path):
-            return
-        os.mkdir(path)
-
-    def mkpkg(self: Self, path: Any) -> None:
-        f: Any
-        if self.ispkg(path):
-            return
-        self.mkdir(path)
-        f = os.path.join(path, "__init__.py")
-        self.touch(f)
-
-    @staticmethod
-    def parse_bump(line: Any) -> Any:
-        line = line.strip()
-        if not line.startswith("bump"):
-            raise ValueError
-        line = line[4:].lstrip()
-        if not line.startswith("("):
-            raise ValueError
-        line = line[1:].lstrip()
-        if not line.endswith(")"):
-            raise ValueError
-        line = line[:-1].rstrip()
-        if line.endswith(","):
-            line = line[:-1].rstrip()
-        chars = string.digits + string.whitespace + ",-"
-        if line.strip(chars):
-            raise ValueError
-        line = line.split(",")
-        line = [int(x.strip()) for x in line]
-        return line
-
-    @staticmethod
-    def py(*args: Any) -> Any:
-        args_: list
-        args_ = [sys.executable, "-m"] + list(args)
-        return subprocess.run(args_)
-
-    def pypi(self: Self) -> None:
-        args: list
-        token: Any
-        shutil.rmtree("dist", ignore_errors=True)
-        if utils.py("build").returncode:
-            return
-        args = ["twine", "upload", "dist/*"]
-        token = self.kwargs["token"]
-        if token != "":
-            args += ["-u", "__token__", "-p", token]
-        subprocess.run(args)
-
-    def save(self: Self, n: Any, /) -> None:
-        file = getattr(self.file, n)
-        text = getattr(self.text, n)
-        roots = list()
-        root = file
-        while True:
-            root = os.path.dirname(root)
-            if not root:
-                break
-            if os.path.exists(root):
-                break
-            roots.append(root)
-        while roots:
-            root = roots.pop()
-            os.mkdir(root)
-        with open(file, "w") as s:
-            s.write(text)
-
-    def tests(self: Self, pkg: Any) -> None:
-        a: Any
-        b: Any
-        file: Any
-        stream: Any
-        text: Any
-        base: Any
-        a = os.path.join(pkg)
-        b = os.path.join(pkg, "tests")
-        self.mkpkg(a)
-        if self.ispkg(b):
-            return
-        self.mkdir(b)
-        file = os.path.join(b, "__init__.py")
-        if not utils.isfile(file):
-            text = self.draft.getitem("tests")
-            base = os.path.basename(pkg)
-            text = text.format(pkg=base)
-            with open(file, "w") as stream:
-                stream.write(text)
-        for file in os.listdir(b):
-            if file == "__init__.py":
-                continue
-            if file.startswith("."):
-                continue
-            return
-        file = os.path.join(b, "test_1984.py")
-        with open(file, "w") as stream:
-            stream.write(self.draft.getitem("test_1984"))
-
-    @staticmethod
-    def touch(file: Any) -> None:
-        if utils.isfile(file):
-            return
-        with open(file, "w"):
-            pass

@@ -26,21 +26,25 @@ class Text(BaseCalc):
         self._lock = set()
 
     def _calc(self: Self, name: Any) -> Any:
-        f = getattr(self.prog.file, name)
+        file: Any
+        lines: Optional[list]
+        method: Callable
+        stream: Any
+        file = getattr(self.prog.file, name)
         try:
-            with open(f, "r") as s:
-                lines = s.readlines()
+            with open(file, "r") as stream:
+                lines = stream.readlines()
         except FileNotFoundError:
             lines = None
         if lines is not None:
-            lines = [x.rstrip() for x in lines]
+            lines = list(map(str.rstrip, lines))
             lines = "\n".join(lines)
             return lines
         try:
-            f = getattr(self, "_calc_" + name)
+            method = getattr(self, "_calc_" + name)
         except Exception:
-            return ""
-        return f()
+            method = str
+        return method()
 
     def _calc_core(self: Self) -> Any:
         n = self.prog.project.name

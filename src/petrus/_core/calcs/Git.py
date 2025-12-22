@@ -32,12 +32,6 @@ class Git(BaseCalc):
             return a
         return f"{a} <{e}>"
 
-    def init(self: Self) -> None:
-        if self.is_repo():
-            return
-        self("init", os.getcwd(), force=True)
-        self.commit("Initial Commit")
-
     def commit_version(self: Self) -> None:
         m: Any
         m = "Version %s" % self.prog.project.version
@@ -59,8 +53,20 @@ class Git(BaseCalc):
             args += ["--author", self.author]
         self(*args)
 
-    def push(self: Self) -> None:
-        pass  # self("push").returncode and self("push", "-u")
+    def ignore(self: Self) -> None:
+        exists: bool
+        if not self.is_repo():
+            return
+        exists = self.prog.file.exists("gitignore")
+        self.prog.save("gitignore")
+        if not exists:
+            self.commit("gitignore")
+
+    def init(self: Self) -> None:
+        if self.is_repo():
+            return
+        self("init", os.getcwd(), force=True)
+        self.commit("Initial Commit")
 
     def is_repo(self: Self) -> Any:
         called = self("rev-parse", force=True)
@@ -76,3 +82,6 @@ class Git(BaseCalc):
         else:
             return
         os.rename(a, b)
+
+    def push(self: Self) -> None:
+        pass  # self("push").returncode and self("push", "-u")
