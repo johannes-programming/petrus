@@ -4,10 +4,18 @@ from typing import *
 from petrus._core.calcs.BaseCalc import BaseCalc
 from petrus._core.consts.Const import Const
 
+__all__ = ["Block"]
+
 
 class Block(BaseCalc):
 
     credits: str
+    heading: str
+    installation: Any
+    license: Optional[str]
+    links: str
+    overview: str
+    text: str
 
     @cached_property
     def credits(self: Self) -> str:
@@ -35,8 +43,6 @@ class Block(BaseCalc):
         l = str(lining) * len(v)
         return "%s\n%s\n\n" % (v, l)
 
-    heading: str
-
     @cached_property
     def heading(self: Self) -> str:
         n: Any
@@ -47,8 +53,6 @@ class Block(BaseCalc):
         ans = "%s\n%s\n%s" % (l, n, l)
         return ans
 
-    installation: Any
-
     @cached_property
     def installation(self: Self) -> Any:
         name: Any
@@ -56,8 +60,6 @@ class Block(BaseCalc):
         name = self.prog.project.name
         ans = self.prog.draft.getitem("installation").format(name=name)
         return ans
-
-    license: Optional[str]
 
     @cached_property
     def license(self: Self) -> Optional[str]:
@@ -71,8 +73,6 @@ class Block(BaseCalc):
         lines = self.ftitle("License")
         lines += Const.const.data["CONST"]["MIT-LINE"]
         return lines
-
-    links: str
 
     @cached_property
     def links(self: Self) -> str:
@@ -88,8 +88,6 @@ class Block(BaseCalc):
             lines += "* `%s <%s>`_\n" % i
         return lines
 
-    overview: str
-
     @cached_property
     def overview(self: Self) -> str:
         d: str
@@ -100,8 +98,6 @@ class Block(BaseCalc):
         lines = self.ftitle("Overview")
         lines += str(d)
         return lines
-
-    text: str
 
     @cached_property
     def text(self: Self) -> str:
