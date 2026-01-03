@@ -4,12 +4,13 @@ from typing import *
 from petrus._core.calcs.CacheCalc import CacheCalc
 from petrus._core.consts.Const import Const
 
+if TYPE_CHECKING:
+    from .Prog import Prog
+
 __all__ = ["Block"]
 
 
 class Block(CacheCalc):
-
-    __slots__ = ()
 
     credits: str
     heading: str
@@ -17,6 +18,7 @@ class Block(CacheCalc):
     license: Optional[str]
     links: str
     overview: str
+    prog: "Prog"
     text: str
 
     @cached_property
