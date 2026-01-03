@@ -365,20 +365,20 @@ class Prog(CacheCalc):
         if self.ispkg(loc):
             return
         self.mkdir(loc)
-        file = os.path.join(b, "__init__.py")
+        file = os.path.join(loc, "__init__.py")
         if not utils.isfile(file):
             text = self.draft.getitem("tests")
             base = os.path.basename(pkg)
             text = text.format(pkg=base)
             with open(file, "w") as stream:
                 stream.write(text)
-        for file in os.listdir(b):
+        for file in os.listdir(loc):
             if file == "__init__.py":
                 continue
             if file.startswith("."):
                 continue
             return
-        file = os.path.join(b, "test_1984.py")
+        file = os.path.join(loc, "test_1984.py")
         with open(file, "w") as stream:
             stream.write(self.draft.getitem("test_1984"))
 
