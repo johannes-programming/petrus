@@ -15,7 +15,16 @@ __all__ = ["File"]
 
 class File(CacheCalc):
 
+    core: Any
+    gitignore: str
+    license: Any
+    main: Any
+    init: Any
+    manifest: str
+    pp: str
     prog: Prog
+    readme: Any
+    setup: str
 
     @staticmethod
     def _find(file: Any) -> Any:
@@ -32,8 +41,6 @@ class File(CacheCalc):
                 return x
         return file
 
-    core: Any
-
     @cached_property
     def core(self: Self) -> Any:
         return os.path.join("src", self.prog.project.name, "core", "__init__.py")
@@ -41,13 +48,9 @@ class File(CacheCalc):
     def exists(self: Self, name: Any) -> bool:
         return os.path.exists(getattr(self, name))
 
-    gitignore: str
-
     @property
     def gitignore(self: Self) -> str:
         return ".gitignore"
-
-    license: Any
 
     @cached_property
     def license(self: Self) -> Any:
@@ -57,31 +60,21 @@ class File(CacheCalc):
             return ans
         return self._find("LICENSE.txt")
 
-    main: Any
-
     @property
     def main(self: Self) -> Any:
         return os.path.join("src", self.prog.project.name, "__main__.py")
-
-    init: Any
 
     @cached_property
     def init(self: Self) -> Any:
         return os.path.join("src", self.prog.project.name, "__init__.py")
 
-    manifest: str
-
     @property
     def manifest(self: Self) -> str:
         return "MANIFEST.in"
 
-    pp: str
-
     @property
     def pp(self: Self) -> str:
         return "pyproject.toml"
-
-    readme: Any
 
     @cached_property
     def readme(self: Self) -> Any:
@@ -90,8 +83,6 @@ class File(CacheCalc):
         if type(ans) is str and os.path.exists(ans):
             return ans
         return self._find("README.rst")
-
-    setup: str
 
     @property
     def setup(self: Self) -> str:

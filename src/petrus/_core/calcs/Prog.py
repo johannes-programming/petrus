@@ -50,7 +50,7 @@ class Prog(CacheCalc):
     def __post_init__(self: Self) -> None:
         self.git.init()
         self.git.ignore()
-        map(self.tests, self.packages)
+        tuple(map(self.tests, self.packages))
         self.pp["project"] = self.project.todict()
         self.pp["build-system"] = self.build_system
         self.pp.data = self.easy_dict(self.pp.data)
@@ -354,19 +354,17 @@ class Prog(CacheCalc):
         with open(file, "w") as stream:
             stream.write(text)
 
-    def tests(self: Self, pkg: Any) -> None:
-        a: Any
-        b: Any
+    def tests(self: Self, pkg: str) -> None:
+        loc: str
         file: Any
         stream: Any
         text: str
         base: Any
-        a = os.path.join(pkg)
-        b = os.path.join(pkg, "tests")
-        self.mkpkg(a)
-        if self.ispkg(b):
+        self.mkpkg(os.path.join(pkg))
+        loc = os.path.join(pkg, "tests")
+        if self.ispkg(loc):
             return
-        self.mkdir(b)
+        self.mkdir(loc)
         file = os.path.join(b, "__init__.py")
         if not utils.isfile(file):
             text = self.draft.getitem("tests")
