@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import cached_property
 from typing import *
 
@@ -18,7 +20,7 @@ class Block(CacheCalc):
     license: Optional[str]
     links: str
     overview: str
-    prog: "Prog"
+    prog: Prog
     text: str
 
     @cached_property
