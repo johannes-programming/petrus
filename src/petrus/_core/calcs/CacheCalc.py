@@ -5,4 +5,5 @@ from petrus._core.calcs.BaseCalc import BaseCalc
 __all__ = ["CacheCalc"]
 
 
-class CacheCalc(BaseCalc): ...
+class CacheCalc(BaseCalc):
+    __slots__ = ()
