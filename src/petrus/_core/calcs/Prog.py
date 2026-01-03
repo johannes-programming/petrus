@@ -54,7 +54,7 @@ class Prog(CacheCalc):
         self.pp["project"] = self.project.todict()
         self.pp["build-system"] = self.build_system
         self.pp.data = self.easy_dict(self.pp.data)
-        self.text.pp = self.pp.dumps()
+        self.text["pp"] = self.pp.dumps()
         self.save("license")
         self.save("manifest")
         self.save("pp")
