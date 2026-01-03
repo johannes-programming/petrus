@@ -24,8 +24,14 @@ class Text(BaseCalc):
             self._lock.remove(name_)
         return ans
 
+    def __getitem__(self: Self, key: str) -> Any:
+        return getattr(self, key)
+
     def __post_init__(self: Self) -> None:
         self._lock = set()
+
+    def __setitem__(self: Self, key: str, value: Any) -> None:
+        setattr(self, key, value)
 
     def _calc(self: Self, name: Any) -> Any:
         file: Any
