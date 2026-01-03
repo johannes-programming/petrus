@@ -6,6 +6,8 @@ __all__ = ["BaseCalc"]
 
 
 class BaseCalc:
+    __slots__ = ()
+
     def __delattr__(self: Self, name: Any) -> None:
         self.__check(name)
         object.__delattr__(self, name)
