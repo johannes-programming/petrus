@@ -14,6 +14,8 @@ __all__ = ["Text"]
 
 class Text(BaseCalc):
 
+    __slots__ = ("_data", "_lock")
+
     def __getitem__(self: Self, name: str) -> Any:
         name_: str
         name_ = str(name)
@@ -41,7 +43,6 @@ class Text(BaseCalc):
     def _calc(self: Self, name: Any) -> Any:
         file: Any
         lines: Optional[list]
-        method: Callable
         stream: Any
         file = getattr(self["prog"].file, name)
         try:
@@ -50,14 +51,8 @@ class Text(BaseCalc):
         except FileNotFoundError:
             lines = None
         if lines is not None:
-            lines = list(map(str.rstrip, lines))
-            lines = "\n".join(lines)
-            return lines
-        try:
-            method = getattr(self, "_calc_" + name)
-        except Exception:
-            method = str
-        return method()
+            return "\n".join(map(str.rstrip, lines))
+        return getattr(self, "_calc_" + name, str)()
 
     def _calc_core(self: Self) -> Any:
         return (
