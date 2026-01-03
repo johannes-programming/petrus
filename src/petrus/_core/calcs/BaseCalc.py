@@ -1,7 +1,5 @@
 from typing import *
 
-import setdoc
-
 __all__ = ["BaseCalc"]
 
 
@@ -11,11 +9,6 @@ class BaseCalc:
     def __delattr__(self: Self, name: Any) -> None:
         self.__check(name)
         object.__delattr__(self, name)
-
-    @setdoc.basic
-    def __init__(self: Self, prog: Any, /) -> None:
-        self.prog = prog
-        getattr(self, "__post_init__", int)()
 
     def __setattr__(self: Self, name: Any, value: Any) -> None:
         self.__check(name)
