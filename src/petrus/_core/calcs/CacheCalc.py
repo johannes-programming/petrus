@@ -6,4 +6,4 @@ __all__ = ["CacheCalc"]
 
 
 class CacheCalc(BaseCalc):
-    __slots__ = ()
+    __slots__ = ("prog",)
