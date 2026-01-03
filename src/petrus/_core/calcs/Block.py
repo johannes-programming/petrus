@@ -82,6 +82,7 @@ class Block(CacheCalc):
 
     @cached_property
     def links(self: Self) -> str:
+        item: tuple
         urls: Any
         lines: str
         urls = self.prog.project.urls
@@ -90,19 +91,19 @@ class Block(CacheCalc):
         if len(urls) == 0:
             return None
         lines = self.ftitle("Links")
-        for i in urls.items():
-            lines += "* `%s <%s>`_\n" % i
+        for item in urls.items():
+            lines += "* `%s <%s>`_\n" % item
         return lines
 
     @cached_property
     def overview(self: Self) -> str:
-        d: str
+        desc: str
         lines: str
-        d = str(self.prog.project.description)
-        if not d:
+        desc = str(self.prog.project.description)
+        if not desc:
             return None
         lines = self.ftitle("Overview")
-        lines += str(d)
+        lines += str(desc)
         return lines
 
     @cached_property

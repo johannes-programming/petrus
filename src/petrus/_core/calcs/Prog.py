@@ -413,28 +413,30 @@ class Prog(CacheCalc):
     @cached_property
     def version_unformatted(self: Self) -> Any:
         args: Any
-        a: Any
-        b: Any
-        a = self.kwargs["v"]
-        b = self.project.get("version")
-        if a == "":
-            if b is None:
+        kwarg: Any
+        prev: Any
+        version: v440.Version
+        exc: v440.VersionError
+        kwarg = self.kwargs["v"]
+        prev = self.project.get("version")
+        if kwarg == "":
+            if prev is None:
                 return self.version_default
             else:
-                return b
+                return prev
         try:
-            args = self.parse_bump(a)
+            args = self.parse_bump(kwarg)
         except ValueError:
-            return a
-        if b is None:
+            return kwarg
+        if prev is None:
             return self.version_default
         try:
-            c = v440.Version(b)
-            c.release.bump(*args)
-        except v440.VersionError as e:
-            print(e, file=sys.stderr)
-            return b
-        return str(c)
+            version = v440.Version(prev)
+            version.release.bump(*args)
+        except v440.VersionError as exc:
+            print(exc, file=sys.stderr)
+            return prev
+        return str(version)
 
     @cached_property
     def year(self: Self) -> Any:

@@ -71,6 +71,7 @@ class Git(CacheCalc):
         self.commit("Initial Commit")
 
     def is_repo(self: Self) -> Any:
+        called: Any
         called = self("rev-parse", force=True)
         if called is None:
             return False
