@@ -9,6 +9,7 @@ from typing import Any, Iterable, Self
 
 import tomlhold
 import v440
+from funccomp import funccomp
 
 from petrus._core import utils
 from petrus._core.calcs.Block import Block
@@ -23,6 +24,24 @@ __all__ = ["Prog"]
 
 
 class Prog(CacheCalc):
+
+    author: tuple[str, str]
+    block: Block
+    build_system: Any
+    development_status: Any
+    development_status_infered: str
+    draft: Draft
+    file: File
+    git: Git
+    github: str
+    packages: list[str]
+    pp: tomlhold.TOMLHolder
+    project: Project
+    text: Text
+    version_default: str
+    version_formatted: str
+    version_unformatted: Any
+    year: Any
 
     def __init__(self: Self, kwargs: Any, /) -> None:
         self.kwargs = kwargs
@@ -49,8 +68,14 @@ class Prog(CacheCalc):
         self.pypi()
 
     @cached_property
-    def author(self: Self) -> Any:
-        f = lambda z: str(z).strip()
+    def author(self: Self) -> tuple[str, str]:
+        f: Any
+        n: str
+        e: str
+        x: tuple[str, str]
+        authors: Any
+        a: Any
+        f = funccomp(str.strip, str)
         n = f(self.kwargs["author"])
         e = f(self.kwargs["email"])
         x = n, e
@@ -62,9 +87,8 @@ class Prog(CacheCalc):
                 continue
             n = f(a.get("name", ""))
             e = f(a.get("email", ""))
-            y = n, e
-            if y != ("", ""):
-                return y
+            if (n, e) != ("", ""):
+                return n, e
         return x
 
     @cached_property
@@ -73,6 +97,7 @@ class Prog(CacheCalc):
 
     @cached_property
     def build_system(self: Self) -> Any:
+        ans: Any
         ans = self.pp.get("build-system")
         if type(ans) is dict:
             return self.easy_dict(ans)
@@ -233,8 +258,10 @@ class Prog(CacheCalc):
         self.touch(f)
 
     @cached_property
-    def packages(self: Self) -> list:
-        ans: list
+    def packages(self: Self) -> list[str]:
+        ans: list[str]
+        x: str
+        y: str
         self.mkdir("src")
         ans = []
         for x in os.listdir("src"):
@@ -250,12 +277,12 @@ class Prog(CacheCalc):
             return self.easy_list(ans)
         if self.file.exists("pp"):
             return list()
-        pro = os.path.join("src", self.project.name)
-        if not self.ispkg(pro):
+        y = os.path.join("src", self.project.name)
+        if not self.ispkg(y):
             self.save("core")
             self.save("init")
             self.save("main")
-        return [pro]
+        return [y]
 
     @staticmethod
     def parse_bump(line: Any) -> Any:
@@ -332,7 +359,7 @@ class Prog(CacheCalc):
         b: Any
         file: Any
         stream: Any
-        text: Any
+        text: str
         base: Any
         a = os.path.join(pkg)
         b = os.path.join(pkg, "tests")

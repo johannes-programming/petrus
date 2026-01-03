@@ -48,6 +48,10 @@ def _link() -> str:
 
 
 def _run_deco(old: Any, /) -> types.FunctionType:
+    doc: str
+    k: Any
+    v: Any
+    field: Any
     doc = _desc()
     doc += "\n"
     for k, v in _inputs().items():
@@ -100,8 +104,7 @@ class run:
     path: typing.Optional[str] = None
 
     def __post_init__(self: Self) -> None:
-        kwargs = dataclasses.asdict(self)
-        _prog(**kwargs)
+        _prog(**dataclasses.asdict(self))
 
 
 def _prog(path: Any, **kwargs: Any) -> Any:
