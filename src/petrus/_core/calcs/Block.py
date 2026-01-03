@@ -9,6 +9,8 @@ __all__ = ["Block"]
 
 class Block(CacheCalc):
 
+    __slots__ = ()
+
     credits: str
     heading: str
     installation: Any
