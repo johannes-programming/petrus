@@ -307,7 +307,7 @@ class Prog(CacheCalc):
 
     @cached_property
     def pp(self: Self) -> tomlhold.TOMLHolder:
-        return tomlhold.TOMLHolder.loads(self.text.pp)
+        return tomlhold.TOMLHolder.loads(self.text["pp"])
 
     @cached_property
     def project(self: Self) -> Project:
@@ -338,7 +338,7 @@ class Prog(CacheCalc):
         roots: Any
         stream: Any
         file = getattr(self.file, name)
-        text = getattr(self.text, name)
+        text = self.text[name]
         roots = list()
         root = file
         while True:
