@@ -320,7 +320,7 @@ class Prog(CacheCalc):
         return subprocess.run(args_)
 
     def pypi(self: Self) -> None:
-        args: list
+        args: list[str]
         token: Any
         shutil.rmtree("dist", ignore_errors=True)
         if utils.py("build").returncode:
@@ -335,7 +335,7 @@ class Prog(CacheCalc):
         file: Any
         text: Any
         root: Any
-        roots: Any
+        roots: list
         stream: Any
         file = getattr(self.file, name)
         text = self.text[name]
