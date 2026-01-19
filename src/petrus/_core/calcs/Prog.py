@@ -9,7 +9,7 @@ from typing import Any, Iterable, Self
 
 import tomlhold
 import v440
-from funccomp import funccomp
+from funccomp import Composite
 
 from petrus._core import utils
 from petrus._core.calcs.Block import Block
@@ -69,13 +69,13 @@ class Prog(CacheCalc):
 
     @cached_property
     def author(self: Self) -> tuple[str, str]:
-        f: Any
+        f: Composite
         n: str
         e: str
         x: tuple[str, str]
         authors: Any
         a: Any
-        f = funccomp(str.strip, str)
+        f = Composite(str.strip, str)
         n = f(self.kwargs["author"])
         e = f(self.kwargs["email"])
         x = n, e
