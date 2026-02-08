@@ -2,14 +2,9 @@ import unittest
 
 __all__ = ["test"]
 
-def test() -> unittest.TextTestRunner:
-    "This function runs all the tests."
-    loader:unittest.TestLoader
-    suite:unittest.TestSuite
-    runner:unittest.TextTestRunner
-    result:unittest.TextTestResult
+def test() -> unittest.TextTestResult:
+    loader: unittest.TestLoader
+    tests: unittest.TestSuite
     loader = unittest.TestLoader()
-    suite = loader.discover(start_dir="{pkg}.tests")
-    runner = unittest.TextTestRunner()
-    result = runner.run(suite)
-    return result
+    tests = loader.discover(start_dir="{pkg}.tests")
+    return unittest.TextTestRunner().run(tests)
