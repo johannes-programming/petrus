@@ -34,6 +34,7 @@ class Prog(CacheCalc):
     file: File
     git: Git
     github: str
+    kwargs: dict[str, Any]
     packages: list[str]
     pp: tomlhold.TOMLHolder
     project: Project
@@ -43,7 +44,7 @@ class Prog(CacheCalc):
     version_unformatted: Any
     year: Any
 
-    def __init__(self: Self, kwargs: Any, /) -> None:
+    def __init__(self: Self, **kwargs: Any) -> None:
         self.kwargs = kwargs
         self.__post_init__()
 

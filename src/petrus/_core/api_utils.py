@@ -94,7 +94,7 @@ def _prog(path: Any, **kwargs: Any) -> Any:
     if not os.path.isdir(wd):
         os.mkdir(wd)
     with contextlib.chdir(wd):
-        Prog(kwargs)
+        Prog(**kwargs)
 
 
 def _normpath(path: Any) -> Any:

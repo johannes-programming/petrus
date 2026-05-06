@@ -69,28 +69,25 @@ class Project(CacheCalc):
 
     @cached_property
     def classifiers(self: Self) -> Any:
-        preset: Any
-        mit: str
-        kwarg: Any
+        classifier_kwarg: Any
+        classifiers_gotten: Any
+        preset_list: list
+        preset_str: str
         ans: Any
         prefix: Any
         cleaned: Any
         x: Any
         status: Any
-        preset = self.get("classifiers", default=[])
-        if type(preset) is not list:
-            return preset
-        if utils.isfile(self.prog.file.license):
-            mit = ""
-        else:
-            mit = Const.const.data["CONST"]["MIT"]
-        kwarg = self.prog.kwargs["classifiers"]
-        if kwarg == "":
-            preset = utils.easy_list(preset)
-            return preset
-        ans = kwarg
-        preset = ", ".join(preset)
-        ans = ans.format(preset=preset, mit=mit)
+        classifiers_gotten = self.get("classifiers", default=[])
+        if type(classifiers_gotten) is not list:
+            return classifiers_gotten
+        preset_list = classifiers_gotten
+        classifier_kwarg = self.prog.kwargs["classifiers"]
+        if classifier_kwarg == "":
+            return list(sorted(set(preset_list)))
+        preset_str = ", ".join(preset_list)
+        ans = classifier_kwarg
+        ans = ans.format(preset=preset_str)
         ans = ans.split(",")
         ans = self.format_classifiers(ans)
         if self.prog.development_status == "":
