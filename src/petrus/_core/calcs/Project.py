@@ -37,7 +37,7 @@ class Project(CacheCalc):
     license_files: Any
     name: Any
     readme: Any
-    requires_python: Any
+    requires_python: Optional[str]
     urls: Any
     version: Any
 
@@ -46,15 +46,16 @@ class Project(CacheCalc):
 
     @cached_property
     def authors(self: Self) -> Any:
-        ans: Any
+        ans: list
         author: dict
-        used: Any
         fit: Any
+        gotten: Any
+        used: Any
         i: Any
-        ans = self.get("authors", default=[])
-        if type(ans) is not list:
-            return ans
-        ans = list(ans)
+        gotten = self.get("authors", default=[])
+        if type(gotten) is not list:
+            return gotten
+        ans = gotten.copy()
         author = dict()
         if self.prog.kwargs["author"]:
             author["name"] = self.prog.kwargs["author"]
@@ -169,9 +170,9 @@ class Project(CacheCalc):
 
     @cached_property
     def name(self: Self) -> str:
+        ans: str
         basename: Any
         raw: str
-        ans: Any
         x: str
         basename = os.path.basename(os.getcwd())
         raw = str(self.get("name") or basename)
@@ -188,20 +189,20 @@ class Project(CacheCalc):
         return self.prog.file.readme
 
     @cached_property
-    def requires_python(self: Self) -> Any:
-        kwarg: Any
+    def requires_python(self: Self) -> Optional[str]:
+        current: str
+        kwarg: str
+        parts: list[str]
         preset: Any
-        current: Any
+        current = ">={0}.{1}.{2}".format(*sys.version_info)
         kwarg = self.prog.kwargs["requires_python"]
         preset = self.get("requires-python", default="")
-        current = ">={0}.{1}.{2}".format(*sys.version_info)
         if kwarg == "":
             return preset
         kwarg = kwarg.format(preset=preset, current=current)
-        kwarg = kwarg.split("\\|")
-        kwarg = list(map(str.strip, kwarg))
-        kwarg = next(filter(identityfunction, kwarg), None)
-        return kwarg
+        parts = kwarg.split("\\|")
+        parts = list(map(str.strip, parts))
+        return next(filter(None, parts), None)
 
     def todict(self: Self) -> Any:
         ans: Any
