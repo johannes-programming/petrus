@@ -12,9 +12,18 @@ from petrus._core.consts.Const import Const
 
 __all__ = ["Project"]
 
+EMPTY = object()
 
-class _empty:
-    pass
+PREFIX_DEV = "Development Status :: "
+PREFIX_LICENSE = "License :: "
+
+
+def prefix_filter_func(classifier: str) -> bool:
+    prefix: str
+    for prefix in (PREFIX_DEV, PREFIX_LICENSE):
+        if classifier.lower().startswith(prefix.lower()):
+            return False
+    return True
 
 
 class Project(CacheCalc):
@@ -33,7 +42,7 @@ class Project(CacheCalc):
     version: Any
 
     def __post_init__(self: Self) -> None:
-        self._version = _empty
+        self._version = EMPTY
 
     @cached_property
     def authors(self: Self) -> Any:
@@ -69,35 +78,23 @@ class Project(CacheCalc):
 
     @cached_property
     def classifiers(self: Self) -> Any:
+        kwarg: str
+        parts: list[str]
         preset_gotten: Any
-        kwarg: Any
-        ans: Any
-        prefix: Any
-        cleaned: Any
-        x: Any
-        status: Any
         preset_gotten = self.get("classifiers", default=[])
         if type(preset_gotten) is not list:
             return preset_gotten
         kwarg = self.prog.kwargs["classifiers"]
         if kwarg == "":
             return list(sorted(set(preset_gotten)))
-        ans = kwarg
-        ans = ans.format(preset=", ".join(preset_gotten))
-        ans = ans.split(",")
-        ans = self.format_classifiers(ans)
+        kwarg = kwarg.format(preset=", ".join(preset_gotten))
+        parts = kwarg.split(",")
+        parts = self.format_classifiers(parts)
         if self.prog.development_status == "":
-            return list(sorted(set(ans)))
-        prefix = "Development Status :: "
-        cleaned = list()
-        for x in ans:
-            if x.lower().startswith(prefix.lower()):
-                continue
-            cleaned.append(x)
-        ans = cleaned
-        status = prefix + self.prog.development_status
-        ans.append(status)
-        return list(sorted(set(self.format_classifiers(ans))))
+            return list(sorted(set(parts)))
+        parts = list(filter(prefix_filter_func, parts))
+        parts.append(PREFIX_DEV + self.prog.development_status)
+        return list(sorted(set(self.format_classifiers(parts))))
 
     @cached_property
     def dependencies(self: Self) -> Any:
@@ -152,15 +149,19 @@ class Project(CacheCalc):
         return [self.prog.file.license]
 
     @classmethod
-    def format_classifiers(cls: type, value: Iterable, /) -> list:
-        ans: list
+    def format_classifiers(
+        cls: type[Self],
+        value: Iterable[str],
+        /,
+    ) -> list[str]:
+        ans: list[str]
         x: int
         ans = list(value)
         for x in range(len(ans)):
             ans[x] = ans[x].replace("::", " :: ")
             ans[x] = " ".join(ans[x].split())
             ans[x] = ans[x].strip()
-        ans = list(filter(identityfunction, ans))
+        ans = list(filter(None, ans))
         return ans
 
     def get(self: Self, *args: Any, default: Any = None) -> Any:
@@ -236,6 +237,6 @@ class Project(CacheCalc):
 
     @property
     def version(self: Self) -> Any:
-        if self._version is _empty:
+        if self._version is EMPTY:
             self._version = self.prog.version_formatted
         return self._version
