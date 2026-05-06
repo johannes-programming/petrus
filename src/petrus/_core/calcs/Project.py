@@ -70,21 +70,21 @@ class Project(CacheCalc):
     @cached_property
     def classifiers(self: Self) -> Any:
         preset: Any
+        preset_gotten: Any
         kwarg: Any
         ans: Any
         prefix: Any
         cleaned: Any
         x: Any
         status: Any
-        preset = self.get("classifiers", default=[])
-        if type(preset) is not list:
-            return preset
+        preset_gotten = self.get("classifiers", default=[])
+        if type(preset_gotten) is not list:
+            return preset_gotten
         kwarg = self.prog.kwargs["classifiers"]
         if kwarg == "":
-            return list(sorted(set(preset)))
+            return list(sorted(set(preset_gotten)))
         ans = kwarg
-        preset = ", ".join(preset)
-        ans = ans.format(preset=preset)
+        ans = ans.format(preset=", ".join(preset_gotten))
         ans = ans.split(",")
         ans = self.format_classifiers(ans)
         if self.prog.development_status == "":
@@ -98,19 +98,15 @@ class Project(CacheCalc):
         ans = cleaned
         status = prefix + self.prog.development_status
         ans.append(status)
-        ans = self.format_classifiers(ans)
-        return list(sorted(set(ans)))
+        return list(sorted(set(self.format_classifiers(ans))))
 
     @cached_property
     def dependencies(self: Self) -> Any:
         x: Any
-        y: list
         x = self.get("dependencies", default=[])
         if type(x) is not list:
             return x
-        y = list(map(utils.fix_dependency, x))
-        y = list(sorted(set(y)))
-        return y
+        return list(sorted(set(map(utils.fix_dependency, x))))
 
     @cached_property
     def description(self: Self) -> Any:
