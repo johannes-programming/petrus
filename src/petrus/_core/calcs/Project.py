@@ -70,7 +70,6 @@ class Project(CacheCalc):
     @cached_property
     def classifiers(self: Self) -> Any:
         preset: Any
-        mit: str
         kwarg: Any
         ans: Any
         prefix: Any
@@ -80,17 +79,13 @@ class Project(CacheCalc):
         preset = self.get("classifiers", default=[])
         if type(preset) is not list:
             return preset
-        if utils.isfile(self.prog.file.license):
-            mit = ""
-        else:
-            mit = Const.const.data["CONST"]["MIT"]
         kwarg = self.prog.kwargs["classifiers"]
         if kwarg == "":
             preset = utils.easy_list(preset)
             return preset
         ans = kwarg
         preset = ", ".join(preset)
-        ans = ans.format(preset=preset, mit=mit)
+        ans = ans.format(preset=preset)
         ans = ans.split(",")
         ans = self.format_classifiers(ans)
         if self.prog.development_status == "":
