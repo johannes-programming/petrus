@@ -1,6 +1,6 @@
 [default]
 author = "Johannes"
-classifiers = "{preset}, {mit}, Natural Language :: English, Operating System :: OS Independent, Programming Language :: Python, Programming Language :: Python :: 3, Programming Language :: Python :: 3 :: Only, Typing :: Typed"
+classifiers = "{preset}, Natural Language :: English, Operating System :: OS Independent, Programming Language :: Python, Programming Language :: Python :: 3, Programming Language :: Python :: 3 :: Only, Typing :: Typed"
 description = ""
 development_status = "infer"
 email = "johannes.programming@gmail.com"

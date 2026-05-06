@@ -25,6 +25,7 @@ class Project(CacheCalc):
     description: Any
     keywords: Any
     license: Any
+    license_files: Any
     name: Any
     readme: Any
     requires_python: Any
@@ -133,15 +134,35 @@ class Project(CacheCalc):
 
     @cached_property
     def license(self: Self) -> Any:
-        ans: Any
-        ans = self.get("license")
-        if ans is None:
-            ans = dict()
-        if type(ans) is not dict:
-            return ans
-        if "file" not in ans.keys():
-            ans["file"] = self.prog.file.license
-        return ans
+        files: Any
+        info: Any
+        files = self.prog.pp.get("project", "license-files")
+        info = self.prog.pp.get("project", "license")
+        if files is not None:
+            return info
+        if info is None:
+            return "MIT"
+        if type(info) is not dict:
+            return info
+        if tuple(info.keys()) != ("file",):
+            return info
+        return "MIT"
+
+    @cached_property
+    def license_files(self: Self) -> Any:
+        files: Any
+        info: Any
+        files = self.prog.pp.get("project", "license-files")
+        info = self.prog.pp.get("project", "license")
+        if files is not None:
+            return files
+        if info is None:
+            return [self.prog.file.license]
+        if type(info) is not dict:
+            return
+        if tuple(info.keys()) != ("file",):
+            return
+        return [self.prog.file.license]
 
     @classmethod
     def format_classifiers(cls: type, value: Iterable, /) -> list:
