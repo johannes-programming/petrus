@@ -54,10 +54,24 @@ class File(CacheCalc):
 
     @cached_property
     def license(self: Self) -> Any:
-        ans: Any
-        ans = self.prog.pp.get("project", "license", "file")
-        if type(ans) is str:
-            return ans
+        files: Any
+        info: Any
+        info = self.prog.pp.get("project", "license-files")
+        if info is not None:
+            if type(info) is not list:
+                return self._find("LICENSE.txt")
+            if len(info) != 1:
+                return self._find("LICENSE.txt")
+            if type(info[0]) is not str:
+                return self._find("LICENSE.txt")
+            return info[0]
+        files = self.prog.pp.get("project", "license")
+        if files is not None:
+            if type(files) is not dict:
+                return self._find("LICENSE.txt")
+            if "file" not in files.keys():
+                return self._find("LICENSE.txt")
+            return files["file"]
         return self._find("LICENSE.txt")
 
     @property
