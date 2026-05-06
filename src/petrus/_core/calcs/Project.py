@@ -94,8 +94,7 @@ class Project(CacheCalc):
         ans = ans.split(",")
         ans = self.format_classifiers(ans)
         if self.prog.development_status == "":
-            ans = self.prog.easy_list(ans)
-            return ans
+            return list(sorted(set(ans)))
         prefix = "Development Status :: "
         cleaned = list()
         for x in ans:
@@ -106,8 +105,7 @@ class Project(CacheCalc):
         status = prefix + self.prog.development_status
         ans.append(status)
         ans = self.format_classifiers(ans)
-        ans = self.prog.easy_list(ans)
-        return ans
+        return list(sorted(set(ans)))
 
     @cached_property
     def dependencies(self: Self) -> Any:
@@ -117,7 +115,7 @@ class Project(CacheCalc):
         if type(x) is not list:
             return x
         y = list(map(utils.fix_dependency, x))
-        y = self.prog.easy_list(y)
+        y = list(sorted(set(y)))
         return y
 
     @cached_property
