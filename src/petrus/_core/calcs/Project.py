@@ -81,8 +81,7 @@ class Project(CacheCalc):
             return preset
         kwarg = self.prog.kwargs["classifiers"]
         if kwarg == "":
-            preset = utils.easy_list(preset)
-            return preset
+            return list(sorted(set(preset)))
         ans = kwarg
         preset = ", ".join(preset)
         ans = ans.format(preset=preset)
