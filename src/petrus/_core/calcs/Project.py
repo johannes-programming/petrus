@@ -69,7 +69,6 @@ class Project(CacheCalc):
 
     @cached_property
     def classifiers(self: Self) -> Any:
-        preset: Any
         preset_gotten: Any
         kwarg: Any
         ans: Any
@@ -155,10 +154,12 @@ class Project(CacheCalc):
     @classmethod
     def format_classifiers(cls: type, value: Iterable, /) -> list:
         ans: list
+        x: int
         ans = list(value)
-        ans = [x.replace("::", " :: ") for x in ans]
-        ans = [" ".join(x.split()) for x in ans]
-        ans = list(map(str.strip, ans))
+        for x in range(len(ans)):
+            ans[x] = ans[x].replace("::", " :: ")
+            ans[x] = " ".join(ans[x].split())
+            ans[x] = ans[x].strip()
         ans = list(filter(identityfunction, ans))
         return ans
 
