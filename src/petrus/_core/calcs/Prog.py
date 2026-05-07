@@ -98,7 +98,7 @@ class Prog(CacheCalc):
         if ans is not None:
             return ans
         ans = dict()
-        ans["requires"] = ["setuptools>=64.0"]
+        ans["requires"] = ["setuptools>=77.0"]
         ans["build-backend"] = "setuptools.build_meta"
         ans = self.easy_dict(ans)
         return ans
