@@ -103,5 +103,12 @@ class Text(BaseCalc):
             )
         )
 
-    def _calc_readme(self: Self) -> Any:
-        return self["prog"].block.text
+    def _calc_readme(self: Self) -> str:
+        return (
+            self["prog"]
+            .draft.getitem("readme")
+            .format(
+                name=self["prog"].project.name,
+                name_len="=" * len(self["prog"].project.name),
+            )
+        )

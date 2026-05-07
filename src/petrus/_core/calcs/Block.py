@@ -74,8 +74,6 @@ class Block(CacheCalc):
         classifiers = self.prog.project.classifiers
         if type(classifiers) is not list:
             return None
-        if Const.const.data["CONST"]["MIT"] not in classifiers:
-            return None
         lines = self.ftitle("License")
         lines += Const.const.data["CONST"]["MIT-LINE"]
         return lines
