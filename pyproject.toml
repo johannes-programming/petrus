@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-    "setuptools>=64.0",
+    "setuptools>=77.0",
 ]
 
 [project]
@@ -40,7 +40,7 @@ license-files = [
 name = "petrus"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "0.10.19"
+version = "0.10.20"
 
 [project.urls]
 Download = "https://pypi.org/project/petrus/#files"
