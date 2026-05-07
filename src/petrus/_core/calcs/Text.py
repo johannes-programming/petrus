@@ -110,5 +110,6 @@ class Text(BaseCalc):
             .format(
                 name=self["prog"].project.name,
                 name_len="=" * len(self["prog"].project.name),
+                name_web=self["prog"].project.name.replace("_", "-"),
             )
         )

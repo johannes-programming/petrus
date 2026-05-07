@@ -1,12 +1,4 @@
 [CONST]
-BLOCKKEYS = [
-    "heading",
-    "overview",
-    "installation", 
-    "license",
-    "links", 
-    "credits",
-]
 PATH_HELP = "The path where the project will be created/currently exists."
 DESC = """Create/update a python project. The default values of the (non flag) options are taken from the default table of the config.toml file inside of the petrus package.
 Modify at %r.

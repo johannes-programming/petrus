@@ -12,7 +12,6 @@ import v440
 from funccomp import Composite
 
 from petrus._core import utils
-from petrus._core.calcs.Block import Block
 from petrus._core.calcs.CacheCalc import CacheCalc
 from petrus._core.calcs.Draft import Draft
 from petrus._core.calcs.File import File
@@ -26,7 +25,6 @@ __all__ = ["Prog"]
 class Prog(CacheCalc):
 
     author: tuple[str, str]
-    block: Block
     build_system: Any
     development_status: Any
     development_status_infered: str
@@ -90,10 +88,6 @@ class Prog(CacheCalc):
             if (n, e) != ("", ""):
                 return n, e
         return x
-
-    @cached_property
-    def block(self: Self) -> Block:
-        return Block(self)
 
     @cached_property
     def build_system(self: Self) -> Any:
