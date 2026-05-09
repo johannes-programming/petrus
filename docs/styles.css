@@ -5,7 +5,7 @@ body {
     background-color: #f4f4f4;
     color: #333;
     padding: 50px;
-    
+
 }
 
 code {
@@ -47,7 +47,7 @@ pre {
     border: 2px solid #7F7F7F; /* Black border */
     border-radius: 5px;
     padding: 0px 20px;
-    
+
 }
 
 /* Section and Content Styling */
@@ -71,11 +71,11 @@ td {
     text-align: left;
 }
 th {
-    
+
     border: 1px solid black;
     font-weight: bold;
     background-color: #f2f2f2;
-    
+
     padding: 10px;
     text-align: left;
 }
@@ -131,4 +131,3 @@ th {
     color: #4CAF50;
     font-weight: bold;
 }
-
