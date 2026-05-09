@@ -3,7 +3,6 @@ import os
 import string
 import subprocess
 import sys
-from pathlib import Path
 from typing import *
 
 import black
@@ -11,6 +10,9 @@ import bs4
 import filelisting
 import isort
 import requests
+
+TEXT_EXTS: tuple[str, ...]
+TEXT_EXTS = (".cfg", ".in", ".rst", ".toml", ".txt")
 
 
 def dict_match(a: Any, b: Any, /) -> bool:
@@ -139,7 +141,7 @@ def run_strip() -> None:
     files_ = list(files)
     files = []
     for file in files_:
-        if os.path.splitext(file)[1] in (".rst", ".toml"):
+        if os.path.splitext(file)[1] in TEXT_EXTS:
             files.append(file)
     for file in files:
         lines = list()
