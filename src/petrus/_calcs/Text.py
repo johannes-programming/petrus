@@ -55,6 +55,8 @@ class Text(BaseCalc):
             return getattr(self, "_calc_" + name, str)()
         for index in range(len(lines)):
             lines[index] = lines[index].rstrip() + "\n"
+        while lines and lines[-1] == "\n":
+            lines.pop()
         return "".join(lines)
 
     def _calc_core(self: Self) -> Any:
