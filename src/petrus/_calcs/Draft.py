@@ -20,6 +20,7 @@ class Draft(CacheCalc):
                 "petrus.drafts", "%s.txt" % key
             )
         if key.endswith("gitignore"):
+            raise Exception
             print()
             print()
             print()
