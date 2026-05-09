@@ -19,4 +19,17 @@ class Draft(CacheCalc):
             self._data[key] = importlib.resources.read_text(
                 "petrus.drafts", "%s.txt" % key
             )
+        if key.endswith("gitignore"):
+            print()
+            print()
+            print()
+            print()
+            print()
+            print(key)
+            print(repr(self._data[key]))
+            print()
+            print()
+            print()
+            print()
+            print()
         return self._data[key]
