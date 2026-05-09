@@ -59,6 +59,7 @@ class Prog(CacheCalc):
         self.save("readme")
         self.save("setup")
         utils.run_isort()
+        utils.run_strip()
         utils.run_black(os.getcwd())
         utils.run_html_prettifier(os.getcwd())
         self.git.commit_version()

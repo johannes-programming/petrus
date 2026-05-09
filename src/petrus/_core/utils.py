@@ -3,6 +3,7 @@ import os
 import string
 import subprocess
 import sys
+from pathlib import Path
 from typing import *
 
 import black
@@ -49,6 +50,22 @@ def fix_dependency(line: str, /) -> str:
     return ans
 
 
+def isdir(path: Any) -> bool:
+    if not os.path.exists(path):
+        return False
+    if not os.path.isdir(path):
+        raise ValueError
+    return True
+
+
+def isfile(path: Any) -> bool:
+    if not os.path.exists(path):
+        return False
+    if not os.path.isfile(path):
+        raise ValueError
+    return True
+
+
 def prettify_html(file: str) -> None:
     beautified_html: Any
     content: Any
@@ -68,6 +85,11 @@ def prettify_html(file: str) -> None:
     # Save the beautified HTML to a new file
     with open(file, "w", encoding="utf-8") as stream:
         stream.write(beautified_html)
+
+
+def py(*args: Any) -> subprocess.CompletedProcess[bytes]:
+    args: list = [sys.executable, "-m"] + list(args)
+    return subprocess.run(args)
 
 
 def run_black(path: Any) -> Any:
@@ -103,25 +125,29 @@ def run_isort() -> None:
             isort.file(file)
 
 
-def isdir(path: Any) -> bool:
-    if not os.path.exists(path):
-        return False
-    if not os.path.isdir(path):
-        raise ValueError
-    return True
-
-
-def isfile(path: Any) -> bool:
-    if not os.path.exists(path):
-        return False
-    if not os.path.isfile(path):
-        raise ValueError
-    return True
-
-
-def py(*args: Any) -> subprocess.CompletedProcess[bytes]:
-    args: list = [sys.executable, "-m"] + list(args)
-    return subprocess.run(args)
+def run_strip() -> None:
+    file: Any
+    files: list
+    files_: list
+    walk: Iterator
+    files = []
+    walk = os.walk(os.getcwd())
+    for root, dnames, fnames in walk:
+        for fname in fnames:
+            file = os.path.join(root, fname)
+            files.append(file)
+    files_ = list(files)
+    files = []
+    for file in files_:
+        if os.path.splitext(file)[1] in (".rst", ".toml"):
+            files.append(file)
+    for file in files:
+        lines = list()
+        with open(file, "r") as stream:
+            lines = stream.readlines()
+        lines = list(map(str.rstrip, lines))
+        with open(file, "w") as stream:
+            stream.write("\n".join(lines))
 
 
 def walk(path: Any, *, recursively: Any) -> Generator:
