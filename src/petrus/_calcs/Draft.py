@@ -1,7 +1,7 @@
 import importlib.resources
 from typing import *
 
-from petrus._core.calcs.CacheCalc import CacheCalc
+from petrus._calcs.CacheCalc import CacheCalc
 
 __all__ = ["Draft"]
 

@@ -11,13 +11,13 @@ import tomlhold
 import v440
 from funccomp import Composite
 
+from petrus._calcs.CacheCalc import CacheCalc
+from petrus._calcs.Draft import Draft
+from petrus._calcs.File import File
+from petrus._calcs.Git import Git
+from petrus._calcs.Project import Project
+from petrus._calcs.Text import Text
 from petrus._core import utils
-from petrus._core.calcs.CacheCalc import CacheCalc
-from petrus._core.calcs.Draft import Draft
-from petrus._core.calcs.File import File
-from petrus._core.calcs.Git import Git
-from petrus._core.calcs.Project import Project
-from petrus._core.calcs.Text import Text
 
 __all__ = ["Prog"]
 

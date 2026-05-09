@@ -4,11 +4,11 @@ import os
 from functools import cached_property
 from typing import *
 
+from petrus._calcs.CacheCalc import CacheCalc
 from petrus._core import utils
-from petrus._core.calcs.CacheCalc import CacheCalc
 
 if TYPE_CHECKING:
-    from petrus._core.calcs.Prog import Prog
+    from petrus._calcs.Prog import Prog
 
 __all__ = ["File"]
 

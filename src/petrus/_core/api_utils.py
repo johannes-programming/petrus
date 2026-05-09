@@ -8,8 +8,8 @@ import typing
 from importlib import resources
 from typing import *
 
+from petrus._calcs.Prog import Prog
 from petrus._consts.Const import Const
-from petrus._core.calcs.Prog import Prog
 
 
 def _cfgfile() -> Any:

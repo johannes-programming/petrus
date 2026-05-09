@@ -2,7 +2,7 @@ from typing import *
 
 import setdoc
 
-from petrus._core.calcs.BaseCalc import BaseCalc
+from petrus._calcs.BaseCalc import BaseCalc
 
 __all__ = ["CacheCalc"]
 

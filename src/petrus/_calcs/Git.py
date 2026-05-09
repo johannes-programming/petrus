@@ -3,7 +3,7 @@ import subprocess
 from functools import cached_property
 from typing import *
 
-from petrus._core.calcs.CacheCalc import CacheCalc
+from petrus._calcs.CacheCalc import CacheCalc
 
 __all__ = ["Git"]
 
