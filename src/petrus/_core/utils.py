@@ -188,7 +188,7 @@ def _get_local_version(pkg: Any, /) -> Any:
     url: str
     try:
         ans = importlib.metadata.version(pkg)
-    except:
+    except Exception:
         return
     url = "https://pypi.org/pypi/%s/%s" % (pkg, ans)
     response = requests.get(url)
@@ -203,5 +203,5 @@ def _get_latest_version(pkg: Any, /) -> Any:
     try:
         r = requests.get(url)
         return r.json()["info"]["version"]
-    except:
+    except Exception:
         return None
