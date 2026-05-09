@@ -175,7 +175,7 @@ class Prog(CacheCalc):
         return Draft(self)
 
     @staticmethod
-    def easy_dict(dictionary: Any, *, purge: Any = False) -> dict:
+    def easy_dict(dictionary: Any) -> dict:
         d: dict
         keys: Iterable
         ans: dict
