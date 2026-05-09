@@ -131,7 +131,6 @@ def run_isort() -> None:
 def run_strip() -> None:
     file: Any
     files: list
-    files_: list
     index: int
     lines: list[str]
     walk: Iterator
@@ -140,6 +139,8 @@ def run_strip() -> None:
     for root, dnames, fnames in walk:
         for fname in fnames:
             files.append(os.path.join(root, fname))
+    if os.path.isfile(".gitignore"):
+        files.append(".gitignore")
     index = 0
     while index < len(files):
         if os.path.splitext(files[index])[1] in TEXT_EXTS:
@@ -183,17 +184,16 @@ def _get_some_version(pkg: Any, /) -> Any:
 
 def _get_local_version(pkg: Any, /) -> Any:
     ans: Any
-    r: Any
+    response: Any
     url: str
     try:
         ans = importlib.metadata.version(pkg)
     except:
         return
     url = "https://pypi.org/pypi/%s/%s" % (pkg, ans)
-    r = requests.get(url)
-    if r.status_code == 404:
-        return
-    return ans
+    response = requests.get(url)
+    if response.status_code != 404:
+        return ans
 
 
 def _get_latest_version(pkg: Any, /) -> Any:
