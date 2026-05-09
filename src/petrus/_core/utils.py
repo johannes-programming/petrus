@@ -204,4 +204,4 @@ def _get_latest_version(pkg: Any, /) -> Any:
         r = requests.get(url)
         return r.json()["info"]["version"]
     except Exception:
-        return None
+        return
