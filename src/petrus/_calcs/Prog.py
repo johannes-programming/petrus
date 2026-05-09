@@ -346,6 +346,8 @@ class Prog(CacheCalc):
         while roots:
             root = roots.pop()
             os.mkdir(root)
+        # if file.endswith("gitignore"):
+        #    raise Exception
         with open(file, "w") as stream:
             stream.write(text)
 

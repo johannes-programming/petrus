@@ -64,6 +64,7 @@ class Text(BaseCalc):
         )
 
     def _calc_gitignore(self: Self) -> Any:
+        raise Exception
         return self["prog"].draft.getitem("gitignore")
 
     def _calc_init(self: Self) -> Any:
