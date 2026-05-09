@@ -13,6 +13,6 @@ class Const(enum.Enum):
     @cached_property
     def data(self: Self) -> dict:
         "This cached property holds the cfg data."
-        text: str = resources.read_text("petrus._consts", "consts.toml")
-        ans: dict = tomllib.loads(text)
-        return ans
+        text: str
+        text = resources.read_text("petrus._consts", "consts.toml")
+        return tomllib.loads(text)
