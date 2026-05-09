@@ -42,7 +42,8 @@ class Text(BaseCalc):
 
     def _calc(self: Self, name: Any) -> Any:
         file: Any
-        lines: Optional[list]
+        index: int
+        lines: Optional[list[str]]
         stream: Any
         file = getattr(self["prog"].file, name)
         try:
@@ -50,9 +51,11 @@ class Text(BaseCalc):
                 lines = stream.readlines()
         except FileNotFoundError:
             lines = None
-        if lines is not None:
-            return "\n".join(map(str.rstrip, lines))
-        return getattr(self, "_calc_" + name, str)()
+        if lines is None:
+            return getattr(self, "_calc_" + name, str)()
+        for index in range(len(lines)):
+            lines[index] = lines[index].rstrip() + "\n"
+        return "".join(lines)
 
     def _calc_core(self: Self) -> Any:
         return (
@@ -64,7 +67,6 @@ class Text(BaseCalc):
         )
 
     def _calc_gitignore(self: Self) -> Any:
-        raise Exception
         return self["prog"].draft.getitem("gitignore")
 
     def _calc_init(self: Self) -> Any:
