@@ -153,6 +153,8 @@ def run_strip() -> None:
             lines = stream.readlines()
         for index in range(len(lines)):
             lines[index] = lines[index].rstrip() + "\n"
+        while lines and lines[-1] == "\n":
+            lines.pop()
         with open(file, "w") as stream:
             stream.write("".join(lines))
 
