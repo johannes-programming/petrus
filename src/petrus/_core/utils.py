@@ -12,7 +12,7 @@ import isort
 import requests
 
 TEXT_EXTS: tuple[str, ...]
-TEXT_EXTS = (".cfg", ".css", ".html", ".in", ".js", ".rst", ".toml", ".txt")
+TEXT_EXTS = (".cfg", ".css", ".html", ".in", ".js", ".rst", ".toml", ".txt", ".typed")
 
 
 def dict_match(a: Any, b: Any, /) -> bool:
