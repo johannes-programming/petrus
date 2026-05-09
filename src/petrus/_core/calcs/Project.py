@@ -6,8 +6,8 @@ from typing import *
 
 from identityfunction import identityfunction
 
+from petrus._consts.Const import Const
 from petrus._core import utils
-from petrus._core._consts.Const import Const
 from petrus._core.calcs.CacheCalc import CacheCalc
 
 __all__ = ["Project"]

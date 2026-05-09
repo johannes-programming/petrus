@@ -4,7 +4,7 @@ import typing
 from importlib import metadata
 from typing import *
 
-from petrus._core._consts.Const import Const
+from petrus._consts.Const import Const
 
 from . import api_utils
 

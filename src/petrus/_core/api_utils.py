@@ -8,7 +8,7 @@ import typing
 from importlib import resources
 from typing import *
 
-from petrus._core._consts.Const import Const
+from petrus._consts.Const import Const
 from petrus._core.calcs.Prog import Prog
 
 
