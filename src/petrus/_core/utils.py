@@ -98,7 +98,7 @@ def py(*args: Any) -> subprocess.CompletedProcess[bytes]:
 def run_black(path: Any) -> Any:
     try:
         return black.main([path])
-    except:
+    except BaseException:
         pass
 
 
