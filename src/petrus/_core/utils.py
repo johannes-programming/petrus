@@ -90,7 +90,8 @@ def prettify_html(file: str) -> None:
 
 
 def py(*args: Any) -> subprocess.CompletedProcess[bytes]:
-    args: list = [sys.executable, "-m"] + list(args)
+    args: list
+    args = [sys.executable, "-m"] + list(args)
     return subprocess.run(args)
 
 
@@ -131,25 +132,28 @@ def run_strip() -> None:
     file: Any
     files: list
     files_: list
+    index: int
+    lines: list[str]
     walk: Iterator
     files = []
     walk = os.walk(os.getcwd())
     for root, dnames, fnames in walk:
         for fname in fnames:
-            file = os.path.join(root, fname)
-            files.append(file)
-    files_ = list(files)
-    files = []
-    for file in files_:
-        if os.path.splitext(file)[1] in TEXT_EXTS:
-            files.append(file)
+            files.append(os.path.join(root, fname))
+    index = 0
+    while index < len(files):
+        if os.path.splitext(files[index])[1] in TEXT_EXTS:
+            index += 1
+        else:
+            files.pop(index)
     for file in files:
         lines = list()
         with open(file, "r") as stream:
             lines = stream.readlines()
-        lines = list(map(str.rstrip, lines))
+        for index in range(len(lines)):
+            lines[index] = lines[index].rstrip() + "\n"
         with open(file, "w") as stream:
-            stream.write("\n".join(lines))
+            stream.write("".join(lines))
 
 
 def walk(path: Any, *, recursively: Any) -> Generator:
