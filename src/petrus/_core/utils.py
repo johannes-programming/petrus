@@ -13,16 +13,23 @@ import requests
 
 
 def dict_match(a: Any, b: Any, /) -> bool:
+    a: dict
+    b: dict
+    keys: Any
     a = dict(a)
     b = dict(b)
     keys = set(a.keys()) & set(b.keys())
-    ans = all(a[k] == b[k] for k in keys)
-    return ans
+    return all(a[k] == b[k] for k in keys)
 
 
 def fix_dependency(line: str, /) -> str:
-    ans: str = line.strip()
-    chars: set = set(ans)
+    ans: str
+    chars: set
+    limit: int
+    opener: str
+    x: str
+    ans = line.strip()
+    chars = set(ans)
     chars -= set(string.ascii_letters)
     chars -= set(string.digits)
     chars -= set("-_")
@@ -31,19 +38,22 @@ def fix_dependency(line: str, /) -> str:
     version = _get_some_version(ans)
     if version is None:
         return ans
-    opener: str = ""
-    x: str
+    opener = ""
     for x in version:
         if x in string.digits:
             opener += x
         else:
             break
-    limit: int = int(opener) + 1
-    ans: str = f"{ans}>={version},<{limit}"
+    limit = int(opener) + 1
+    ans = f"{ans}>={version},<{limit}"
     return ans
 
 
 def prettify_html(file: str) -> None:
+    beautified_html: Any
+    content: Any
+    formatter: Any
+    soup: Any
     # Read the HTML file
     with open(file, "r", encoding="utf-8") as stream:
         content = stream.read()
@@ -79,15 +89,18 @@ def run_html_prettifier(path: Any) -> None:
 
 
 def run_isort() -> None:
-    files: list = []
-    walk: Iterator = os.walk(os.getcwd())
+    file: Any
+    files: list
+    walk: Iterator
+    files = []
+    walk = os.walk(os.getcwd())
     for root, dnames, fnames in walk:
         for fname in fnames:
-            f = os.path.join(root, fname)
-            files.append(f)
-    for f in files:
-        if os.path.splitext(f)[1] == ".py":
-            isort.file(f)
+            file = os.path.join(root, fname)
+            files.append(file)
+    for file in files:
+        if os.path.splitext(file)[1] == ".py":
+            isort.file(file)
 
 
 def isdir(path: Any) -> bool:
@@ -112,6 +125,12 @@ def py(*args: Any) -> subprocess.CompletedProcess[bytes]:
 
 
 def walk(path: Any, *, recursively: Any) -> Generator:
+    ans: Any
+    dnames: Any
+    fname: Any
+    fnames: Any
+    n: Any
+    root: Any
     x: Any
     if not os.path.exists(path):
         return (x for x in ())
@@ -119,8 +138,7 @@ def walk(path: Any, *, recursively: Any) -> Generator:
         ans = os.listdir(path)
         ans = (os.path.join(path, n) for n in ans)
         ans = filter(os.path.isfile, ans)
-        for x in ans:
-            yield x
+        yield from ans
         return
     for root, dnames, fnames in os.walk(path):
         for fname in fnames:
@@ -132,19 +150,24 @@ def _get_some_version(pkg: Any, /) -> Any:
 
 
 def _get_local_version(pkg: Any, /) -> Any:
+    ans: Any
+    r: Any
+    url: str
     try:
         ans = importlib.metadata.version(pkg)
     except:
-        return None
-    url: str = "https://pypi.org/pypi/%s/%s" % (pkg, ans)
+        return
+    url = "https://pypi.org/pypi/%s/%s" % (pkg, ans)
     r = requests.get(url)
     if r.status_code == 404:
-        return None
+        return
     return ans
 
 
 def _get_latest_version(pkg: Any, /) -> Any:
-    url: str = "https://pypi.org/pypi/%s/json" % pkg
+    r: Any
+    url: str
+    url = "https://pypi.org/pypi/%s/json" % pkg
     try:
         r = requests.get(url)
         return r.json()["info"]["version"]
