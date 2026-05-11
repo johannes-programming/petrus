@@ -194,11 +194,11 @@ class Project(CacheCalc):
         kwarg: str
         parts: list[str]
         preset: Any
-        current = ">={0}.{1}.{2}".format(*sys.version_info)
         kwarg = self.prog.kwargs["requires_python"]
         preset = self.get("requires-python", default="")
         if kwarg == "":
             return preset
+        current = ">={0}.{1}.{2}".format(*sys.version_info)
         kwarg = kwarg.format(preset=preset, current=current)
         parts = kwarg.split("\\|")
         parts = list(map(str.strip, parts))

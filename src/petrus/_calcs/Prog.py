@@ -51,6 +51,7 @@ class Prog(CacheCalc):
         tuple(map(self.tests, self.packages))
         self.pp["project"] = self.project.todict()
         self.pp["build-system"] = self.build_system
+        self.pp["tool"] = self.tool
         self.pp.data = self.easy_dict(self.pp.data)
         self.text["pp"] = self.pp.dumps()
         self.save("license")
@@ -382,6 +383,24 @@ class Prog(CacheCalc):
     @cached_property
     def text(self: Self) -> Text:
         return Text(self)
+
+    @cached_property
+    def tool(self: Self) -> Any:
+        ans: Any
+        ans = self.pp.get("tool")
+        if ans is None:
+            ans = dict()
+        if type(ans) is not dict:
+            return ans
+        ans = self.easy_dict(ans)
+        if "mypy" not in ans.keys():
+            ans["mypy"] = dict()
+        if type(ans["mypy"]) is dict:
+            ans["mypy"].setdefault("files", ["."])
+            ans["mypy"].setdefault("python_version", "3.11")
+            ans["mypy"].setdefault("strict", False)
+            ans["mypy"] = self.easy_dict(ans["mypy"])
+        return ans
 
     @staticmethod
     def touch(file: Any) -> None:
