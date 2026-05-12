@@ -353,11 +353,11 @@ class Prog(CacheCalc):
             stream.write(text)
 
     def tests(self: Self, pkg: str) -> None:
+        base: Any
         loc: str
         file: Any
         stream: Any
         text: str
-        base: Any
         self.mkpkg(os.path.join(pkg))
         loc = os.path.join(pkg, "tests")
         if self.ispkg(loc):

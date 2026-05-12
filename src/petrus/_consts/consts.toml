@@ -11,12 +11,12 @@ PROJECT-KEYS = [
     "dependencies",
     "description",
     "keywords",
+    "license",
+    "license_files",
     "name",
     "readme",
     "requires_python",
     "version",
-    "license",
-    "license_files",
     "urls",
 ]
 
