@@ -2,6 +2,7 @@ import importlib.resources
 from typing import *
 
 from petrus._calcs.CacheCalc import CacheCalc
+from petrus._consts.Const import Const
 
 __all__ = ["Draft"]
 
@@ -17,6 +18,7 @@ class Draft(CacheCalc):
     def getitem(self: Self, key: str, /) -> str:
         if key not in self._data.keys():
             self._data[key] = importlib.resources.read_text(
-                "petrus.drafts", "%s.txt" % key
+                Const.const.data["DRAFTS"]["package"],
+                Const.const.data["DRAFTS"]["resource"],
             )
         return self._data[key]

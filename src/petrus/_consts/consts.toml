@@ -20,6 +20,42 @@ PROJECT-KEYS = [
     "urls",
 ]
 
+[DRAFTS.core]
+package = "petrus.drafts.src._.core"
+resource = "___init__.py.txt"
+
+[DRAFTS.gitignore]
+package = "petrus.drafts"
+resource = "_.gitignore.txt"
+
+[DRAFTS.init]
+package = "petrus.drafts.src._"
+resource = "___init__.py.txt"
+
+[DRAFTS.license]
+package = "petrus.drafts"
+resource = "_LICENSE.txt.txt"
+
+[DRAFTS.main]
+package = "petrus.drafts.src._"
+resource = "___main__.py.txt"
+
+[DRAFTS.manifest]
+package = "petrus.drafts"
+resource = "_MANIFEST.in.txt"
+
+[DRAFTS.readme]
+package = "petrus.drafts"
+resource = "_README.rst.txt"
+
+[DRAFTS.test_1984]
+package = "petrus.drafts.src._.tests"
+resource = "_test_1984.py.txt"
+
+[DRAFTS.tests]
+package = "petrus.drafts.src._.tests"
+resource = "___init__.py.txt"
+
 [INPUTS]
 author = "The author of the project."
 classifiers = "The classifiers of the project. Comma separated. You may include {preset}. Recommended value is '{preset}, Programming Language :: Python, Programming Language :: Python :: 3, Programming Language :: Python :: 3 :: Only'."
