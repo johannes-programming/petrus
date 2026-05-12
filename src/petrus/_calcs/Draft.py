@@ -18,7 +18,6 @@ class Draft(CacheCalc):
     def getitem(self: Self, key: str, /) -> str:
         if key not in self._data.keys():
             self._data[key] = importlib.resources.read_text(
-                Const.const.data["DRAFTS"]["package"],
-                Const.const.data["DRAFTS"]["resource"],
+                **Const.const.data["DRAFTS"][key]
             )
         return self._data[key]
