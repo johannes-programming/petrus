@@ -316,16 +316,7 @@ class Prog(CacheCalc):
         return subprocess.run(args_)
 
     def pypi(self: Self) -> None:
-        args: list[str]
-        token: Any
-        shutil.rmtree("dist", ignore_errors=True)
-        if utils.py("build").returncode:
-            return
-        args = ["twine", "upload", "dist/*"]
-        token = self.kwargs["token"]
-        if token != "":
-            args += ["-u", "__token__", "-p", token]
-        subprocess.run(args)
+        subprocess.run(["make", "pypi"])
 
     def save(self: Self, name: Any, /) -> None:
         file: Any

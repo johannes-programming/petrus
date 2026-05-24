@@ -89,12 +89,6 @@ def prettify_html(file: str) -> None:
         stream.write(beautified_html)
 
 
-def py(*args: Any) -> subprocess.CompletedProcess[bytes]:
-    args: list
-    args = [sys.executable, "-m"] + list(args)
-    return subprocess.run(args)
-
-
 def run_black(path: Any) -> Any:
     try:
         return black.main([path])
